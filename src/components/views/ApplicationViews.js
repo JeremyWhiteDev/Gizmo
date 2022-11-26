@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router-dom";
+import { Route, Routes, useNavigate } from "react-router-dom";
 import { PhotoUpload } from "../photoStorage/PhotoUpload";
 import { logout } from "../helpers/logout";
 
@@ -12,13 +12,35 @@ export const ApplicationViews = () => {
 
   return (
     <>
-      <h1>A Blank Page!!</h1>
-      {/* logout button */}
-      <button type="submit" onClick={onLogout}>
-        Logout
-      </button>
-      {/* move this component to where you want your PhotoUpload */}
-      <PhotoUpload />
+      <Routes>
+        <Route path="/garage" element={<h1>Garage</h1>} />
+        <Route
+          path="/gizmo/request/:gizmoId"
+          element={<h1>Gizmo Request Page</h1>}
+        />
+      </Routes>
     </>
   );
 };
+
+{
+  /* <h1>A Blank Page!!</h1> */
+}
+{
+  /* logout button */
+}
+{
+  /* <button type="submit" onClick={onLogout}> */
+}
+{
+  /* Logout */
+}
+{
+  /* </button> */
+}
+{
+  /* move this component to where you want your PhotoUpload */
+}
+{
+  /* <PhotoUpload /> */
+}
