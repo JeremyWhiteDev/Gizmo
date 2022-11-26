@@ -1,0 +1,58 @@
+{
+  "users": [
+    {
+      "id": 0,
+      "uid": 0,
+      "firstName": "Bob",
+      "lastName": "Tester",
+      "pronouns": "He/Him",
+      "zipcode": "37210",
+      "avatarImg": "https://i0.wp.com/www.cssscript.com/wp-content/uploads/2020/12/Customizable-SVG-Avatar-Generator-In-JavaScript-Avataaars.js.png?fit=438%2C408&ssl=1",
+      "userCaption": "Example Text"
+    }
+  ],
+  "gizmos": [
+    {
+      "id": 0,
+      "uid": 0,
+      "gizmoCategoryId": 0,
+      "purchaseDate": "2022-01-01",
+      "amountPaid": 150,
+      "estimatedValue": 100,
+      "manufacturer": "Apple",
+      "model": "iPod Nano",
+      "img": "https://i.ebayimg.com/images/g/bTkAAOxyXWdQ6mwc/s-l600.jpg",
+      "isPublic": true
+    }
+  ],
+  "gizmoRentals": [
+    {
+      "id": 0,
+      "uid": 0,
+      "gizmoId": 0,
+      "rentalStartDate": "2022-11-5",
+      "rentalEndDate": ""
+    }
+  ],
+  "gizmoCategories": [
+    {
+      "id": 0,
+      "categoryName": "electronics"
+    }
+  ],
+  "gizmoRequests": [
+    {
+      "id": 0,
+      "requestorId": 0,
+      "gizmoId": 0,
+      "requestBody": "Example message for requesting item"
+    }
+  ],
+  "gizmoFavorites": [
+    {
+      "id": 0,
+      "uid": 0,
+      "gizmoId": 0
+    }
+  ]
+}
