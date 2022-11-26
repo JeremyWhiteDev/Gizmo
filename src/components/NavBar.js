@@ -125,8 +125,8 @@ export const NavBar = () => {
             <>
               <div className={"hidden md:block md:order-3"}>
                 <img
-                  src="https://flowbite.com/docs/images/logo.svg"
-                  className="h-6 mr-3 sm:h-9"
+                  src={require("../images/Placeholder-image.jpeg")}
+                  className="h-6 w-9 mr-3 sm:h-9 rounded-full object-cover"
                   alt="Gizmo Logo"
                 />
               </div>
