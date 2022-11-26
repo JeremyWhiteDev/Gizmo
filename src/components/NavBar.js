@@ -2,6 +2,10 @@ import { useState } from "react";
 
 export const NavBar = () => {
   const [drawerOpen, setDrawerOpen] = useState();
+
+  const checkAuth = () => {
+    if (localStorage.getItem("capstone_user")) return true;
+  };
   return (
     <>
       <nav className="bg-white px-2 sm:px-4 py-2.5 dark:bg-purple-800 fixed w-full z-20 top-0 left-0 border-b border-gray-200 dark:border-gray-600">
@@ -17,14 +21,20 @@ export const NavBar = () => {
             </span>
           </a>
           <div className="flex md:order-2">
-            <button
-              type="button"
-              className="bg-white rounded-lg hover:bg-amber-700 mr-3"
-            >
-              <div className="text-transparent bg-clip-text focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium text-md px-5 py-2.5 text-center  md:mr-0 bg-gradient-to-r bg-white from-purple-800 via-yellow-600 to-pink-600">
-                Log In/Sign Up
-              </div>
-            </button>
+            {checkAuth() ? (
+              ""
+            ) : (
+              <>
+                <button
+                  type="button"
+                  className="bg-white rounded-lg hover:bg-amber-700 mr-3"
+                >
+                  <div className="text-transparent bg-clip-text focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium text-md px-5 py-2.5 text-center  md:mr-0 bg-gradient-to-r bg-white from-purple-800 via-yellow-600 to-pink-600">
+                    Log In/Sign Up
+                  </div>
+                </button>
+              </>
+            )}
             <button
               data-collapse-toggle="navbar-sticky"
               type="button"
@@ -53,46 +63,79 @@ export const NavBar = () => {
             className={
               !drawerOpen
                 ? " hidden items-center justify-between w-full md:flex md:w-auto md:order-1"
-                : "items-center justify-between w-full md:flex md:w-auto md:order-1"
+                : "items-center justify-between w-full md:flex md:w-auto md:order-1 h-screen"
             }
             id="navbar-sticky"
           >
-            <ul className="flex flex-col p-4 mt-4 border border-gray-100 rounded-lg bg-gray-50 md:flex-row md:space-x-8 md:mt-0 md:text-sm md:font-medium md:border-0 md:bg-white dark:bg-purple-700 md:dark:bg-purple-800 dark:border-gray-700">
-              <li>
-                <a
-                  href="#"
-                  className="block py-2 pl-3 pr-4 text-white bg-blue-700 rounded md:bg-transparent md:text-amber-400 md:p-0 dark:text-white"
-                  aria-current="page"
-                >
-                  Home
-                </a>
-              </li>
-              <li>
-                <a
-                  href="#"
-                  className="block py-2 pl-3 pr-4 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:hover:text-white dark:text-gray-200 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700"
-                >
-                  About
-                </a>
-              </li>
-              <li>
-                <a
-                  href="#"
-                  className="block py-2 pl-3 pr-4 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:hover:text-white dark:text-gray-200 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700"
-                >
-                  Services
-                </a>
-              </li>
-              <li>
-                <a
-                  href="#"
-                  className="block py-2 pl-3 pr-4 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:hover:text-white dark:text-gray-200 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700"
-                >
-                  Contact
-                </a>
-              </li>
-            </ul>
+            <div className="flex flex-col justify-between p-4 mt-4 border border-gray-100 rounded-lg bg-gray-50 md:flex-row md:space-x-8 md:mt-0 md:text-sm md:font-medium md:border-0 md:bg-white dark:bg-purple-700 md:dark:bg-purple-800 dark:border-gray-700 h-5/6 box-border">
+              <ul className="flex flex-col md:flex-row md:space-x-8 md:mt-0 md:text-sm md:font-medium md:border-0 md:bg-white dark:bg-purple-700 md:dark:bg-purple-800 dark:border-gray-700 h-5/6 box-border ">
+                <li>
+                  <a
+                    href="/"
+                    className="block py-2 pl-3 pr-4 text-white bg-blue-700 rounded md:bg-transparent md:text-amber-400 md:p-0 dark:text-white"
+                    aria-current="page"
+                  >
+                    Home
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="#"
+                    className="block py-2 pl-3 pr-4 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:hover:text-white dark:text-gray-200 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700"
+                  >
+                    Find a Gizmo
+                  </a>
+                </li>
+                {checkAuth() ? (
+                  <>
+                    <li>
+                      <a
+                        href="#"
+                        className="block py-2 pl-3 pr-4 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:hover:text-white dark:text-gray-200 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700"
+                      >
+                        Activity Feed
+                      </a>
+                    </li>
+                    <li>
+                      <a
+                        href="#"
+                        className="block py-2 pl-3 pr-4 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:hover:text-white dark:text-gray-200 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700"
+                      >
+                        My Gizmo Garage
+                      </a>
+                    </li>
+                    <li>
+                      <a
+                        href="#"
+                        className="block py-2 pl-3 pr-4 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:hover:text-white dark:text-gray-200 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700"
+                      >
+                        Requests
+                      </a>
+                    </li>
+                    <li>
+                      <a
+                        href="#"
+                        className="block py-2 pl-3 pr-4 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:hover:text-white dark:text-gray-200 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700"
+                      >
+                        Create an Activity
+                      </a>
+                    </li>
+                  </>
+                ) : (
+                  ""
+                )}
+              </ul>
+
+              <div className="md:hidden">User Profile Section</div>
+            </div>
           </div>
+          {checkAuth() ? (
+            <>
+              <div className={"hidden md:block md:order-3"}>User Profile</div>
+            </>
+          ) : (
+            ""
+          )}
         </div>
       </nav>
     </>
