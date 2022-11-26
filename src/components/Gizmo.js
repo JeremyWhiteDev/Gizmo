@@ -4,6 +4,7 @@ import { ApplicationViews } from "./views/ApplicationViews";
 import { Login } from "./auth/Login";
 import { Register } from "./auth/Register";
 import { NavBar } from "./NavBar";
+import { Footer } from "./Footer";
 
 export const Gizmo = () => {
   return (
@@ -17,6 +18,7 @@ export const Gizmo = () => {
           <>
             <NavBar />
             <h1 className="text-3xl font-bold underline">Home Page</h1>
+            <Footer />
           </>
         }
       />
