@@ -123,7 +123,7 @@ export const NavBar = () => {
           </div>
           {checkAuth() ? (
             <>
-              <div className={"hidden md:block md:order-3"}>
+              <div className={"hidden md:block w-10 md:order-3"}>
                 <img
                   src={require("../images/Placeholder-image.jpeg")}
                   className="h-6 w-9 mr-3 sm:h-9 rounded-full object-cover"
