@@ -9,7 +9,11 @@ export const Gizmo = () => {
     <Routes>
       <Route path="/login" element={<Login />} />
       <Route path="/register" element={<Register />} />
-      <Route exact path="/" element={<h1>Home Page</h1>} />
+      <Route
+        exact
+        path="/"
+        element={<h1 className="text-3xl font-bold underline">Home Page</h1>}
+      />
       <Route exact path="/gizmos" element={<h1>Gizmo Page</h1>} />
 
       <Route
