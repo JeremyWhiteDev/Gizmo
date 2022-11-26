@@ -83,7 +83,7 @@ export const NavBar = () => {
                     href="#"
                     className="block py-2 pl-3 pr-4 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:hover:text-white dark:text-gray-200 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700"
                   >
-                    Find a Gizmo
+                    Browse Gizmos
                   </a>
                 </li>
                 {checkAuth() ? (
@@ -101,7 +101,7 @@ export const NavBar = () => {
                         href="#"
                         className="block py-2 pl-3 pr-4 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:hover:text-white dark:text-gray-200 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700"
                       >
-                        My Gizmo Garage
+                        Garage
                       </a>
                     </li>
                     <li>
@@ -110,14 +110,6 @@ export const NavBar = () => {
                         className="block py-2 pl-3 pr-4 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:hover:text-white dark:text-gray-200 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700"
                       >
                         Requests
-                      </a>
-                    </li>
-                    <li>
-                      <a
-                        href="#"
-                        className="block py-2 pl-3 pr-4 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:hover:text-white dark:text-gray-200 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700"
-                      >
-                        Create an Activity
                       </a>
                     </li>
                   </>
@@ -131,7 +123,13 @@ export const NavBar = () => {
           </div>
           {checkAuth() ? (
             <>
-              <div className={"hidden md:block md:order-3"}>User Profile</div>
+              <div className={"hidden md:block md:order-3"}>
+                <img
+                  src="https://flowbite.com/docs/images/logo.svg"
+                  className="h-6 mr-3 sm:h-9"
+                  alt="Gizmo Logo"
+                />
+              </div>
             </>
           ) : (
             ""
