@@ -18,7 +18,6 @@ export const Gizmo = () => {
         element={
           <>
             <NavBar />
-            checkForUserInf
             <h1 className="mt-20 h-screen text-3xl font-bold underline">
               Home Page
             </h1>
