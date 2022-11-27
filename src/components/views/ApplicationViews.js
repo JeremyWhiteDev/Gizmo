@@ -27,9 +27,9 @@ export const ApplicationViews = () => {
   };
 
   // Move this to where ever you end up putting your logout button
-  const onLogout = () => {
-    logout.logout(navigate);
-  };
+  // const onLogout = () => {
+  //   logout.logout(navigate);
+  // };
 
   if (
     localStorage.getItem("capstone_user") &&

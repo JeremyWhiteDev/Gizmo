@@ -106,6 +106,7 @@ export const createNewUser = async (newUserObj) => {
   const uid = projectUserObject.uid;
   const copyUserObj = { ...newUserObj };
   copyUserObj.uid = uid;
+  copyUserObj.email = projectUserObject.email;
   const gizmoResponse = await fetch(`${dbUrl}/users/`, {
     method: "POST",
     headers: {
