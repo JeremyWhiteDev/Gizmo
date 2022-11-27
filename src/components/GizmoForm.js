@@ -1,17 +1,19 @@
 import { useState } from "react";
-import { createNewUser } from "../api/dataAccess";
+import { createNewGizmo, createNewUser } from "../api/dataAccess";
 import { photoStorage } from "./helpers/photoStorage";
 
-export const NewUserForm = () => {
-  const [userForm, updateForm] = useState({
+export const GizmoForm = () => {
+  const [gizmoForm, updateForm] = useState({
     uid: 0,
-    email: "",
-    firstName: "",
-    lastName: "",
-    pronouns: "",
-    zipcode: "",
-    profileImg: "",
-    userCaption: "",
+    nickName: "",
+    model: "",
+    manufacturerId: "",
+    gizmoCategoryId: 0,
+    purchaseDate: "",
+    amountPaid: "",
+    estimatedValue: "",
+    img: "",
+    isPublic: false,
   });
 
   const [image, setImage] = useState(null);
@@ -34,9 +36,10 @@ export const NewUserForm = () => {
         // EX: a user if it's a profile picture
 
         setImageUrl(photoObject.downloadURL);
-        const formCopy = { ...userForm };
-        formCopy.profileImg = photoObject.downloadURL;
-        const respone = createNewUser(formCopy);
+        console.log(photoObject.downloadURL);
+        const formCopy = { ...gizmoForm };
+        formCopy.img = photoObject.downloadURL;
+        const respone = createNewGizmo(formCopy);
       });
     }
   };
@@ -44,68 +47,66 @@ export const NewUserForm = () => {
   return (
     <>
       <form className=" max-w-md px-5 md:max-w-3xl pt-54 mx-auto">
-        <h3 className="dark:text-white text-2xl mb-11">
-          Create a User Profile to Continue
-        </h3>
+        <h3 className="dark:text-white text-2xl mb-11">Create a New Gizmo</h3>
         <div className="mb-6">
           <label
-            htmlFor="firstName"
+            htmlFor="nickName"
             className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
           >
-            First Name
+            Gizmo Nick Name
           </label>
           <input
             type="text"
-            id="firstName"
+            id="nickName"
             maxLength="25"
-            value={userForm.firstName}
+            value={gizmoForm.nickName}
             onChange={(e) => {
-              const formCopy = { ...userForm };
-              formCopy.firstName = e.target.value;
+              const formCopy = { ...gizmoForm };
+              formCopy.nickName = e.target.value;
               updateForm(formCopy);
             }}
             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-            placeholder="Your First Name"
+            placeholder="Table Saw"
             required
           />
         </div>
         <div className="mb-6">
           <label
-            htmlFor="lastName"
+            htmlFor="model"
             className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
           >
-            Last Name
+            Model
           </label>
           <input
             type="text"
             maxLength="25"
-            id="lastName"
-            value={userForm.lastName}
+            id="model"
+            value={gizmoForm.model}
             onChange={(e) => {
-              const formCopy = { ...userForm };
-              formCopy.lastName = e.target.value;
+              const formCopy = { ...gizmoForm };
+              formCopy.model = e.target.value;
               updateForm(formCopy);
             }}
             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-            placeholder="Your Last Name"
+            placeholder="DCB7958"
             required
           />
         </div>
         <div className="mb-6">
           <label
-            htmlFor="userCaption"
+            htmlFor="manufacturer"
             className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
           >
-            User Caption (Not Required)
+            Manufacturer
           </label>
           <input
             type="text"
             maxLength="25"
-            id="userCaption"
-            value={userForm.userCaption}
+            id="manufacturer"
+            value={gizmoForm.manufacturerId}
             onChange={(e) => {
-              const formCopy = { ...userForm };
-              formCopy.userCaption = e.target.value;
+              const formCopy = { ...gizmoForm };
+              formCopy.manufacturerId = e.target.value;
               updateForm(formCopy);
             }}
             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
@@ -114,45 +115,109 @@ export const NewUserForm = () => {
         </div>
         <div className="mb-6">
           <label
-            htmlFor="pronouns"
+            htmlFor="gizmoCategory"
             className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
           >
-            Pronouns (Not Required)
+            Gizmo Category
           </label>
           <input
             type="text"
-            id="pronouns"
+            id="gizmoCategory"
             maxLength="20"
-            value={userForm.pronouns}
+            value={gizmoForm.gizmoCategoryId}
             onChange={(e) => {
-              const formCopy = { ...userForm };
-              formCopy.pronouns = e.target.value;
+              const formCopy = { ...gizmoForm };
+              formCopy.gizmoCategoryId = e.target.value;
               updateForm(formCopy);
             }}
             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-            placeholder="eg. She/They or He/Him"
+            placeholder="1 = Power Tools"
           />
         </div>
         <div className="mb-6">
           <label
-            htmlFor="zipcode"
+            htmlFor="purchaseDate"
             className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
           >
-            5-Digit Zipcode
+            Purchase Date
           </label>
           <input
-            type="number"
+            type="date"
             id="zipcode"
-            maxLength="5"
-            value={userForm.zipcode}
+            maxLength="15"
+            value={gizmoForm.purchaseDate}
             onChange={(e) => {
-              const formCopy = { ...userForm };
-              formCopy.zipcode = e.target.valueAsNumber;
+              const formCopy = { ...gizmoForm };
+              formCopy.purchaseDate = e.target.value;
               updateForm(formCopy);
             }}
             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
             placeholder="eg. 37210"
           />
+        </div>
+        <div className="mb-6">
+          <label
+            htmlFor="amountPaid"
+            className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+          >
+            Amount Paid $
+          </label>
+          <input
+            type="number"
+            id="amountPaid"
+            maxLength="15"
+            value={gizmoForm.amountPaid}
+            onChange={(e) => {
+              const formCopy = { ...gizmoForm };
+              formCopy.amountPaid = e.target.value;
+              updateForm(formCopy);
+            }}
+            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+            placeholder="$250"
+          />
+        </div>
+        <div className="mb-6">
+          <label
+            htmlFor="estimatedValue"
+            className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+          >
+            Estimated Value $
+          </label>
+          <input
+            type="number"
+            id="estimatedValue"
+            maxLength="15"
+            value={gizmoForm.estimatedValue}
+            onChange={(e) => {
+              const formCopy = { ...gizmoForm };
+              formCopy.estimatedValue = e.target.value;
+              updateForm(formCopy);
+            }}
+            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+            placeholder="$250"
+          />
+        </div>
+        <div className="flex items-start mb-6">
+          <div className="flex items-center h-5">
+            <input
+              id="isPublic"
+              type="checkbox"
+              value={gizmoForm.isPublic}
+              checked={gizmoForm.isPublic}
+              onChange={(e) => {
+                const formCopy = { ...gizmoForm };
+                formCopy.isPublic = e.target.checked;
+                updateForm(formCopy);
+              }}
+              className="w-4 h-4 bg-gray-50 rounded border border-gray-300 focus:ring-3 focus:ring-blue-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-blue-600 dark:ring-offset-gray-800"
+            />
+          </div>
+          <label
+            htmlFor="isPublic"
+            className="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+          >
+            Make this tool Public?
+          </label>
         </div>
         <div className="mb-6">
           <label
