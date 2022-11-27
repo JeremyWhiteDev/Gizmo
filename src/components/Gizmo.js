@@ -18,7 +18,6 @@ import { useEffect } from "react";
 export const Gizmo = () => {
   return (
     <Routes>
-      <Route path="/login" element={<Login />} />
       <Route path="/register" element={<Register />} />
       <Route
         path="/"
@@ -30,12 +29,12 @@ export const Gizmo = () => {
           </>
         }
       >
-        <Route
+        {/* <Route
           exact
           path="/"
           element={<h1 className="mt-20 h-screen">Home Page</h1>}
-        />
-
+        /> */}
+        {}
         <Route
           path="*"
           element={

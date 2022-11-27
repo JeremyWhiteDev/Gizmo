@@ -1,34 +1,32 @@
-import { Navigate, useLocation } from "react-router-dom";
+import { Navigate, Route, Routes, useLocation } from "react-router-dom";
 import { checkForUserInfo } from "../../api/dataAccess";
 import { useEffect } from "react";
+import { Login } from "../auth/Login";
+import { NavigateToLogin } from "./NavigateToLogin";
 
 export const Authorized = ({ children }) => {
   const location = useLocation();
-
   let userProfile;
-  const userStatus = async () => {
-    const profileExists = await checkForUserInfo();
-    userProfile = profileExists;
-    console.log(userProfile);
-  };
 
   useEffect(() => {
-    userStatus();
+    checkProfile();
   }, []);
+  const checkProfile = async () => {
+    const result = await checkForUserInfo();
+    console.log(result);
+    userProfile = result;
+  };
 
   if (localStorage.getItem("capstone_user") && userProfile) {
     return children;
-  } else if (localStorage.getItem("capstone_user") && !userProfile) {
-    return (
-      <Navigate
-        to={`/newUser/${location.search}`}
-        replace
-        state={{ location }}
-      />
-    );
   } else {
     return (
-      <Navigate to={`/login/${location.search}`} replace state={{ location }} />
+      <>
+        <Routes>
+          <Route path="/login" element={<Login />} />
+        </Routes>
+        <NavigateToLogin />
+      </>
     );
   }
 };
