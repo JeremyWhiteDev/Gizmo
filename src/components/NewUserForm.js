@@ -35,7 +35,7 @@ export const NewUserForm = () => {
 
         setImageUrl(photoObject.downloadURL);
         const formCopy = { ...userForm };
-        formCopy.profileImg = imageUrl;
+        formCopy.profileImg = photoObject.downloadURL;
         const respone = createNewUser(formCopy);
       });
     }

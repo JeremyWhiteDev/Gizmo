@@ -8,6 +8,7 @@ import { NavigateToNewUserForm } from "./NavigateToNewUserForm";
 import { Login } from "../auth/Login";
 import { Register } from "../auth/Register";
 import { NewUserForm } from "../NewUserForm";
+import { GizmoForm } from "../GizmoForm";
 
 export const ApplicationViews = () => {
   const [loading, setLoading] = useState(true);
@@ -48,6 +49,7 @@ export const ApplicationViews = () => {
           />
           <Route path="/feed" element={<h1>Feed Page</h1>} />
           <Route path="/gizmos" element={<h1>Browse Gizmo Page</h1>} />
+          <Route path="/add-gizmo" element={<GizmoForm />} />
           <Route
             path="*"
             element={<h1>Oops! Something went wrong accessing that URL</h1>}
