@@ -14,7 +14,10 @@ export const NewUserForm = () => {
 
   return (
     <>
-      <form>
+      <form className=" max-w-md px-5 md:max-w-3xl pt-54 mx-auto">
+        <h3 className="dark:text-white text-2xl mb-11">
+          Create a User Profile to
+        </h3>
         <div className="mb-6">
           <label
             for="email"
