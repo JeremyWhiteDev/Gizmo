@@ -6,7 +6,7 @@ import {
   useNavigation,
 } from "react-router-dom";
 
-export const NavigateToLogin = () => {
+export const NavigateToNewUserForm = () => {
   const location = useLocation();
   let navigate = useNavigate();
 

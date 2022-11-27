@@ -4,7 +4,9 @@ import { logout } from "../helpers/logout";
 import { checkForUserInfo } from "../../api/dataAccess";
 
 import { useEffect } from "react";
-import { NavigateToLogin } from "./NavigateToLogin";
+import { NavigateToNewUserForm } from "./NavigateToNewUserForm";
+import { Login } from "../auth/Login";
+import { Register } from "../auth/Register";
 
 export const ApplicationViews = () => {
   let navigate = useNavigate();
@@ -31,18 +33,13 @@ export const ApplicationViews = () => {
     return (
       <>
         <Routes>
-          <Route
-            path="/garage"
-            element={<h1 className="mt-20 h-screen">Gizmo Request</h1>}
-          />
+          <Route path="/garage" element={<h1>Gizmo Request</h1>} />
           <Route
             path="/gizmo/request/:gizmoId"
-            element={<h1 className="mt-20 h-screen">Gizmo Request</h1>}
+            element={<h1>Gizmo Request</h1>}
           />
-          <Route
-            path="/feed"
-            element={<h1 className="mt-20 h-screen">Feed Page</h1>}
-          />
+          <Route path="/feed" element={<h1>Feed Page</h1>} />
+          <Route path="/gizmos" element={<h1>Browse Gizmo Page</h1>} />
         </Routes>
       </>
     );
@@ -51,22 +48,18 @@ export const ApplicationViews = () => {
     return (
       <>
         <Routes>
-          <Route
-            path="/profile-create"
-            element={<h1 className="mt-20 h-screen">Create Profile</h1>}
-          />
+          <Route path="/profile-create" element={<h1>Create Profile</h1>} />
         </Routes>
-        <NavigateToLogin />
+        <NavigateToNewUserForm />
       </>
     );
   } else {
     //unauthorized users
     return (
       <Routes>
-        <Route
-          path="/gizmos"
-          element={<h1 className="mt-20 h-screen">Gizmo Page</h1>}
-        />
+        <Route path="/gizmos" element={<h1>Gizmo Page</h1>} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
       </Routes>
     );
   }

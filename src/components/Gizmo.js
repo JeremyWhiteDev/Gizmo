@@ -24,16 +24,14 @@ export const Gizmo = () => {
           element={
             <>
               <NavBar />
-              <Outlet />
+              <main className="mt-20 min-h-screen">
+                <Outlet />
+              </main>
               <Footer />
             </>
           }
         >
-          <Route
-            exact
-            path="/"
-            element={<h1 className="mt-20 h-screen">Homepage</h1>}
-          />
+          <Route exact path="/" element={<h1>Homepage</h1>} />
           <Route path="*" element={<ApplicationViews />} />
         </Route>
       </Routes>
