@@ -3,15 +3,16 @@ import { PhotoUpload } from "../photoStorage/PhotoUpload";
 import { logout } from "../helpers/logout";
 import { checkForUserInfo } from "../../api/dataAccess";
 
-import { useEffect } from "react";
+import { useEffect, useState, useRef } from "react";
 import { NavigateToNewUserForm } from "./NavigateToNewUserForm";
 import { Login } from "../auth/Login";
 import { Register } from "../auth/Register";
 
 export const ApplicationViews = () => {
+  const [loading, setLoading] = useState(true);
   let navigate = useNavigate();
   const location = useLocation();
-  let userProfile;
+  const userProfile = useRef();
 
   useEffect(() => {
     checkProfile();
@@ -20,7 +21,8 @@ export const ApplicationViews = () => {
   const checkProfile = async () => {
     const result = await checkForUserInfo();
     console.log(result);
-    userProfile = result;
+    userProfile.current = result;
+    setLoading(false);
   };
 
   // Move this to where ever you end up putting your logout button
@@ -28,12 +30,17 @@ export const ApplicationViews = () => {
     logout.logout(navigate);
   };
 
-  if (localStorage.getItem("capstone_user") && userProfile) {
+  if (
+    localStorage.getItem("capstone_user") &&
+    userProfile.current &&
+    !loading
+  ) {
     //For registered users that have setup a profile in the system
     return (
       <>
         <Routes>
-          <Route path="/garage" element={<h1>Gizmo Request</h1>} />
+          <Route path="/garage" element={<h1>Gizmo Garage</h1>} />
+          <Route path="/requests" element={<h1>Gizmo Requests</h1>} />
           <Route
             path="/gizmo/request/:gizmoId"
             element={<h1>Gizmo Request</h1>}
@@ -47,7 +54,11 @@ export const ApplicationViews = () => {
         </Routes>
       </>
     );
-  } else if (localStorage.getItem("capstone_user") && !userProfile) {
+  } else if (
+    localStorage.getItem("capstone_user") &&
+    !userProfile.current &&
+    !loading
+  ) {
     //Authorized user but doesn't have a profile redirects to the create profile page
     return (
       <>
