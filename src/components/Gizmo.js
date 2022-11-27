@@ -30,7 +30,11 @@ export const Gizmo = () => {
           </>
         }
       >
-        <Route exact path="/" element={<h1 className="mt-20">Home Page</h1>} />
+        <Route
+          exact
+          path="/"
+          element={<h1 className="mt-20 h-screen">Home Page</h1>}
+        />
 
         <Route
           path="*"
