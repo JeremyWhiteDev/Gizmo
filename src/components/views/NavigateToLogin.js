@@ -12,7 +12,7 @@ export const NavigateToLogin = () => {
 
   useEffect(() => {
     console.log("effect ran");
-    navigate("/login");
+    navigate("/profile-create");
     // <Navigate to={`/login/${location.search}`} replace state={{ location }} />;
   }, []);
 };

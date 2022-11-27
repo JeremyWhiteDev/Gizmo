@@ -6,7 +6,7 @@ import {
   Routes,
   useNavigate,
 } from "react-router-dom";
-import { Authorized } from "./views/Authorized";
+
 import { ApplicationViews } from "./views/ApplicationViews";
 import { Login } from "./auth/Login";
 import { Register } from "./auth/Register";
@@ -17,35 +17,27 @@ import { useEffect } from "react";
 
 export const Gizmo = () => {
   return (
-    <Routes>
-      <Route path="/register" element={<Register />} />
-      <Route
-        path="/"
-        element={
-          <>
-            <NavBar />
-            <Outlet />
-            <Footer />
-          </>
-        }
-      >
-        {/* <Route
-          exact
-          path="/"
-          element={<h1 className="mt-20 h-screen">Home Page</h1>}
-        /> */}
-        {}
+    <>
+      <Routes>
         <Route
-          path="*"
+          path="/"
           element={
-            <Authorized>
-              <>
-                <ApplicationViews />
-              </>
-            </Authorized>
+            <>
+              <NavBar />
+              <Outlet />
+              <Footer />
+            </>
           }
-        />
-      </Route>
-    </Routes>
+        >
+          <Route
+            exact
+            path="/"
+            element={<h1 className="mt-20 h-screen">Homepage</h1>}
+          />
+          <Route path="*" element={<ApplicationViews />} />
+        </Route>
+      </Routes>
+    </>
   );
+  return;
 };
