@@ -120,8 +120,8 @@ export const createNewUser = async (newUserObj) => {
 export const checkForUserInfo = async () => {
   const localUser = localStorage.getItem("capstone_user");
   const projectUserObject = JSON.parse(localUser);
-  const uid = projectUserObject.uid;
-  const currentUserProfile = await fetch(`${dbUrl}/users/uid=${uid}`);
+  const uid = projectUserObject?.uid;
+  const currentUserProfile = await fetch(`${dbUrl}/users?uid=${uid}`);
   if (currentUserProfile.status === 404) {
     return false;
   } else {
