@@ -40,6 +40,10 @@ export const ApplicationViews = () => {
           />
           <Route path="/feed" element={<h1>Feed Page</h1>} />
           <Route path="/gizmos" element={<h1>Browse Gizmo Page</h1>} />
+          <Route
+            path="*"
+            element={<h1>Oops! Something went wrong accessing that URL</h1>}
+          />
         </Routes>
       </>
     );
@@ -60,6 +64,10 @@ export const ApplicationViews = () => {
         <Route path="/gizmos" element={<h1>Gizmo Page</h1>} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
+        <Route
+          path="*"
+          element={<h1>Oops! Something went wrong accessing that URL</h1>}
+        />
       </Routes>
     );
   }
