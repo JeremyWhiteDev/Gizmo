@@ -21,7 +21,7 @@ import {
 
 export const photoStorage = {
   // Upload a photo or file to your firebase storage
-  upload: function(bucket, file) {
+  upload: function (bucket, file) {
     return new Promise((res) => {
       let photoPath;
       const storage = getStorage();
@@ -30,13 +30,13 @@ export const photoStorage = {
         .then((snapshot) => {
           photoPath = snapshot.ref._location.path;
           getDownloadURL(snapshot.ref).then((downloadURL) => {
-            console.log("File available at", downloadURL);
+            // console.log("File available at", downloadURL);
             // returns the url where it is hosted in firebase
             const photoObject = {
               downloadURL: downloadURL,
               path: photoPath,
             };
-            console.log("Photo Object", photoObject);
+            // console.log("Photo Object", photoObject);
             res(photoObject);
           });
         })
@@ -45,7 +45,7 @@ export const photoStorage = {
         });
     });
   },
-  delete: function(filepath) {
+  delete: function (filepath) {
     return new Promise((res) => {
       const storage = getStorage();
       const storageRef = ref(storage, filepath);

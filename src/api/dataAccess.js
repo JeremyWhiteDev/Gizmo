@@ -106,6 +106,7 @@ export const createNewUser = async (newUserObj) => {
   const uid = projectUserObject.uid;
   const copyUserObj = { ...newUserObj };
   copyUserObj.uid = uid;
+  copyUserObj.email = projectUserObject.email;
   const gizmoResponse = await fetch(`${dbUrl}/users/`, {
     method: "POST",
     headers: {
@@ -122,7 +123,8 @@ export const checkForUserInfo = async () => {
   const projectUserObject = JSON.parse(localUser);
   const uid = projectUserObject?.uid;
   const currentUserProfile = await fetch(`${dbUrl}/users?uid=${uid}`);
-  if (currentUserProfile.status === 404) {
+  const currentUserJson = await currentUserProfile.json();
+  if (currentUserJson.length === 0) {
     return false;
   } else {
     return true;

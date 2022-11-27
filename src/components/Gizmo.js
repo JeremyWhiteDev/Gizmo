@@ -24,7 +24,7 @@ export const Gizmo = () => {
           element={
             <>
               <NavBar />
-              <main className="mt-20 min-h-screen">
+              <main className="pt-20 min-h-screen bg-slate-900 pb-16">
                 <Outlet />
               </main>
               <Footer />

@@ -7,6 +7,7 @@ import { useEffect, useState, useRef } from "react";
 import { NavigateToNewUserForm } from "./NavigateToNewUserForm";
 import { Login } from "../auth/Login";
 import { Register } from "../auth/Register";
+import { NewUserForm } from "../NewUserForm";
 
 export const ApplicationViews = () => {
   const [loading, setLoading] = useState(true);
@@ -26,9 +27,9 @@ export const ApplicationViews = () => {
   };
 
   // Move this to where ever you end up putting your logout button
-  const onLogout = () => {
-    logout.logout(navigate);
-  };
+  // const onLogout = () => {
+  //   logout.logout(navigate);
+  // };
 
   if (
     localStorage.getItem("capstone_user") &&
@@ -63,7 +64,7 @@ export const ApplicationViews = () => {
     return (
       <>
         <Routes>
-          <Route path="/profile-create" element={<h1>Create Profile</h1>} />
+          <Route path="/profile-create" element={<NewUserForm />} />
           <Route path="*" element={<NavigateToNewUserForm />} />
         </Routes>
       </>
