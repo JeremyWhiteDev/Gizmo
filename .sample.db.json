@@ -2,11 +2,11 @@
   "users": [
     {
       "id": 0,
-      "userId": 0,
+      "uid": 0,
       "firstName": "Bob",
       "lastName": "Tester",
       "pronouns": "He/Him",
-      "zipcode": "37210",
+      "zipcode": 37210,
       "avatarImg": "https://i0.wp.com/www.cssscript.com/wp-content/uploads/2020/12/Customizable-SVG-Avatar-Generator-In-JavaScript-Avataaars.js.png?fit=438%2C408&ssl=1",
       "userCaption": "Example Text"
     }
