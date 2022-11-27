@@ -49,8 +49,8 @@ export const ApplicationViews = () => {
       <>
         <Routes>
           <Route path="/profile-create" element={<h1>Create Profile</h1>} />
+          <Route path="*" element={<NavigateToNewUserForm />} />
         </Routes>
-        <NavigateToNewUserForm />
       </>
     );
   } else {
