@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { getPaginatedGizmosAndLocations } from "../api/dataAccess";
 import { GizmoCard } from "./GizmoCard";
 
-export const GizmoGarage = () => {
+export const GizmoList = () => {
   const [gizmos, setGizmos] = useState([]);
   const [filteredGizmos, setFilter] = useState([]);
   const [cuurrentPage, setCurrentPage] = useState();
@@ -103,7 +103,7 @@ export const GizmoGarage = () => {
 
   return (
     <>
-      <h1 className="dark:text-white">Gizmo Garage</h1>
+      <h1 className="dark:text-white">Browse Gizmos</h1>
       <div className="flex gap-y-5 flex-wrap p-2 gap-x-6 mx-auto max-w-xl md: pl-6 md:max-w-screen-xl  ">
         {gizmos.map((gizmo) => (
           <GizmoCard
