@@ -51,6 +51,10 @@ export const ApplicationViews = () => {
           <Route path="/gizmos" element={<h1>Browse Gizmo Page</h1>} />
           <Route path="/add-gizmo" element={<GizmoForm />} />
           <Route
+            path="/edit-gizmo/:gizmoId"
+            element={<GizmoForm variant="editForm" />}
+          />
+          <Route
             path="*"
             element={<h1>Oops! Something went wrong accessing that URL</h1>}
           />
