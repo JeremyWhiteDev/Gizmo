@@ -9,6 +9,7 @@ import { Login } from "../auth/Login";
 import { Register } from "../auth/Register";
 import { NewUserForm } from "../NewUserForm";
 import { GizmoForm } from "../GizmoForm";
+import { GizmoGarage, GizmoList } from "../GizmoList";
 
 export const ApplicationViews = () => {
   const [loading, setLoading] = useState(true);
@@ -48,7 +49,7 @@ export const ApplicationViews = () => {
             element={<h1>Gizmo Request</h1>}
           />
           <Route path="/feed" element={<h1>Feed Page</h1>} />
-          <Route path="/gizmos" element={<h1>Browse Gizmo Page</h1>} />
+          <Route path="/gizmos" element={<GizmoList />} />
           <Route path="/add-gizmo" element={<GizmoForm />} />
           <Route
             path="/edit-gizmo/:gizmoId"

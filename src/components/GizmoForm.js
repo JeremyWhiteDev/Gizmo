@@ -12,7 +12,6 @@ import { photoStorage } from "./helpers/photoStorage";
 
 export const GizmoForm = ({ variant }) => {
   const [gizmoForm, updateForm] = useState({
-    uid: 0,
     nickName: "",
     model: "",
     manufacturerId: "",
