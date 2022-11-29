@@ -10,7 +10,7 @@ export const GizmoCard = ({ img, name, model, location, userImg }) => {
           {name}
         </p>
         <p className="text-s pl-4 md:text-xl mb-4 dark:text-gray-400 text-gray-600">
-          {model}
+          Model: {model}
         </p>
         <div className="flex justify-between">
           <div className="flex items-center mb-3 ml-2">
@@ -28,7 +28,7 @@ export const GizmoCard = ({ img, name, model, location, userImg }) => {
               />
             </svg>
             <p className="w-28 text-xl text-gray-400 text-left ml-2">
-              {location}
+              Zip: {location}
             </p>
           </div>
           <img

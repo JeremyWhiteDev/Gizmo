@@ -12,12 +12,15 @@ export const getPaginatedGizmosAndLocations = async (
   limit
 ) => {
   const gizmoResponse = await fetch(
-    `${dbUrl}/gizmos?_expand=gizmoCategory&_expand=user&_page=${[
+    `${dbUrl}/gizmos?isPublic=true&_expand=gizmoCategory&_expand=user&_page=${[
       pageNumber,
     ]}&_limit=${limit}&_sort=${sortby}&_order=asc`
   );
   const gizmoData = await gizmoResponse.json();
-  return gizmoData;
+
+  const gizmoLength = JSON.parse(gizmoResponse.headers.get("X-Total-Count"));
+
+  return { data: gizmoData, totalCount: gizmoLength };
 };
 
 export const getSingleGizmo = async (gizmoId) => {
@@ -42,11 +45,21 @@ export const getUserGizmos = async (uid) => {
 };
 
 export const createNewGizmo = async (newGizmoObj) => {
+  //get local uid
   const localUser = localStorage.getItem("capstone_user");
   const projectUserObject = JSON.parse(localUser);
   const uid = projectUserObject.uid;
+
+  //use local uid to fetch userId from database table
+  const userProfile = await getSingleUserInfo(uid);
+  const userId = userProfile[0].id;
+
+  //copy the gizmoObj param
   const copyGizmoObj = { ...newGizmoObj };
-  copyGizmoObj.uid = uid;
+  //assign the gizmoObj the current userId
+  copyGizmoObj.userId = userId;
+
+  //send gizmoObj to db
   const gizmoResponse = await fetch(`${dbUrl}/gizmos/`, {
     method: "POST",
     headers: {
@@ -111,7 +124,7 @@ export const deleteGizmoRequest = async (requestId) => {
 // ----------------------------- user db fetch -------------------------------
 
 export const getSingleUserInfo = async (uid) => {
-  const gizmoResponse = await fetch(`${dbUrl}/users/uid=${uid}`);
+  const gizmoResponse = await fetch(`${dbUrl}/users?uid=${uid}`);
   const gizmoData = await gizmoResponse.json();
   return gizmoData;
 };
@@ -119,7 +132,9 @@ export const getSingleUserInfo = async (uid) => {
 export const createNewUser = async (newUserObj) => {
   const localUser = localStorage.getItem("capstone_user");
   const projectUserObject = JSON.parse(localUser);
+  //uid aka firebase uid
   const uid = projectUserObject.uid;
+  //add firebase uid to newUserObj from "create Profile" form
   const copyUserObj = { ...newUserObj };
   copyUserObj.uid = uid;
   copyUserObj.email = projectUserObject.email;
