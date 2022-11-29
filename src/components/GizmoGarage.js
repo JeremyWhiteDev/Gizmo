@@ -30,6 +30,7 @@ export const GizmoGarage = () => {
       }
       setGizmos(data);
       setPageData({
+        currentPageNumber: 1,
         totalGizmos: totalCount,
         gizmoRangeStart: 1,
         gizmoRangeEnd: gizmoRangeEnd,
@@ -42,9 +43,62 @@ export const GizmoGarage = () => {
     e.preventDefault();
 
     //optimistically increase current page number by 1
-    //fetch data based on new current page values
+    const pageDataCopy = { ...pageData };
+    pageDataCopy.currentPageNumber += 1;
+
     // start/end ranges of page values
-    //set page details
+
+    pageDataCopy.gizmoRangeStart =
+      (pageDataCopy.currentPageNumber - 1) * 20 + 1;
+    if (pageDataCopy.totalGizmos < pageDataCopy.currentPageNumber * 20) {
+      pageDataCopy.gizmoRangeEnd = pageDataCopy.totalGizmos;
+    } else {
+      pageDataCopy.gizmoRangeEnd = pageDataCopy.currentPageNumber - 1 * 20;
+    }
+
+    //fetch data based on new current page values
+
+    const fetchData = async () => {
+      const { data, totalCount } = await getPaginatedGizmosAndLocations(
+        pageDataCopy.currentPageNumber,
+        "id",
+        20
+      );
+      setGizmos(data);
+      setPageData(pageDataCopy);
+    };
+    fetchData();
+  };
+  const decrementPage = (e) => {
+    e.preventDefault();
+
+    //optimistically increase current page number by 1
+    const pageDataCopy = { ...pageData };
+    pageDataCopy.currentPageNumber -= 1;
+
+    // start/end ranges of page values
+
+    pageDataCopy.gizmoRangeStart =
+      (pageDataCopy.currentPageNumber - 1) * 20 + 1;
+    if (pageDataCopy.totalGizmos < pageDataCopy.currentPageNumber * 20) {
+      pageDataCopy.gizmoRangeEnd = pageDataCopy.totalGizmos;
+    } else if (pageDataCopy.currentPageNumber === 1) {
+      pageDataCopy.gizmoRangeEnd = 20;
+    } else {
+      pageDataCopy.gizmoRangeEnd = pageDataCopy.currentPageNumber - 1 * 20;
+    }
+    //fetch data based on new current page values
+
+    const fetchData = async () => {
+      const { data, totalCount } = await getPaginatedGizmosAndLocations(
+        pageDataCopy.currentPageNumber,
+        "id",
+        20
+      );
+      setGizmos(data);
+      setPageData(pageDataCopy);
+    };
+    fetchData();
   };
 
   return (
@@ -81,12 +135,40 @@ export const GizmoGarage = () => {
         </span>
 
         <div className="inline-flex mt-2 xs:mt-0">
-          <button className="px-4 py-2 text-sm font-medium text-white bg-gray-800 rounded-l hover:bg-gray-900 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
-            Prev
-          </button>
-          <button className="px-4 py-2 text-sm font-medium text-white bg-gray-800 border-0 border-l border-gray-700 rounded-r hover:bg-gray-900 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
-            Next
-          </button>
+          {pageData.gizmoRangeStart === 1 ? (
+            <button
+              disabled
+              onClick={(click) => decrementPage(click)}
+              className="px-4 py-2 text-sm font-medium text-white bg-gray-800 rounded-l  dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 "
+            >
+              {" "}
+              Prev
+            </button>
+          ) : (
+            <button
+              onClick={(click) => decrementPage(click)}
+              className="px-4 py-2 text-sm font-medium text-white bg-gray-800 rounded-l hover:bg-gray-900 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+            >
+              {" "}
+              Prev
+            </button>
+          )}
+          {pageData.gizmoRangeEnd === pageData.totalGizmos ? (
+            <button
+              disabled
+              onClick={(click) => incrementPage(click)}
+              className="px-4 py-2 text-sm font-medium text-white bg-gray-800 border-0 border-l border-gray-700 rounded-r  dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 "
+            >
+              Next
+            </button>
+          ) : (
+            <button
+              onClick={(click) => incrementPage(click)}
+              className="px-4 py-2 text-sm font-medium text-white bg-gray-800 border-0 border-l border-gray-700 rounded-r hover:bg-gray-900 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+            >
+              Next
+            </button>
+          )}
         </div>
       </div>
     </>
