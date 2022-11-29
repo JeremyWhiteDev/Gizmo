@@ -47,7 +47,6 @@ export const GizmoList = () => {
     pageDataCopy.currentPageNumber += 1;
 
     // start/end ranges of page values
-
     pageDataCopy.gizmoRangeStart =
       (pageDataCopy.currentPageNumber - 1) * 20 + 1;
     if (pageDataCopy.totalGizmos < pageDataCopy.currentPageNumber * 20) {
