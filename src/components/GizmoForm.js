@@ -3,6 +3,8 @@ import { Navigate, useNavigate, useParams } from "react-router-dom";
 import {
   createNewGizmo,
   createNewUser,
+  deleteGizmo,
+  getCurrentUserFromLocal,
   getSingleGizmo,
   updateGizmo,
 } from "../api/dataAccess";
@@ -26,6 +28,8 @@ export const GizmoForm = ({ variant }) => {
 
   const navigate = useNavigate();
 
+  const localUser = getCurrentUserFromLocal();
+
   const [image, setImage] = useState(null);
   const [imageUrl, setImageUrl] = useState(null);
 
@@ -35,6 +39,12 @@ export const GizmoForm = ({ variant }) => {
     if (variant === "editForm") {
       const fetchData = async () => {
         const currentGizmo = await getSingleGizmo(gizmoId);
+        if (
+          currentGizmo.id === undefined ||
+          currentGizmo.uid != localUser.uid
+        ) {
+          navigate("/garage");
+        }
         updateForm(currentGizmo);
         setImageUrl(currentGizmo.img);
       };
@@ -63,11 +73,22 @@ export const GizmoForm = ({ variant }) => {
       formCopy.img = photoObject.downloadURL;
     }
     if (variant === "editForm") {
-      const editResponse = updateGizmo(gizmoId, formCopy);
+      const editResponse = await updateGizmo(gizmoId, formCopy);
       navigate("/garage");
     } else {
-      const respone = createNewGizmo(formCopy);
+      const respone = await createNewGizmo(formCopy);
       navigate("/garage");
+    }
+  };
+
+  const handleDelete = async () => {
+    if (
+      window.confirm(
+        "Are you sure you want to delete this Gizmo? This cannot be undone."
+      )
+    );
+    {
+      const gizmoDelete = deleteGizmo(gizmoId);
     }
   };
 
@@ -309,24 +330,59 @@ export const GizmoForm = ({ variant }) => {
         )}
 
         <div className="md:space-x-8 space-y-8">
-          <button
-            type="submit"
-            onClick={(click) => {
-              handleSubmit(click);
-            }}
-            className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-          >
-            Submit
-          </button>
-          <button
-            onClick={(click) => {
-              click.preventDefault();
-              navigate("/garage");
-            }}
-            className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-          >
-            Go Back
-          </button>
+          {variant === "editForm" ? (
+            <>
+              <button
+                type="submit"
+                onClick={(click) => {
+                  handleSubmit(click);
+                }}
+                className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+              >
+                Update
+              </button>
+              <button
+                type="submit"
+                onClick={(click) => {
+                  handleDelete();
+                }}
+                className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+              >
+                Delete
+              </button>
+              <button
+                onClick={(click) => {
+                  click.preventDefault();
+                  navigate("/garage");
+                }}
+                className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+              >
+                Go Back
+              </button>
+            </>
+          ) : (
+            <>
+              <button
+                type="submit"
+                onClick={(click) => {
+                  handleSubmit(click);
+                }}
+                className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+              >
+                Save
+              </button>
+
+              <button
+                onClick={(click) => {
+                  click.preventDefault();
+                  navigate("/garage");
+                }}
+                className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+              >
+                Go Back
+              </button>
+            </>
+          )}
         </div>
       </form>
     </>

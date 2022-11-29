@@ -146,3 +146,9 @@ export const checkForUserInfo = async () => {
     return true;
   }
 };
+
+export const getCurrentUserFromLocal = () => {
+  const localUser = localStorage.getItem("capstone_user");
+  const localUserObj = JSON.parse(localUser);
+  return localUserObj;
+};
