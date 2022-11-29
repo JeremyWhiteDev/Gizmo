@@ -1,8 +1,14 @@
-import { useState } from "react";
-import { createNewGizmo, createNewUser } from "../api/dataAccess";
+import { useEffect, useState } from "react";
+import { Navigate, useNavigate, useParams } from "react-router-dom";
+import {
+  createNewGizmo,
+  createNewUser,
+  getSingleGizmo,
+  updateGizmo,
+} from "../api/dataAccess";
 import { photoStorage } from "./helpers/photoStorage";
 
-export const GizmoForm = () => {
+export const GizmoForm = ({ variant }) => {
   const [gizmoForm, updateForm] = useState({
     uid: 0,
     nickName: "",
@@ -16,8 +22,25 @@ export const GizmoForm = () => {
     isPublic: false,
   });
 
+  const [changeImgOption, setImgOption] = useState(false);
+
+  const navigate = useNavigate();
+
   const [image, setImage] = useState(null);
   const [imageUrl, setImageUrl] = useState(null);
+
+  const { gizmoId } = useParams();
+
+  useEffect(() => {
+    if (variant === "editForm") {
+      const fetchData = async () => {
+        const currentGizmo = await getSingleGizmo(gizmoId);
+        updateForm(currentGizmo);
+        setImageUrl(currentGizmo.img);
+      };
+      fetchData();
+    }
+  }, []);
 
   // Handles selecting an image
   const handleChange = (event) => {
@@ -29,25 +52,42 @@ export const GizmoForm = () => {
   // Handles calling the upload image function
   const handleSubmit = async (e) => {
     e.preventDefault();
+    const formCopy = { ...gizmoForm };
     if (image) {
-      await photoStorage.upload("images", image).then((photoObject) => {
-        // Returns image object, you will want to add these properties
-        // to an object in your database
-        // EX: a user if it's a profile picture
+      const photoObject = await photoStorage.upload("images", image);
+      // Returns image object, you will want to add these properties
+      // to an object in your database
+      // EX: a user if it's a profile picture
 
-        setImageUrl(photoObject.downloadURL);
-        console.log(photoObject.downloadURL);
-        const formCopy = { ...gizmoForm };
-        formCopy.img = photoObject.downloadURL;
-        const respone = createNewGizmo(formCopy);
-      });
+      setImageUrl(photoObject.downloadURL);
+      formCopy.img = photoObject.downloadURL;
+    }
+    if (variant === "editForm") {
+      const editResponse = updateGizmo(gizmoId, formCopy);
+      navigate("/garage");
+    } else {
+      const respone = createNewGizmo(formCopy);
+      navigate("/garage");
     }
   };
 
   return (
     <>
+      {variant === "editForm" && imageUrl ? (
+        <img
+          className="w-28 h-28 object-cover mx-auto mb-10 rounded-full"
+          src={imageUrl}
+        />
+      ) : (
+        ""
+      )}
       <form className=" max-w-md px-5 md:max-w-3xl pt-54 mx-auto">
-        <h3 className="dark:text-white text-2xl mb-11">Create a New Gizmo</h3>
+        {variant === "editForm" ? (
+          <h3 className="dark:text-white text-2xl mb-11">Edit Your Gizmo</h3>
+        ) : (
+          <h3 className="dark:text-white text-2xl mb-11">Create a New Gizmo</h3>
+        )}
+
         <div className="mb-6">
           <label
             htmlFor="nickName"
@@ -211,45 +251,83 @@ export const GizmoForm = () => {
               }}
               className="w-4 h-4 bg-gray-50 rounded border border-gray-300 focus:ring-3 focus:ring-blue-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-blue-600 dark:ring-offset-gray-800"
             />
+            <label
+              htmlFor="isPublic"
+              className="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+            >
+              Make this tool Public?
+            </label>
           </div>
-          <label
-            htmlFor="isPublic"
-            className="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
-          >
-            Make this tool Public?
-          </label>
         </div>
-        <div className="mb-6">
-          <label
-            className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-            htmlFor="file_input"
-          >
-            Upload Profile Picture
-          </label>
-          <input
-            className="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer  bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
-            aria-describedby="file_input_help"
-            id="file_input"
-            type="file"
-            onChange={(change) => handleChange(change)}
-          />
-          <p
-            className="mt-1 text-sm text-gray-500 dark:text-gray-300"
-            id="file_input_help"
-          >
-            SVG, PNG, JPG or GIF (MAX. 800x400px).
-          </p>
-        </div>
+        {variant === "editForm" ? (
+          <div className="flex items-center h-5 mb-6">
+            <input
+              id="isPublic"
+              type="checkbox"
+              value={changeImgOption}
+              checked={changeImgOption}
+              onChange={(e) => {
+                setImgOption(!changeImgOption);
+              }}
+              className="w-4 h-4 bg-gray-50 rounded border border-gray-300 focus:ring-3 focus:ring-blue-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-blue-600 dark:ring-offset-gray-800"
+            />
+            <label
+              htmlFor="isPublic"
+              className="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+            >
+              Change Image?
+            </label>
+          </div>
+        ) : (
+          ""
+        )}
 
-        <button
-          type="submit"
-          onClick={(click) => {
-            handleSubmit(click);
-          }}
-          className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-        >
-          Submit
-        </button>
+        {changeImgOption || variant !== "editForm" ? (
+          <div className="mb-6">
+            <label
+              className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+              htmlFor="file_input"
+            >
+              Upload Profile Picture
+            </label>
+            <input
+              className="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer  bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
+              aria-describedby="file_input_help"
+              id="file_input"
+              type="file"
+              onChange={(change) => handleChange(change)}
+            />
+            <p
+              className="mt-1 text-sm text-gray-500 dark:text-gray-300"
+              id="file_input_help"
+            >
+              SVG, PNG, JPG or GIF (MAX. 800x400px).
+            </p>
+          </div>
+        ) : (
+          ""
+        )}
+
+        <div className="md:space-x-8 space-y-8">
+          <button
+            type="submit"
+            onClick={(click) => {
+              handleSubmit(click);
+            }}
+            className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+          >
+            Submit
+          </button>
+          <button
+            onClick={(click) => {
+              click.preventDefault();
+              navigate("/garage");
+            }}
+            className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+          >
+            Go Back
+          </button>
+        </div>
       </form>
     </>
   );
