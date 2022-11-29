@@ -1,3 +1,4 @@
+import { data } from "autoprefixer";
 import { useEffect, useState } from "react";
 import { getPaginatedGizmosAndLocations } from "../api/dataAccess";
 import { GizmoCard } from "./GizmoCard";
@@ -7,9 +8,10 @@ export const GizmoGarage = () => {
   const [filteredGizmos, setFilter] = useState([]);
   const [cuurrentPage, setCurrentPage] = useState();
   const [pageData, setPageData] = useState({
+    currentPageNumber: 1,
     totalGizmos: 0,
-    startingGizmoCount: 1,
-    endingGizmoCount: 0,
+    gizmoRangeStart: 1,
+    gizmoRangeEnd: 0,
   });
 
   useEffect(() => {
@@ -20,17 +22,17 @@ export const GizmoGarage = () => {
         20
       );
       const totalPages = Math.ceil(totalCount / 20);
-      let endingGizmoCount;
+      let gizmoRangeEnd;
       if (totalCount < 20) {
-        endingGizmoCount = totalCount;
+        gizmoRangeEnd = totalCount;
       } else {
-        endingGizmoCount = 20;
+        gizmoRangeEnd = 20;
       }
       setGizmos(data);
       setPageData({
         totalGizmos: totalCount,
-        startingGizmoCount: 1,
-        endingGizmoCount: endingGizmoCount,
+        gizmoRangeStart: 1,
+        gizmoRangeEnd: gizmoRangeEnd,
       });
     };
     fetchData();
@@ -38,6 +40,11 @@ export const GizmoGarage = () => {
 
   const incrementPage = (e) => {
     e.preventDefault();
+
+    //optimistically increase current page number by 1
+    //fetch data based on new current page values
+    // start/end ranges of page values
+    //set page details
   };
 
   return (
@@ -60,11 +67,11 @@ export const GizmoGarage = () => {
         <span className="text-sm text-gray-700 dark:text-gray-400">
           Showing{" "}
           <span className="font-semibold text-gray-900 dark:text-white">
-            {pageData.startingGizmoCount}
+            {pageData.gizmoRangeStart}
           </span>{" "}
           to{" "}
           <span className="font-semibold text-gray-900 dark:text-white">
-            {pageData.endingGizmoCount}
+            {pageData.gizmoRangeEnd}
           </span>{" "}
           of{" "}
           <span className="font-semibold text-gray-900 dark:text-white">
