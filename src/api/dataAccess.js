@@ -23,6 +23,8 @@ export const getPaginatedGizmosAndLocations = async (
   return { data: gizmoData, totalCount: gizmoLength };
 };
 
+//get user gizmo categories
+
 export const getSingleGizmo = async (gizmoId) => {
   const gizmoResponse = await fetch(`${dbUrl}/gizmos/${gizmoId}`);
   const gizmoData = await gizmoResponse.json();
@@ -35,13 +37,22 @@ export const getGizmoQty = async () => {
   return gizmoLength;
 };
 
-export const getUserGizmos = async (uid) => {
-  const currentUserObj = getSingleUserInfo(uid);
+export const getPaginatedUserGizmos = async (pageNumber, sortby, limit) => {
+  const localUser = localStorage.getItem("capstone_user");
+  const projectUserObject = JSON.parse(localUser);
+  //uid aka firebase uid
+  const uid = projectUserObject.uid;
+  const currentUserObj = await getSingleUserInfo(uid);
   const gizmoResponse = await fetch(
-    `${dbUrl}/gizmos/userId=${currentUserObj.id}`
+    `${dbUrl}/gizmos?userId=${currentUserObj.id}&_expand=gizmoCategory&_page=${[
+      pageNumber,
+    ]}&_limit=${limit}&_sort=${sortby}&_order=asc`
   );
   const gizmoData = await gizmoResponse.json();
-  return gizmoData;
+
+  const gizmoLength = JSON.parse(gizmoResponse.headers.get("X-Total-Count"));
+
+  return { data: gizmoData, totalCount: gizmoLength };
 };
 
 export const createNewGizmo = async (newGizmoObj) => {
@@ -52,7 +63,7 @@ export const createNewGizmo = async (newGizmoObj) => {
 
   //use local uid to fetch userId from database table
   const userProfile = await getSingleUserInfo(uid);
-  const userId = userProfile[0].id;
+  const userId = userProfile.id;
 
   //copy the gizmoObj param
   const copyGizmoObj = { ...newGizmoObj };
@@ -126,7 +137,7 @@ export const deleteGizmoRequest = async (requestId) => {
 export const getSingleUserInfo = async (uid) => {
   const gizmoResponse = await fetch(`${dbUrl}/users?uid=${uid}`);
   const gizmoData = await gizmoResponse.json();
-  return gizmoData;
+  return gizmoData[0];
 };
 
 export const createNewUser = async (newUserObj) => {

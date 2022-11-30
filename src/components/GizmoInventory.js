@@ -1,9 +1,9 @@
-import { data } from "autoprefixer";
+import { getPaginatedUserGizmos } from "../api/dataAccess";
 import { useEffect, useState } from "react";
 import { getPaginatedGizmosAndLocations } from "../api/dataAccess";
 import { GizmoCard } from "./GizmoCard";
 
-export const GizmoList = () => {
+export const GizmoInventory = () => {
   const [gizmos, setGizmos] = useState([]);
   const [filteredGizmos, setFilter] = useState([]);
   const [cuurrentPage, setCurrentPage] = useState();
@@ -14,13 +14,15 @@ export const GizmoList = () => {
     gizmoRangeEnd: 0,
   });
 
+  //do I want to paginate data? Yesm probably. Otherwise the fetch call will return too much info.
+  //Option 1: paginate data
+  //option 2: Only have filtered data
+  //Option 3: use an accordian
+  //Option 4: click on a filter or selection and only see the returned values. the page is blank to begin with and you have to populate it with the data you want.
+  //Option 5: infitine scroll.
   useEffect(() => {
     const fetchData = async () => {
-      const { data, totalCount } = await getPaginatedGizmosAndLocations(
-        1,
-        "id",
-        20
-      );
+      const { data, totalCount } = await getPaginatedUserGizmos(1, "id", 20);
       const totalPages = Math.ceil(totalCount / 20);
       let gizmoRangeEnd;
       if (totalCount < 20) {
@@ -58,7 +60,7 @@ export const GizmoList = () => {
     //fetch data based on new current page values
 
     const fetchData = async () => {
-      const { data, totalCount } = await getPaginatedGizmosAndLocations(
+      const { data, totalCount } = await getPaginatedUserGizmos(
         pageDataCopy.currentPageNumber,
         "id",
         20
@@ -89,7 +91,7 @@ export const GizmoList = () => {
     //fetch data based on new current page values
 
     const fetchData = async () => {
-      const { data, totalCount } = await getPaginatedGizmosAndLocations(
+      const { data, totalCount } = await getPaginatedUserGizmos(
         pageDataCopy.currentPageNumber,
         "id",
         20
@@ -107,7 +109,6 @@ export const GizmoList = () => {
         {gizmos.map((gizmo) => (
           <GizmoCard
             key={`gizmo--${gizmo.id}`}
-            variant="publicCard"
             img={gizmo.img}
             name={gizmo.nickName}
             model={gizmo.model}
