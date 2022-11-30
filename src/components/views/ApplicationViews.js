@@ -10,6 +10,7 @@ import { Register } from "../auth/Register";
 import { NewUserForm } from "../NewUserForm";
 import { GizmoForm } from "../GizmoForm";
 import { GizmoGarage, GizmoList } from "../GizmoList";
+import { GizmoInventory } from "../GizmoInventory";
 
 export const ApplicationViews = () => {
   const [loading, setLoading] = useState(true);
@@ -42,7 +43,7 @@ export const ApplicationViews = () => {
     return (
       <>
         <Routes>
-          <Route path="/garage" element={<h1>Gizmo Garage</h1>} />
+          <Route path="/garage" element={<GizmoInventory />} />
           <Route path="/requests" element={<h1>Gizmo Requests</h1>} />
           <Route
             path="/gizmo/request/:gizmoId"
