@@ -11,6 +11,7 @@ import { NewUserForm } from "../NewUserForm";
 import { GizmoForm } from "../GizmoForm";
 import { GizmoGarage, GizmoList } from "../GizmoList";
 import { GizmoInventory } from "../GizmoInventory";
+import { GizmoDetails } from "../GizmoDetails";
 
 export const ApplicationViews = () => {
   const [loading, setLoading] = useState(true);
@@ -51,6 +52,7 @@ export const ApplicationViews = () => {
           />
           <Route path="/feed" element={<h1>Feed Page</h1>} />
           <Route path="/gizmos" element={<GizmoList />} />
+          <Route path="/gizmo-details/:gizmoId" element={<GizmoDetails />} />
           <Route path="/add-gizmo" element={<GizmoForm />} />
           <Route
             path="/edit-gizmo/:gizmoId"
