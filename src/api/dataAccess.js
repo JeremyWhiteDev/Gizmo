@@ -107,6 +107,28 @@ export const getAllGizmoCategories = async () => {
   return gizmoData;
 };
 
+export const createGizmoRequest = async (requestObj) => {
+  const localUser = localStorage.getItem("capstone_user");
+  const projectUserObject = JSON.parse(localUser);
+  const uid = projectUserObject.uid;
+
+  //use local uid to fetch userId from database table
+  const userProfile = await getSingleUserInfo(uid);
+  const userId = userProfile.id;
+
+  //copy the gizmoObj param
+  const copyRequestObj = { ...requestObj };
+  //assign the gizmoObj the current userId
+  copyRequestObj.userId = userId;
+
+  const gizmoResponse = await fetch(`${dbUrl}/gizmoRequests/`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(requestObj),
+  });
+};
 export const getUserGizmoRequests = async (uid) => {
   const currentUserObj = getSingleUserInfo(uid);
   const gizmoResponse = await fetch(
