@@ -129,10 +129,12 @@ export const createGizmoRequest = async (requestObj) => {
     body: JSON.stringify(requestObj),
   });
 };
-export const getUserGizmoRequests = async (uid) => {
-  const currentUserObj = getSingleUserInfo(uid);
+export const getUserGizmoRequests = async () => {
+  const localUser = localStorage.getItem("capstone_user");
+  const localUserObj = JSON.parse(localUser);
+  const currentUserObj = await getSingleUserInfo(localUserObj.uid);
   const gizmoResponse = await fetch(
-    `${dbUrl}/gizmoRequests/userId=${currentUserObj.id}`
+    `${dbUrl}/gizmoRequests?userId=${currentUserObj.id}`
   );
   const gizmoData = await gizmoResponse.json();
   return gizmoData;
