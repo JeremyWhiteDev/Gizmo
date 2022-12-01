@@ -3,7 +3,7 @@ import "./index.css";
 import { BrowserRouter } from "react-router-dom";
 import firebase from "firebase/compat/app"; // Import Firebase!!
 import { firebaseConfig } from "./apiKeys"; // Import Your Config!!
-import { Gizmo } from "./components/Gizmo";
+import { Gizmo } from "./components/GizmoApp";
 
 firebase.initializeApp(firebaseConfig);
 
