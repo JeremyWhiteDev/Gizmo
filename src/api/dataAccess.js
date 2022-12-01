@@ -26,7 +26,9 @@ export const getPaginatedGizmosAndLocations = async (
 //get user gizmo categories
 
 export const getSingleGizmo = async (gizmoId) => {
-  const gizmoResponse = await fetch(`${dbUrl}/gizmos/${gizmoId}`);
+  const gizmoResponse = await fetch(
+    `${dbUrl}/gizmos/${gizmoId}?_expand=gizmoCategory&_expand=user`
+  );
   const gizmoData = await gizmoResponse.json();
   return gizmoData;
 };
