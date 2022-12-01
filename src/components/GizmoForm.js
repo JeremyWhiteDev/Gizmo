@@ -38,12 +38,12 @@ export const GizmoForm = ({ variant }) => {
     if (variant === "editForm") {
       const fetchData = async () => {
         const currentGizmo = await getSingleGizmo(gizmoId);
-        if (
-          currentGizmo.id === undefined ||
-          currentGizmo.uid != localUser.uid
-        ) {
-          navigate("/garage");
-        }
+        // if (
+        //   currentGizmo.id === undefined ||
+        //   currentGizmo.uid != localUser.uid
+        // ) {
+        //   navigate("/garage");
+        // }
         updateForm(currentGizmo);
         setImageUrl(currentGizmo.img);
       };
@@ -73,7 +73,7 @@ export const GizmoForm = ({ variant }) => {
     }
     if (variant === "editForm") {
       const editResponse = await updateGizmo(gizmoId, formCopy);
-      navigate("/garage");
+      navigate(`/gizmo-details/${gizmoId}`);
     } else {
       const respone = await createNewGizmo(formCopy);
       navigate("/garage");
