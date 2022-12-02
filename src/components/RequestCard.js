@@ -1,5 +1,9 @@
 import { useState } from "react";
-import { deleteGizmoRequest } from "../api/dataAccess";
+import {
+  createGizmoRental,
+  deleteGizmoRequest,
+  updateGizmoRequest,
+} from "../api/dataAccess";
 import { EditRequestModal } from "./modals/EditRequestModal";
 
 export const RequestCard = ({
@@ -12,6 +16,7 @@ export const RequestCard = ({
   img,
   variant,
   requestGizmoId,
+  requestObj,
 }) => {
   const [modalIsActive, setModalIsActive] = useState(false);
 
@@ -24,8 +29,26 @@ export const RequestCard = ({
     e.preventDefault();
     const deleteResponse = await deleteGizmoRequest(requestId);
   };
-  const handleApprove = () => {};
-  const handleDecline = () => {};
+  const handleApprove = async (e) => {
+    e.preventDefault();
+    const copyRequest = { ...requestObj };
+    copyRequest.requestStatus = "approved";
+    const updateResponse = updateGizmoRequest(requestId, copyRequest);
+
+    const rentalObj = { ...requestObj };
+    delete rentalObj.requestStatus;
+    delete rentalObj.gizmo;
+    delete rentalObj.user;
+    delete rentalObj.requestMsg;
+    delete rentalObj.id;
+
+    const rentalResponse = createGizmoRental(rentalObj);
+  };
+  const handleDecline = async () => {
+    const copyRequest = { ...requestObj };
+    copyRequest.requestStatus = "declined";
+    const updateResponse = updateGizmoRequest(requestId, copyRequest);
+  };
 
   return (
     <>

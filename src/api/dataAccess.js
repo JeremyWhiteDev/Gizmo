@@ -211,3 +211,13 @@ export const getCurrentUserFromLocal = () => {
   const localUserObj = JSON.parse(localUser);
   return localUserObj;
 };
+
+export const createGizmoRental = async (rentalObj) => {
+  const gizmoResponse = await fetch(`${dbUrl}/gizmoRentals/`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(rentalObj),
+  });
+};

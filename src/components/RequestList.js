@@ -28,6 +28,7 @@ export const RequestList = () => {
             {userRequests.map((request) => (
               <RequestCard
                 key={`outgoingRequest--${request.id}`}
+                requestObj={request}
                 variant="outgoingRequest"
                 requestId={request.id}
                 img={request.gizmo?.img}
@@ -49,6 +50,7 @@ export const RequestList = () => {
             {userRequests.map((request) => (
               <RequestCard
                 key={`incomingRequest--${request.id}`}
+                requestObj={request}
                 variant="incomingRequest"
                 requestId={request.id}
                 img={request.gizmo?.img}
