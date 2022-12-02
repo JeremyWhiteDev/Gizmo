@@ -13,7 +13,7 @@ import { GizmoGarage, GizmoList } from "../GizmoList";
 import { GizmoInventory } from "../GizmoInventory";
 import { GizmoDetails } from "../GizmoDetails";
 import { RequestForm } from "../RequestForm";
-import { RequstList } from "../RequestList";
+import { ReqeustList, RequestList } from "../RequestList";
 
 export const ApplicationViews = () => {
   const [loading, setLoading] = useState(true);
@@ -47,7 +47,7 @@ export const ApplicationViews = () => {
       <>
         <Routes>
           <Route path="/garage" element={<GizmoInventory />} />
-          <Route path="/requests" element={<RequstList />} />
+          <Route path="/requests" element={<RequestList />} />
           <Route path="/gizmo/request/:gizmoId" element={<RequestForm />} />
           <Route path="/feed" element={<h1>Feed Page</h1>} />
           <Route path="/gizmos" element={<GizmoList />} />

@@ -4,10 +4,16 @@ import {
   createGizmoRequest,
   getCurrentUserFromLocal,
   getSingleGizmo,
+  getSingleGizmoRequest,
   getSingleUserInfo,
+  updateGizmoRequest,
 } from "../api/dataAccess";
 
-export const RequestForm = ({}) => {
+export const RequestForm = ({
+  requestId,
+  requestGizmoId,
+  setModalIsActive,
+}) => {
   const [requestForm, updateForm] = useState({
     startDate: "",
     endDate: "",
@@ -25,12 +31,22 @@ export const RequestForm = ({}) => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const currentGizmo = await getSingleGizmo(gizmoId);
+      let currentGizmo;
+      if (requestGizmoId) {
+        currentGizmo = await getSingleGizmo(requestGizmoId);
+      } else {
+        currentGizmo = await getSingleGizmo(gizmoId);
+      }
       const currentUser = getCurrentUserFromLocal();
       const currentUserDb = await getSingleUserInfo(currentUser.uid);
 
       if (currentUserDb.id === currentGizmo.userId) {
         navigate("/garage");
+      }
+
+      if (requestId) {
+        const currentUserRequest = await getSingleGizmoRequest(requestId);
+        updateForm(currentUserRequest);
       }
 
       // if (
@@ -54,6 +70,12 @@ export const RequestForm = ({}) => {
 
     const respone = await createGizmoRequest(formCopy);
     navigate("/garage");
+  };
+
+  const handleUpdate = async (e) => {
+    e.preventDefault();
+    const updateResponse = await updateGizmoRequest(requestId, requestForm);
+    setModalIsActive(false);
   };
 
   return (
@@ -130,29 +152,52 @@ export const RequestForm = ({}) => {
             placeholder="Why do you want to borrow this Gizmo?"
           />
         </fieldset>
-
         <div className="md:space-x-8 space-y-8">
-          <>
-            <button
-              type="submit"
-              onClick={(click) => {
-                handleSubmit(click);
-              }}
-              className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-            >
-              Submit Request
-            </button>
+          {requestId ? (
+            <>
+              <button
+                type="submit"
+                onClick={(click) => {
+                  handleUpdate(click);
+                }}
+                className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+              >
+                Update Request
+              </button>
 
-            <button
-              onClick={(click) => {
-                click.preventDefault();
-                navigate(`/gizmo-details/${gizmoId}`);
-              }}
-              className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-            >
-              Go Back
-            </button>
-          </>
+              <button
+                onClick={(click) => {
+                  click.preventDefault();
+                  setModalIsActive(false);
+                }}
+                className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+              >
+                Cancel
+              </button>
+            </>
+          ) : (
+            <>
+              <button
+                type="submit"
+                onClick={(click) => {
+                  handleSubmit(click);
+                }}
+                className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+              >
+                Submit Request
+              </button>
+
+              <button
+                onClick={(click) => {
+                  click.preventDefault();
+                  navigate(`/gizmo-details/${gizmoId}`);
+                }}
+                className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+              >
+                Go Back
+              </button>
+            </>
+          )}
         </div>
       </form>
     </>

@@ -2,8 +2,9 @@ import { useEffect, useState } from "react";
 import { getUserGizmoRequests } from "../api/dataAccess";
 import { RequestCard } from "./RequestCard";
 
-export const RequstList = () => {
+export const RequestList = () => {
   const [userRequests, setUserRequests] = useState([]);
+  const [modalIsActive, setModalIsActive] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -27,7 +28,9 @@ export const RequstList = () => {
             {userRequests.map((request) => (
               <RequestCard
                 variant="outgoingRequest"
+                requestId={request.id}
                 img={request.gizmo?.img}
+                requestGizmoId={request.gizmo?.id}
                 gizmo={request.gizmo?.nickName}
                 user={request.user?.firstName}
                 startDate={request.startDate}
@@ -45,7 +48,9 @@ export const RequstList = () => {
             {userRequests.map((request) => (
               <RequestCard
                 variant="incomingRequest"
+                requestId={request.id}
                 img={request.gizmo?.img}
+                requestGizmoId={request.gizmo?.id}
                 gizmo={request.gizmo?.nickName}
                 user={request.user?.firstName}
                 startDate={request.startDate}

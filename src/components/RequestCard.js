@@ -1,4 +1,8 @@
+import { useState } from "react";
+import { EditRequestModal } from "./modals/EditRequestModal";
+
 export const RequestCard = ({
+  requestId,
   startDate,
   endDate,
   requestMsg,
@@ -6,7 +10,19 @@ export const RequestCard = ({
   user,
   img,
   variant,
+  requestGizmoId,
 }) => {
+  const [modalIsActive, setModalIsActive] = useState(false);
+
+  const handleEdit = (e) => {
+    e.preventDefault();
+    setModalIsActive(true);
+  };
+
+  const handleDelete = () => {};
+  const handleApprove = () => {};
+  const handleDecline = () => {};
+
   return (
     <>
       <div className="flex flex-col  border border-gray-200 rounded-lg shadow-md md:flex-row md:w-full dark:border-gray-700 dark:bg-gray-800">
@@ -28,11 +44,13 @@ export const RequestCard = ({
             {requestMsg}
           </p>
           <div className="flex gap-6 md:flex-row ">
-            {variant === "outgoingRequest " ? (
+            {variant === "outgoingRequest" ? (
               <>
                 <button
                   type="submit"
-                  onClick={(click) => {}}
+                  onClick={(click) => {
+                    handleEdit(click);
+                  }}
                   className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full md:w-24 px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
                 >
                   Edit
@@ -66,6 +84,12 @@ export const RequestCard = ({
           </div>
         </div>
       </div>
+      <EditRequestModal
+        isActive={modalIsActive}
+        setModalIsActive={setModalIsActive}
+        requestId={requestId}
+        requestGizmoId={requestGizmoId}
+      />
     </>
   );
 };
