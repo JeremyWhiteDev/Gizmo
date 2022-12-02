@@ -50,6 +50,7 @@ export const RequestForm = ({}) => {
     const formCopy = { ...requestForm };
     const userInfo = await getSingleUserInfo(localUser.uid);
     formCopy.userId = userInfo.id;
+    formCopy.gizmoId = gizmoId;
 
     const respone = await createGizmoRequest(formCopy);
     navigate("/garage");

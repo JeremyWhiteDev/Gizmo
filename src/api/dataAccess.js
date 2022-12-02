@@ -134,7 +134,7 @@ export const getUserGizmoRequests = async () => {
   const localUserObj = JSON.parse(localUser);
   const currentUserObj = await getSingleUserInfo(localUserObj.uid);
   const gizmoResponse = await fetch(
-    `${dbUrl}/gizmoRequests?userId=${currentUserObj.id}`
+    `${dbUrl}/gizmoRequests?userId=${currentUserObj.id}&_expand=gizmo&_expand=user`
   );
   const gizmoData = await gizmoResponse.json();
   return gizmoData;
