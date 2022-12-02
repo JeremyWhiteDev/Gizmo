@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { deleteGizmoRequest } from "../api/dataAccess";
 import { EditRequestModal } from "./modals/EditRequestModal";
 
 export const RequestCard = ({
@@ -19,7 +20,10 @@ export const RequestCard = ({
     setModalIsActive(true);
   };
 
-  const handleDelete = () => {};
+  const handleDelete = async (e) => {
+    e.preventDefault();
+    const deleteResponse = await deleteGizmoRequest(requestId);
+  };
   const handleApprove = () => {};
   const handleDecline = () => {};
 
@@ -57,7 +61,9 @@ export const RequestCard = ({
                 </button>
                 <button
                   type="submit"
-                  onClick={(click) => {}}
+                  onClick={(click) => {
+                    handleDelete(click);
+                  }}
                   className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full md:w-24 px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
                 >
                   Delete
@@ -67,14 +73,18 @@ export const RequestCard = ({
               <>
                 <button
                   type="submit"
-                  onClick={(click) => {}}
+                  onClick={(click) => {
+                    handleApprove(click);
+                  }}
                   className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full md:w-24 px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
                 >
                   Approve
                 </button>
                 <button
                   type="submit"
-                  onClick={(click) => {}}
+                  onClick={(click) => {
+                    handleDecline(click);
+                  }}
                   className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full md:w-24 px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
                 >
                   Decline

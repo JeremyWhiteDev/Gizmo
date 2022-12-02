@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { getUserGizmoRequests } from "../api/dataAccess";
+import { getPendingUserGizmoRequests } from "../api/dataAccess";
 import { RequestCard } from "./RequestCard";
 
 export const RequestList = () => {
@@ -8,7 +8,7 @@ export const RequestList = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const data = await getUserGizmoRequests();
+      const data = await getPendingUserGizmoRequests();
       setUserRequests(data);
     };
     fetchData();
@@ -27,6 +27,7 @@ export const RequestList = () => {
           <div className="flex flex-col items-center justify-evenly gap-7">
             {userRequests.map((request) => (
               <RequestCard
+                key={`outgoingRequest--${request.id}`}
                 variant="outgoingRequest"
                 requestId={request.id}
                 img={request.gizmo?.img}
@@ -47,6 +48,7 @@ export const RequestList = () => {
           <div className="flex flex-col items-center justify-evenly gap-7 ">
             {userRequests.map((request) => (
               <RequestCard
+                key={`incomingRequest--${request.id}`}
                 variant="incomingRequest"
                 requestId={request.id}
                 img={request.gizmo?.img}

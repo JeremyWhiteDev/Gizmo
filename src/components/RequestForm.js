@@ -19,6 +19,7 @@ export const RequestForm = ({
     endDate: "",
     userId: 0,
     requestMsg: "",
+    requestStatus: "",
   });
 
   const [gizmo, setGizmo] = useState([]);
@@ -67,6 +68,7 @@ export const RequestForm = ({
     const userInfo = await getSingleUserInfo(localUser.uid);
     formCopy.userId = userInfo.id;
     formCopy.gizmoId = gizmoId;
+    formCopy.requestStatus = "pending";
 
     const respone = await createGizmoRequest(formCopy);
     navigate("/garage");
@@ -74,7 +76,9 @@ export const RequestForm = ({
 
   const handleUpdate = async (e) => {
     e.preventDefault();
-    const updateResponse = await updateGizmoRequest(requestId, requestForm);
+    const formCopy = { ...requestForm };
+    formCopy.requestStatus = "pending";
+    const updateResponse = await updateGizmoRequest(requestId, formCopy);
     setModalIsActive(false);
   };
 
