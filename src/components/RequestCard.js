@@ -33,14 +33,18 @@ export const RequestCard = ({
     e.preventDefault();
     const copyRequest = { ...requestObj };
     copyRequest.requestStatus = "approved";
+    delete copyRequest.user;
+    delete copyRequest.gizmo;
+
     const updateResponse = updateGizmoRequest(requestId, copyRequest);
 
     const rentalObj = { ...requestObj };
-    delete rentalObj.requestStatus;
-    delete rentalObj.gizmo;
     delete rentalObj.user;
+    delete rentalObj.gizmo;
+    delete rentalObj.requestStatus;
     delete rentalObj.requestMsg;
     delete rentalObj.id;
+    rentalObj.isComplete = false;
 
     const rentalResponse = createGizmoRental(rentalObj);
   };
