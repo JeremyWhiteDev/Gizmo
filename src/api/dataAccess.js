@@ -129,11 +129,20 @@ export const createGizmoRequest = async (requestObj) => {
     body: JSON.stringify(requestObj),
   });
 };
-export const getUserGizmoRequests = async (uid) => {
-  const currentUserObj = getSingleUserInfo(uid);
+
+export const getPendingUserGizmoRequests = async () => {
+  const localUser = localStorage.getItem("capstone_user");
+  const localUserObj = JSON.parse(localUser);
+  const currentUserObj = await getSingleUserInfo(localUserObj.uid);
   const gizmoResponse = await fetch(
-    `${dbUrl}/gizmoRequests/userId=${currentUserObj.id}`
+    `${dbUrl}/gizmoRequests?userId=${currentUserObj.id}&requestStatus=pending&_expand=gizmo&_expand=user`
   );
+  const gizmoData = await gizmoResponse.json();
+  return gizmoData;
+};
+
+export const getSingleGizmoRequest = async (id) => {
+  const gizmoResponse = await fetch(`${dbUrl}/gizmoRequests/${id}`);
   const gizmoData = await gizmoResponse.json();
   return gizmoData;
 };
@@ -201,4 +210,14 @@ export const getCurrentUserFromLocal = () => {
   const localUser = localStorage.getItem("capstone_user");
   const localUserObj = JSON.parse(localUser);
   return localUserObj;
+};
+
+export const createGizmoRental = async (rentalObj) => {
+  const gizmoResponse = await fetch(`${dbUrl}/gizmoRentals/`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(rentalObj),
+  });
 };
