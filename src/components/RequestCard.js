@@ -51,6 +51,8 @@ export const RequestCard = ({
   const handleDecline = async () => {
     const copyRequest = { ...requestObj };
     copyRequest.requestStatus = "declined";
+    delete copyRequest.user;
+    delete copyRequest.gizmo;
     const updateResponse = updateGizmoRequest(requestId, copyRequest);
   };
 
