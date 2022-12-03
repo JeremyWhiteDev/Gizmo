@@ -1,9 +1,10 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Navigate, useNavigate, useParams } from "react-router-dom";
 import {
   createNewGizmo,
   createNewUser,
   deleteGizmo,
+  getAllGizmoCategories,
   getCurrentUserFromLocal,
   getSingleGizmo,
   updateGizmo,
@@ -27,6 +28,10 @@ export const GizmoForm = ({ variant }) => {
 
   const navigate = useNavigate();
 
+  const [categories, setCategories] = useState([]);
+
+  const [filteredCategories, setFilteredCategories] = useState([]);
+
   const localUser = getCurrentUserFromLocal();
 
   const [image, setImage] = useState(null);
@@ -36,7 +41,7 @@ export const GizmoForm = ({ variant }) => {
 
   useEffect(() => {
     if (variant === "editForm") {
-      const fetchData = async () => {
+      const fetchGizmoToEdit = async () => {
         const currentGizmo = await getSingleGizmo(gizmoId);
         // if (
         //   currentGizmo.id === undefined ||
@@ -47,9 +52,26 @@ export const GizmoForm = ({ variant }) => {
         updateForm(currentGizmo);
         setImageUrl(currentGizmo.img);
       };
-      fetchData();
+      fetchGizmoToEdit();
     }
+    const fetchCategories = async () => {
+      const categoriesData = await getAllGizmoCategories();
+      setCategories(categoriesData);
+    };
+
+    fetchCategories();
   }, []);
+
+  useEffect(() => {
+    if (variant === "editForm") {
+      const otherCategories = categories.filter(
+        (category) => category.id !== gizmoForm.gizmoCategoryId
+      );
+      setFilteredCategories(otherCategories);
+    } else {
+      setFilteredCategories(categories);
+    }
+  }, [categories]);
 
   // Handles selecting an image
   const handleChange = (event) => {
@@ -61,22 +83,28 @@ export const GizmoForm = ({ variant }) => {
   // Handles calling the upload image function
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const formCopy = { ...gizmoForm };
-    if (image) {
-      const photoObject = await photoStorage.upload("images", image);
-      // Returns image object, you will want to add these properties
-      // to an object in your database
-      // EX: a user if it's a profile picture
+    const form = document.getElementById("gizmoForm");
 
-      setImageUrl(photoObject.downloadURL);
-      formCopy.img = photoObject.downloadURL;
-    }
-    if (variant === "editForm") {
-      const editResponse = await updateGizmo(gizmoId, formCopy);
-      navigate(`/gizmo-details/${gizmoId}`);
+    if (form.checkValidity()) {
+      const formCopy = { ...gizmoForm };
+      if (image) {
+        const photoObject = await photoStorage.upload("images", image);
+        // Returns image object, you will want to add these properties
+        // to an object in your database
+        // EX: a user if it's a profile picture
+
+        setImageUrl(photoObject.downloadURL);
+        formCopy.img = photoObject.downloadURL;
+      }
+      if (variant === "editForm") {
+        const editResponse = await updateGizmo(gizmoId, formCopy);
+        navigate(`/gizmo-details/${gizmoId}`);
+      } else {
+        const respone = await createNewGizmo(formCopy);
+        navigate("/garage");
+      }
     } else {
-      const respone = await createNewGizmo(formCopy);
-      navigate("/garage");
+      form.reportValidity();
     }
   };
 
@@ -92,6 +120,17 @@ export const GizmoForm = ({ variant }) => {
     }
   };
 
+  const displayCurrentGizmoCategory = () => {
+    if (categories.length > 0 && variant === "editForm") {
+      const foundCategory = categories.find(
+        (category) => category.id === gizmoForm.gizmoCategoryId
+      );
+      return foundCategory?.name;
+    } else {
+      return "Choose The Category";
+    }
+  };
+
   return (
     <>
       {variant === "editForm" && imageUrl ? (
@@ -102,14 +141,17 @@ export const GizmoForm = ({ variant }) => {
       ) : (
         ""
       )}
-      <form className=" max-w-md px-5 md:max-w-3xl pt-54 mx-auto">
+      <form
+        id="gizmoForm"
+        className=" max-w-md px-5 md:max-w-3xl pt-54 mx-auto"
+      >
         {variant === "editForm" ? (
           <h3 className="dark:text-white text-2xl mb-11">Edit Your Gizmo</h3>
         ) : (
           <h3 className="dark:text-white text-2xl mb-11">Create a New Gizmo</h3>
         )}
 
-        <div className="mb-6">
+        <fieldset className="mb-6">
           <label
             htmlFor="nickName"
             className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
@@ -130,8 +172,8 @@ export const GizmoForm = ({ variant }) => {
             placeholder="Table Saw"
             required
           />
-        </div>
-        <div className="mb-6">
+        </fieldset>
+        <fieldset className="mb-6">
           <label
             htmlFor="model"
             className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
@@ -152,8 +194,8 @@ export const GizmoForm = ({ variant }) => {
             placeholder="DCB7958"
             required
           />
-        </div>
-        <div className="mb-6">
+        </fieldset>
+        <fieldset className="mb-6">
           <label
             htmlFor="manufacturer"
             className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
@@ -172,16 +214,17 @@ export const GizmoForm = ({ variant }) => {
             }}
             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
             placeholder="eg. Tool Collector and WoodWorker"
+            required
           />
-        </div>
-        <div className="mb-6">
+        </fieldset>
+        <fieldset className="mb-6">
           <label
             htmlFor="gizmoCategory"
             className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
           >
             Gizmo Category
           </label>
-          <input
+          <select
             type="text"
             id="gizmoCategory"
             maxLength="20"
@@ -193,9 +236,21 @@ export const GizmoForm = ({ variant }) => {
             }}
             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
             placeholder="1 = Power Tools"
-          />
-        </div>
-        <div className="mb-6">
+            required
+          >
+            <option id="categoryId--default" value={gizmoForm.gizmoCategoryId}>
+              {displayCurrentGizmoCategory()}
+            </option>
+            {filteredCategories.map((category) => {
+              return (
+                <option key={category.id} value={category.id}>
+                  {category.name}
+                </option>
+              );
+            })}
+          </select>
+        </fieldset>
+        <fieldset className="mb-6">
           <label
             htmlFor="purchaseDate"
             className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
@@ -214,9 +269,10 @@ export const GizmoForm = ({ variant }) => {
             }}
             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
             placeholder="eg. 37210"
+            required
           />
-        </div>
-        <div className="mb-6">
+        </fieldset>
+        <fieldset className="mb-6">
           <label
             htmlFor="amountPaid"
             className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
@@ -235,9 +291,10 @@ export const GizmoForm = ({ variant }) => {
             }}
             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
             placeholder="$250"
+            required
           />
-        </div>
-        <div className="mb-6">
+        </fieldset>
+        <fieldset className="mb-6">
           <label
             htmlFor="estimatedValue"
             className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
@@ -255,11 +312,12 @@ export const GizmoForm = ({ variant }) => {
               updateForm(formCopy);
             }}
             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-            placeholder="$250"
+            placeholder="250"
+            required
           />
-        </div>
+        </fieldset>
         <div className="flex items-start mb-6">
-          <div className="flex items-center h-5">
+          <fieldset className="flex items-center h-5">
             <input
               id="isPublic"
               type="checkbox"
@@ -278,10 +336,10 @@ export const GizmoForm = ({ variant }) => {
             >
               Make this tool Public?
             </label>
-          </div>
+          </fieldset>
         </div>
         {variant === "editForm" ? (
-          <div className="flex items-center h-5 mb-6">
+          <fieldset className="flex items-center h-5 mb-6">
             <input
               id="isPublic"
               type="checkbox"
@@ -298,13 +356,13 @@ export const GizmoForm = ({ variant }) => {
             >
               Change Image?
             </label>
-          </div>
+          </fieldset>
         ) : (
           ""
         )}
 
         {changeImgOption || variant !== "editForm" ? (
-          <div className="mb-6">
+          <fieldset className="mb-6">
             <label
               className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
               htmlFor="file_input"
@@ -324,7 +382,7 @@ export const GizmoForm = ({ variant }) => {
             >
               SVG, PNG, JPG or GIF (MAX. 800x400px).
             </p>
-          </div>
+          </fieldset>
         ) : (
           ""
         )}
