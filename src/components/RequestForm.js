@@ -41,7 +41,8 @@ export const RequestForm = ({
       const currentUser = getCurrentUserFromLocal();
       const currentUserDb = await getSingleUserInfo(currentUser.uid);
 
-      if (currentUserDb.id === currentGizmo.userId) {
+      //redirects if user somehow gets to this address and is not the corresponding gizmo user
+      if (currentUserDb.id !== currentGizmo.userId) {
         navigate("/garage");
       }
 
