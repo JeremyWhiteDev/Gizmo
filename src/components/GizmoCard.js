@@ -62,7 +62,7 @@ export const GizmoCard = ({ img, name, model, location, userImg, variant }) => {
                 />
               </svg>
               <p className="w-28 text-xl text-gray-400 text-left ml-2">
-                Currently At: {location}
+                {location}
               </p>
             </div>
           </div>

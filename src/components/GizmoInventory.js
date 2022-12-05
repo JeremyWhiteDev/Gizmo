@@ -1,4 +1,8 @@
-import { getPaginatedUserGizmos } from "../api/dataAccess";
+import {
+  getPaginatedBorrowedGizmos,
+  getPaginatedSavedGizmos,
+  getPaginatedUserGizmos,
+} from "../api/dataAccess";
 import { useEffect, useState } from "react";
 import { getPaginatedGizmosAndLocations } from "../api/dataAccess";
 import { GizmoCard } from "./GizmoCard";
@@ -7,6 +11,7 @@ export const GizmoInventory = () => {
   const [gizmos, setGizmos] = useState([]);
   const [filteredGizmos, setFilter] = useState([]);
   const [cuurrentPage, setCurrentPage] = useState();
+  const [view, setView] = useState("myGizmos");
   const [pageData, setPageData] = useState({
     currentPageNumber: 1,
     totalGizmos: 0,
@@ -20,26 +25,86 @@ export const GizmoInventory = () => {
   //Option 3: use an accordian
   //Option 4: click on a filter or selection and only see the returned values. the page is blank to begin with and you have to populate it with the data you want.
   //Option 5: infitine scroll.
-  useEffect(() => {
-    const fetchData = async () => {
-      const { data, totalCount } = await getPaginatedUserGizmos(1, "id", 20);
-      const totalPages = Math.ceil(totalCount / 20);
-      let gizmoRangeEnd;
-      if (totalCount < 20) {
-        gizmoRangeEnd = totalCount;
-      } else {
-        gizmoRangeEnd = 20;
-      }
-      setGizmos(data);
+  const fetchUserGizmos = async (page, onMount) => {
+    const { data, totalCount } = await getPaginatedUserGizmos(page, "id", 20);
+    const totalPages = Math.ceil(totalCount / 20);
+    let gizmoRangeEnd;
+    if (totalCount < 20) {
+      gizmoRangeEnd = totalCount;
+    } else {
+      gizmoRangeEnd = 20;
+    }
+    setGizmos(data);
+    if (onMount) {
       setPageData({
         currentPageNumber: 1,
         totalGizmos: totalCount,
         gizmoRangeStart: 1,
         gizmoRangeEnd: gizmoRangeEnd,
       });
-    };
-    fetchData();
+    }
+  };
+
+  const fetchBorrowedGizmos = async (page, onMount) => {
+    const { data, totalCount } = await getPaginatedBorrowedGizmos(
+      page,
+      "id",
+      20
+    );
+    const totalPages = Math.ceil(totalCount / 20);
+    let gizmoRangeEnd;
+    if (totalCount < 20) {
+      gizmoRangeEnd = totalCount;
+    } else {
+      gizmoRangeEnd = 20;
+    }
+    setGizmos(data);
+    if (onMount) {
+      setPageData({
+        currentPageNumber: 1,
+        totalGizmos: totalCount,
+        gizmoRangeStart: 1,
+        gizmoRangeEnd: gizmoRangeEnd,
+      });
+    }
+  };
+
+  const fetchSavedGizmos = async (page, onMount) => {
+    const { data, totalCount } = await getPaginatedSavedGizmos(page, "id", 20);
+    const totalPages = Math.ceil(totalCount / 20);
+    let gizmoRangeEnd;
+    if (totalCount < 20) {
+      gizmoRangeEnd = totalCount;
+    } else {
+      gizmoRangeEnd = 20;
+    }
+    setGizmos(data);
+    if (onMount) {
+      setPageData({
+        currentPageNumber: 1,
+        totalGizmos: totalCount,
+        gizmoRangeStart: 1,
+        gizmoRangeEnd: gizmoRangeEnd,
+      });
+    }
+  };
+  useEffect(() => {
+    fetchUserGizmos(1, true);
   }, []);
+
+  useEffect(() => {
+    switch (view) {
+      case "myGizmos":
+        fetchUserGizmos(1, true);
+        break;
+      case "borrowedGizmos":
+        fetchBorrowedGizmos(1, true);
+        break;
+      case "savedGizmos":
+        fetchSavedGizmos(1, true);
+        break;
+    }
+  }, [view]);
 
   const incrementPage = (e) => {
     e.preventDefault();
@@ -59,17 +124,20 @@ export const GizmoInventory = () => {
 
     //fetch data based on new current page values
 
-    const fetchData = async () => {
-      const { data, totalCount } = await getPaginatedUserGizmos(
-        pageDataCopy.currentPageNumber,
-        "id",
-        20
-      );
-      setGizmos(data);
-      setPageData(pageDataCopy);
-    };
-    fetchData();
+    switch (view) {
+      case "myGizmos":
+        fetchUserGizmos(pageDataCopy.currentPageNumber);
+        break;
+      case "borrowedGizmos":
+        fetchBorrowedGizmos(pageDataCopy.currentPageNumber);
+        break;
+      case "savedGizmos":
+        fetchSavedGizmos(pageDataCopy.currentPageNumber);
+        break;
+    }
+    setPageData(pageDataCopy);
   };
+
   const decrementPage = (e) => {
     e.preventDefault();
 
@@ -89,30 +157,85 @@ export const GizmoInventory = () => {
       pageDataCopy.gizmoRangeEnd = pageDataCopy.currentPageNumber - 1 * 20;
     }
     //fetch data based on new current page values
-
-    const fetchData = async () => {
-      const { data, totalCount } = await getPaginatedUserGizmos(
-        pageDataCopy.currentPageNumber,
-        "id",
-        20
-      );
-      setGizmos(data);
-      setPageData(pageDataCopy);
-    };
-    fetchData();
+    switch (view) {
+      case "myGizmos":
+        fetchUserGizmos(pageDataCopy.currentPageNumber);
+        break;
+      case "borrowedGizmos":
+        fetchBorrowedGizmos(pageDataCopy.currentPageNumber);
+        break;
+      case "savedGizmos":
+        fetchSavedGizmos(pageDataCopy.currentPageNumber);
+        break;
+    }
+    setPageData(pageDataCopy);
   };
 
   return (
     <>
-      <h1 className="dark:text-white">Browse Gizmos</h1>
-      <div className="flex gap-y-5 flex-wrap p-2 gap-x-6 mx-auto max-w-xl md: pl-6 md:max-w-screen-xl  ">
+      <h1 className="dark:text-white mx-auto max-w-xl md:max-w-screen-xl">
+        Browse Gizmos
+      </h1>
+
+      <div className="text-sm font-medium text-center mb-6 text-gray-500 border-b border-gray-200 dark:text-gray-400 dark:border-gray-700 mx-auto max-w-xl md:max-w-screen-xl">
+        <ul className="flex flex-wrap -mb-px">
+          <li className="mr-2">
+            <button
+              onClick={() => {
+                setView("myGizmos");
+              }}
+              className={`inline-block p-4 rounded-t-lg  border-b-2 ${
+                view === "myGizmos"
+                  ? "text-blue-600  border-blue-600 dark:text-blue-500 dark:border-blue-500"
+                  : "border-transparent hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300"
+              } `}
+              aria-current="page"
+            >
+              My Gizmos
+            </button>
+          </li>
+          <li className="mr-2">
+            <button
+              onClick={() => {
+                setView("borrowedGizmos");
+              }}
+              className={`inline-block p-4 rounded-t-lg  border-b-2 ${
+                view === "borrowedGizmos"
+                  ? "text-blue-600  border-blue-600 dark:text-blue-500 dark:border-blue-500"
+                  : "border-transparent hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300"
+              } `}
+            >
+              Borrowed Gizmos
+            </button>
+          </li>
+          <li className="mr-2">
+            <button
+              onClick={() => {
+                setView("savedGizmos");
+              }}
+              className={`inline-block p-4 rounded-t-lg  border-b-2 ${
+                view === "savedGizmos"
+                  ? "text-blue-600  border-blue-600 dark:text-blue-500 dark:border-blue-500"
+                  : "border-transparent hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300"
+              } `}
+            >
+              Saved Gizmos
+            </button>
+          </li>
+        </ul>
+      </div>
+      <div className="flex gap-y-5 justify-center flex-wrap p-2 gap-x-6 mx-auto max-w-xl md:  md:max-w-screen-xl  ">
         {gizmos.map((gizmo) => (
           <GizmoCard
             key={`gizmo--${gizmo.id}`}
             img={gizmo.img}
             name={gizmo.nickName}
             model={gizmo.model}
-            location={gizmo.user?.zipcode}
+            location={
+              gizmo.gizmoRentals?.length
+                ? `${gizmo.gizmoRentals[0].user.firstName}'s`
+                : "Home"
+            }
             userImg={gizmo.user?.profileImg}
           />
         ))}

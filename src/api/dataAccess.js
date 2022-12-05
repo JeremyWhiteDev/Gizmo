@@ -46,16 +46,127 @@ export const getPaginatedUserGizmos = async (pageNumber, sortby, limit) => {
   const uid = projectUserObject.uid;
   const currentUserObj = await getSingleUserInfo(uid);
   const gizmoResponse = await fetch(
-    `${dbUrl}/gizmos?userId=${currentUserObj.id}&_expand=gizmoCategory&_page=${[
+    `${dbUrl}/gizmos?userId=${
+      currentUserObj.id
+    }&_expand=gizmoCategory&_embed=gizmoRentals&_page=${[
       pageNumber,
     ]}&_limit=${limit}&_sort=${sortby}&_order=asc`
   );
   const gizmoData = await gizmoResponse.json();
 
+  const gizmoArr = await Promise.all(
+    gizmoData.map(async (gizmo) => {
+      const gizmoObj = { ...gizmo };
+      gizmoObj.gizmoRentals = gizmoObj.gizmoRentals.filter(
+        (rental) => rental.isComplete === false
+      );
+      if (gizmoObj.gizmoRentals.length > 0) {
+        const gizmoCurrentRental = gizmoObj.gizmoRentals[0];
+        const userResponse = await fetch(
+          `${dbUrl}/users/${gizmoCurrentRental.userId}`
+        );
+        gizmoCurrentRental.user = await userResponse.json();
+      }
+      return gizmoObj;
+    })
+  );
+
   const gizmoLength = JSON.parse(gizmoResponse.headers.get("X-Total-Count"));
 
-  return { data: gizmoData, totalCount: gizmoLength };
+  return { data: gizmoArr, totalCount: gizmoLength };
 };
+export const getPaginatedBorrowedGizmos = async (pageNumber, sortby, limit) => {
+  const localUser = localStorage.getItem("capstone_user");
+  const projectUserObject = JSON.parse(localUser);
+  //uid aka firebase uid
+  const uid = projectUserObject.uid;
+  const currentUserObj = await getSingleUserInfo(uid);
+  const gizmoResponse = await fetch(
+    `${dbUrl}/gizmoRentals?userId=${
+      currentUserObj.id
+    }&isComplete=false&_expand=gizmo&_page=${[
+      pageNumber,
+    ]}&_limit=${limit}&_sort=${sortby}&_order=asc`
+  );
+  const gizmoData = await gizmoResponse.json();
+
+  const gizmoCatagories = await getAllGizmoCategories();
+
+  const gizmoArr = await Promise.all(
+    gizmoData.map(async (rental) => {
+      const copyRental = { ...rental };
+      const newGizmo = copyRental.gizmo;
+
+      newGizmo.gizmoCategory = gizmoCatagories.find(
+        (cat) => cat.id === newGizmo.gizmoCategoryId
+      );
+
+      return newGizmo;
+    })
+  );
+  const gizmoLength = JSON.parse(gizmoResponse.headers.get("X-Total-Count"));
+
+  return { data: gizmoArr, totalCount: gizmoLength };
+};
+
+export const getPaginatedSavedGizmos = async (pageNumber, sortby, limit) => {
+  const localUser = localStorage.getItem("capstone_user");
+  const projectUserObject = JSON.parse(localUser);
+  //uid aka firebase uid
+  const uid = projectUserObject.uid;
+  const currentUserObj = await getSingleUserInfo(uid);
+  const gizmoResponse = await fetch(
+    `${dbUrl}/gizmoFavorites?userId=${currentUserObj.id}&_expand=gizmo&_page=${[
+      pageNumber,
+    ]}&_limit=${limit}&_sort=${sortby}&_order=asc`
+  );
+  const gizmoData = await gizmoResponse.json();
+
+  const gizmoCatagories = await getAllGizmoCategories();
+
+  const gizmoArr = gizmoData.map((rental) => {
+    const copyRental = { ...rental };
+    const newGizmo = copyRental.gizmo;
+
+    rental.gizmoCategory = gizmoCatagories.find(
+      (cat) => cat.id === newGizmo.gizmoCategoryId
+    );
+    return newGizmo;
+  });
+
+  const gizmoLength = JSON.parse(gizmoResponse.headers.get("X-Total-Count"));
+
+  return { data: gizmoArr, totalCount: gizmoLength };
+};
+// export const getPaginatedUserInventory = async (pageNumber, sortby, limit) => {
+//   const localUser = localStorage.getItem("capstone_user");
+//   const projectUserObject = JSON.parse(localUser);
+//   //uid aka firebase uid
+//   const uid = projectUserObject.uid;
+//   const currentUserObj = await getSingleUserInfo(uid);
+//   const gizmoResponse = await fetch(
+//     `${dbUrl}/gizmos?userId=${
+//       currentUserObj.id
+//     }&_expand=gizmoCategory&_page=${[
+//       pageNumber,
+//     ]}&_limit=${limit}&_sort=${sortby}&_order=asc`
+//   );
+//   const gizmoData = await gizmoResponse.json();
+
+//   const gizmoCatagories = await getAllGizmoCategories();
+
+//   const gizmoArr = gizmoData.map((rental) => {
+//     const rentalObj = { ...rental };
+//     rental.gizmoCategory = gizmoCatagories.find(
+//       (cat) => cat.id === rentalObj.gizmo.gizmoCategoryId
+//     );
+//     return rentalObj;
+//   });
+
+//   const gizmoLength = JSON.parse(gizmoResponse.headers.get("X-Total-Count"));
+
+//   return { data: gizmoArr, totalCount: gizmoLength };
+// };
 
 export const createNewGizmo = async (newGizmoObj) => {
   //get local uid
