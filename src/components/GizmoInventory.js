@@ -25,7 +25,7 @@ export const GizmoInventory = () => {
   //Option 3: use an accordian
   //Option 4: click on a filter or selection and only see the returned values. the page is blank to begin with and you have to populate it with the data you want.
   //Option 5: infitine scroll.
-  const fetchUserGizmos = async (page) => {
+  const fetchUserGizmos = async (page, onMount) => {
     const { data, totalCount } = await getPaginatedUserGizmos(page, "id", 20);
     const totalPages = Math.ceil(totalCount / 20);
     let gizmoRangeEnd;
@@ -35,15 +35,17 @@ export const GizmoInventory = () => {
       gizmoRangeEnd = 20;
     }
     setGizmos(data);
-    setPageData({
-      currentPageNumber: 1,
-      totalGizmos: totalCount,
-      gizmoRangeStart: 1,
-      gizmoRangeEnd: gizmoRangeEnd,
-    });
+    if (onMount) {
+      setPageData({
+        currentPageNumber: 1,
+        totalGizmos: totalCount,
+        gizmoRangeStart: 1,
+        gizmoRangeEnd: gizmoRangeEnd,
+      });
+    }
   };
 
-  const fetchBorrowedGizmos = async (page) => {
+  const fetchBorrowedGizmos = async (page, onMount) => {
     const { data, totalCount } = await getPaginatedBorrowedGizmos(
       page,
       "id",
@@ -57,15 +59,17 @@ export const GizmoInventory = () => {
       gizmoRangeEnd = 20;
     }
     setGizmos(data);
-    setPageData({
-      currentPageNumber: 1,
-      totalGizmos: totalCount,
-      gizmoRangeStart: 1,
-      gizmoRangeEnd: gizmoRangeEnd,
-    });
+    if (onMount) {
+      setPageData({
+        currentPageNumber: 1,
+        totalGizmos: totalCount,
+        gizmoRangeStart: 1,
+        gizmoRangeEnd: gizmoRangeEnd,
+      });
+    }
   };
 
-  const fetchSavedGizmos = async (page) => {
+  const fetchSavedGizmos = async (page, onMount) => {
     const { data, totalCount } = await getPaginatedSavedGizmos(page, "id", 20);
     const totalPages = Math.ceil(totalCount / 20);
     let gizmoRangeEnd;
@@ -75,27 +79,29 @@ export const GizmoInventory = () => {
       gizmoRangeEnd = 20;
     }
     setGizmos(data);
-    setPageData({
-      currentPageNumber: 1,
-      totalGizmos: totalCount,
-      gizmoRangeStart: 1,
-      gizmoRangeEnd: gizmoRangeEnd,
-    });
+    if (onMount) {
+      setPageData({
+        currentPageNumber: 1,
+        totalGizmos: totalCount,
+        gizmoRangeStart: 1,
+        gizmoRangeEnd: gizmoRangeEnd,
+      });
+    }
   };
   useEffect(() => {
-    fetchUserGizmos(1);
+    fetchUserGizmos(1, true);
   }, []);
 
   useEffect(() => {
     switch (view) {
       case "myGizmos":
-        fetchUserGizmos();
+        fetchUserGizmos(1, true);
         break;
       case "borrowedGizmos":
-        fetchBorrowedGizmos();
+        fetchBorrowedGizmos(1, true);
         break;
       case "savedGizmos":
-        fetchSavedGizmos();
+        fetchSavedGizmos(1, true);
         break;
     }
   }, [view]);
@@ -118,16 +124,18 @@ export const GizmoInventory = () => {
 
     //fetch data based on new current page values
 
-    const fetchData = async () => {
-      const { data, totalCount } = await getPaginatedUserGizmos(
-        pageDataCopy.currentPageNumber,
-        "id",
-        20
-      );
-      setGizmos(data);
-      setPageData(pageDataCopy);
-    };
-    fetchData();
+    switch (view) {
+      case "myGizmos":
+        fetchUserGizmos(pageDataCopy.currentPageNumber);
+        break;
+      case "borrowedGizmos":
+        fetchBorrowedGizmos(pageDataCopy.currentPageNumber);
+        break;
+      case "savedGizmos":
+        fetchSavedGizmos(pageDataCopy.currentPageNumber);
+        break;
+    }
+    setPageData(pageDataCopy);
   };
 
   const decrementPage = (e) => {
@@ -149,17 +157,18 @@ export const GizmoInventory = () => {
       pageDataCopy.gizmoRangeEnd = pageDataCopy.currentPageNumber - 1 * 20;
     }
     //fetch data based on new current page values
-
-    const fetchData = async () => {
-      const { data, totalCount } = await getPaginatedUserGizmos(
-        pageDataCopy.currentPageNumber,
-        "id",
-        20
-      );
-      setGizmos(data);
-      setPageData(pageDataCopy);
-    };
-    fetchData();
+    switch (view) {
+      case "myGizmos":
+        fetchUserGizmos(pageDataCopy.currentPageNumber);
+        break;
+      case "borrowedGizmos":
+        fetchBorrowedGizmos(pageDataCopy.currentPageNumber);
+        break;
+      case "savedGizmos":
+        fetchSavedGizmos(pageDataCopy.currentPageNumber);
+        break;
+    }
+    setPageData(pageDataCopy);
   };
 
   return (
@@ -175,7 +184,11 @@ export const GizmoInventory = () => {
               onClick={() => {
                 setView("myGizmos");
               }}
-              className="inline-block p-4 text-blue-600 rounded-t-lg border-b-2 border-blue-600 active dark:text-blue-500 dark:border-blue-500"
+              className={`inline-block p-4 rounded-t-lg  border-b-2 ${
+                view === "myGizmos"
+                  ? "text-blue-600  border-blue-600 dark:text-blue-500 dark:border-blue-500"
+                  : "border-transparent hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300"
+              } `}
               aria-current="page"
             >
               My Gizmos
@@ -186,7 +199,11 @@ export const GizmoInventory = () => {
               onClick={() => {
                 setView("borrowedGizmos");
               }}
-              className="inline-block p-4 rounded-t-lg border-b-2 border-transparent hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300"
+              className={`inline-block p-4 rounded-t-lg  border-b-2 ${
+                view === "borrowedGizmos"
+                  ? "text-blue-600  border-blue-600 dark:text-blue-500 dark:border-blue-500"
+                  : "border-transparent hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300"
+              } `}
             >
               Borrowed Gizmos
             </button>
@@ -196,7 +213,11 @@ export const GizmoInventory = () => {
               onClick={() => {
                 setView("savedGizmos");
               }}
-              className="inline-block p-4 rounded-t-lg border-b-2 border-transparent hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300"
+              className={`inline-block p-4 rounded-t-lg  border-b-2 ${
+                view === "savedGizmos"
+                  ? "text-blue-600  border-blue-600 dark:text-blue-500 dark:border-blue-500"
+                  : "border-transparent hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300"
+              } `}
             >
               Saved Gizmos
             </button>
