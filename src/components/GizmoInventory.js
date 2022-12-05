@@ -173,8 +173,8 @@ export const GizmoInventory = () => {
 
   return (
     <>
-      <h1 className="dark:text-white mx-auto max-w-xl md:max-w-screen-xl">
-        Browse Gizmos
+      <h1 className="pl-4 dark:text-white mx-auto max-w-xl md:max-w-screen-xl">
+        Gizmo Garage
       </h1>
 
       <div className="text-sm font-medium text-center mb-6 text-gray-500 border-b border-gray-200 dark:text-gray-400 dark:border-gray-700 mx-auto max-w-xl md:max-w-screen-xl">

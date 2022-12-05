@@ -28,7 +28,7 @@ export const GizmoCard = ({
         )}
         <div
           onClick={() => navigate(`/gizmo-details/${id}`)}
-          className="cursor-pointer"
+          className="cursor-pointer group"
         >
           <p className="text-xl pl-4 md:my-5 md:text-3xl dark:text-white text-gray-600 underline-offset-4 group-hover:underline">
             {name}
