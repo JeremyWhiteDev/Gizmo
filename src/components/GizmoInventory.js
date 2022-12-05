@@ -229,6 +229,7 @@ export const GizmoInventory = () => {
           <GizmoCard
             key={`gizmo--${gizmo.id}`}
             img={gizmo.img}
+            id={gizmo.id}
             name={gizmo.nickName}
             model={gizmo.model}
             location={

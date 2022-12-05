@@ -108,6 +108,7 @@ export const GizmoList = () => {
           <GizmoCard
             key={`gizmo--${gizmo.id}`}
             variant="publicCard"
+            id={gizmo.id}
             img={gizmo.img}
             name={gizmo.nickName}
             model={gizmo.model}

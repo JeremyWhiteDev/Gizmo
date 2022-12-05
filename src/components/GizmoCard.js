@@ -1,25 +1,42 @@
-export const GizmoCard = ({ img, name, model, location, userImg, variant }) => {
+import { useNavigate } from "react-router-dom";
+
+export const GizmoCard = ({
+  img,
+  name,
+  model,
+  location,
+  userImg,
+  id,
+  variant,
+}) => {
+  const navigate = useNavigate();
   return (
     <>
       <div className=" w-44 group md:w-72 transition duration-300 border-gray-300 md:hover:scale-105 border-1 shadow-s shadow-gray-400 dark:bg-gray-800 dark:border-gray-700 bg-white text-left rounded-lg">
         {variant === "publicCard" ? (
           <img
-            className="md:h-96 w-full transition duration-300 md:opacity-50  group-hover:opacity-100 h-52 object-cover rounded-t-lg"
+            onClick={() => navigate(`/gizmo-details/${id}`)}
+            className="md:h-96 w-full transition duration-300 md:opacity-50 cursor:pointer group-hover:opacity-100  h-52 object-cover rounded-t-lg"
             src={img}
           />
         ) : (
           <img
-            className="md:h-60 w-full transition duration-300 md:opacity-50  group-hover:opacity-100 h-52 object-cover rounded-t-lg"
+            onClick={() => navigate(`/gizmo-details/${id}`)}
+            className="md:h-60 w-full transition duration-300 md:opacity-50 cursor:pointer group-hover:opacity-100 h-52 object-cover rounded-t-lg"
             src={img}
           />
         )}
-
-        <p className="text-xl pl-4 md:my-5 md:text-3xl dark:text-white text-gray-600">
-          {name}
-        </p>
-        <p className="text-s pl-4 md:text-xl mb-4 dark:text-gray-400 text-gray-600">
-          Model: {model}
-        </p>
+        <div
+          onClick={() => navigate(`/gizmo-details/${id}`)}
+          className="cursor-pointer"
+        >
+          <p className="text-xl pl-4 md:my-5 md:text-3xl dark:text-white text-gray-600 underline-offset-4 group-hover:underline">
+            {name}
+          </p>
+          <p className="text-s pl-4 md:text-xl mb-4 dark:text-gray-400 text-gray-600 underline-offset-4 group-hover:underline ">
+            Model: {model}
+          </p>
+        </div>
         {variant === "publicCard" ? (
           <div className="flex justify-between">
             <div className="flex items-center mb-3 ml-2">
