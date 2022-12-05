@@ -14,6 +14,7 @@ import { NavBar } from "./NavBar";
 import { Footer } from "./Footer";
 import { checkForUserInfo } from "../api/dataAccess";
 import { useEffect } from "react";
+import { HomePage } from "./HomePage";
 
 export const Gizmo = () => {
   return (
@@ -31,7 +32,7 @@ export const Gizmo = () => {
             </>
           }
         >
-          <Route exact path="/" element={<h1>Homepage</h1>} />
+          <Route exact path="/" element={<HomePage />} />
           <Route path="*" element={<ApplicationViews />} />
         </Route>
       </Routes>
