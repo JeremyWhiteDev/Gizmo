@@ -102,12 +102,15 @@ export const GizmoList = () => {
 
   return (
     <>
-      <h1 className="dark:text-white">Browse Gizmos</h1>
-      <div className="flex gap-y-5 flex-wrap p-2 gap-x-6 mx-auto max-w-xl md: pl-6 md:max-w-screen-xl  ">
+      <h1 className="pl-4 dark:text-white mx-auto max-w-xl md:max-w-screen-xl mb-6">
+        Browse Public Gizmos
+      </h1>
+      <div className="flex  justify-center gap-y-5 flex-wrap p-2 gap-x-6 mx-auto max-w-xl md: md:max-w-screen-xl  ">
         {gizmos.map((gizmo) => (
           <GizmoCard
             key={`gizmo--${gizmo.id}`}
             variant="publicCard"
+            id={gizmo.id}
             img={gizmo.img}
             name={gizmo.nickName}
             model={gizmo.model}

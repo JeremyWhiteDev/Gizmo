@@ -6,6 +6,7 @@ import {
 import { useEffect, useState } from "react";
 import { getPaginatedGizmosAndLocations } from "../api/dataAccess";
 import { GizmoCard } from "./GizmoCard";
+import { useNavigate } from "react-router-dom";
 
 export const GizmoInventory = () => {
   const [gizmos, setGizmos] = useState([]);
@@ -19,6 +20,7 @@ export const GizmoInventory = () => {
     gizmoRangeEnd: 0,
   });
 
+  const navigate = useNavigate();
   //do I want to paginate data? Yesm probably. Otherwise the fetch call will return too much info.
   //Option 1: paginate data
   //option 2: Only have filtered data
@@ -173,9 +175,20 @@ export const GizmoInventory = () => {
 
   return (
     <>
-      <h1 className="dark:text-white mx-auto max-w-xl md:max-w-screen-xl">
-        Browse Gizmos
-      </h1>
+      <div className="flex flex-col md:flex-row md:justify-between items-center">
+        <h1 className="ml-4 dark:text-white max-w-xl md:max-w-screen-xl mb-6">
+          Gizmo Garage
+        </h1>
+        <button
+          onClick={(click) => {
+            click.preventDefault();
+            navigate("/add-gizmo");
+          }}
+          className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 mr-4 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+        >
+          Add A Gizmo
+        </button>
+      </div>
 
       <div className="text-sm font-medium text-center mb-6 text-gray-500 border-b border-gray-200 dark:text-gray-400 dark:border-gray-700 mx-auto max-w-xl md:max-w-screen-xl">
         <ul className="flex flex-wrap -mb-px">
@@ -229,6 +242,7 @@ export const GizmoInventory = () => {
           <GizmoCard
             key={`gizmo--${gizmo.id}`}
             img={gizmo.img}
+            id={gizmo.id}
             name={gizmo.nickName}
             model={gizmo.model}
             location={
