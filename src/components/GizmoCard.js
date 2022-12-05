@@ -16,13 +16,13 @@ export const GizmoCard = ({
         {variant === "publicCard" ? (
           <img
             onClick={() => navigate(`/gizmo-details/${id}`)}
-            className="md:h-96 w-full transition duration-300 md:opacity-50 cursor:pointer group-hover:opacity-100  h-52 object-cover rounded-t-lg"
+            className="md:h-96 w-full transition duration-300 md:opacity-60 cursor:pointer group-hover:opacity-100  h-52 object-cover rounded-t-lg"
             src={img}
           />
         ) : (
           <img
             onClick={() => navigate(`/gizmo-details/${id}`)}
-            className="md:h-60 w-full transition duration-300 md:opacity-50 cursor:pointer group-hover:opacity-100 h-52 object-cover rounded-t-lg"
+            className="md:h-60 w-full transition duration-300 md:opacity-60 cursor:pointer group-hover:opacity-100 h-52 object-cover rounded-t-lg"
             src={img}
           />
         )}
