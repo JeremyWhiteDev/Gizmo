@@ -332,6 +332,21 @@ export const getCurrentUserFromDb = async () => {
   return currentUserJson[0];
 };
 
+export const getRequestsForSingleUsersGizmos = async () => {
+  const currentUserObj = await getCurrentUserFromDb();
+
+  const allRequestsResponse = await fetch(
+    `${dbUrl}/gizmoRequests?_expand=gizmo&_expand=user`
+  );
+  const allRequestArr = await allRequestsResponse.json();
+
+  const filteredRequests = allRequestArr.filter(
+    (request) => request.gizmo.userId === currentUserObj.id
+  );
+
+  return filteredRequests;
+};
+
 export const createGizmoRental = async (rentalObj) => {
   const gizmoResponse = await fetch(`${dbUrl}/gizmoRentals/`, {
     method: "POST",

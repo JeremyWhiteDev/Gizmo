@@ -1,15 +1,23 @@
 import { useEffect, useState } from "react";
-import { getPendingUserGizmoRequests } from "../api/dataAccess";
+import {
+  getPendingUserGizmoRequests,
+  getRequestsForSingleUsersGizmos,
+} from "../api/dataAccess";
 import { RequestCard } from "./RequestCard";
 
 export const RequestList = () => {
   const [userRequests, setUserRequests] = useState([]);
+
+  const [requestedGizmos, setRequestGizmos] = useState([]);
   const [modalIsActive, setModalIsActive] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
-      const data = await getPendingUserGizmoRequests();
-      setUserRequests(data);
+      const pending = await getPendingUserGizmoRequests();
+      setUserRequests(pending);
+
+      const requested = await getRequestsForSingleUsersGizmos();
+      setRequestGizmos(requested);
     };
     fetchData();
   }, []);
@@ -47,7 +55,7 @@ export const RequestList = () => {
             Reqests for Your Gizmos
           </h2>
           <div className="flex flex-col items-center justify-evenly gap-7 ">
-            {userRequests.map((request) => (
+            {requestedGizmos.map((request) => (
               <RequestCard
                 key={`incomingRequest--${request.id}`}
                 requestObj={request}

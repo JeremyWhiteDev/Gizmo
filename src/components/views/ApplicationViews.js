@@ -82,7 +82,7 @@ export const ApplicationViews = () => {
     //unauthorized users
     return (
       <Routes>
-        <Route path="/gizmos" element={<h1>Gizmo Page</h1>} />
+        <Route path="/gizmos" element={<GizmoList />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route

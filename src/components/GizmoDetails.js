@@ -101,7 +101,12 @@ export const GizmoDetails = () => {
                   Gizmo Location: {gizmo.user?.zipcode}
                 </li>
               </ul>
-              <button className="mt-6 bg-purple-800 py-3 rounded-lg text-white dark:text-white hover:bg-purple-900">
+              <button
+                onClick={() => {
+                  navigate(`/gizmo/request/${gizmo.id}`);
+                }}
+                className="mt-6 bg-purple-800 py-3 rounded-lg text-white dark:text-white hover:bg-purple-900"
+              >
                 Request this Tool
               </button>
             </>

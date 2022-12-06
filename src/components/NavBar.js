@@ -41,7 +41,7 @@ export const NavBar = () => {
               <>
                 <button
                   type="button"
-                  className="bg-white rounded-lg hover:bg-amber-700 mr-3"
+                  className="bg-white rounded-lg hover:bg-gray-200 mr-3"
                   onClick={() => navigate("/login")}
                 >
                   <div className="text-transparent bg-clip-text focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium text-md px-5 py-2.5 text-center  md:mr-0 bg-gradient-to-r bg-white from-purple-800 via-yellow-600 to-pink-600">
@@ -117,7 +117,7 @@ export const NavBar = () => {
                   </NavLink>
                 </li>
 
-                {checkAuth() ? (
+                {currentUser?.id !== undefined ? (
                   <>
                     <li>
                       <NavLink
@@ -176,7 +176,7 @@ export const NavBar = () => {
               <div className="md:hidden">User Profile Section</div>
             </div>
           </div>
-          {checkAuth() ? (
+          {currentUser?.id !== undefined ? (
             <div className=" hidden md:block md:order-3">
               <button
                 onClick={() => {
@@ -211,7 +211,7 @@ export const NavBar = () => {
                 id="dropdownAvatarName"
                 className={`${
                   userDropdown ? "" : "hidden"
-                } z-10 w-44 bg-white rounded absolute right-0 divide-y divide-gray-100 shadow dark:bg-gray-700 dark:divide-gray-600`}
+                } z-10 w-44 bg-white rounded absolute  divide-y divide-gray-100 shadow dark:bg-gray-700 dark:divide-gray-600`}
               >
                 <div className="py-3 px-4 text-sm text-gray-900 dark:text-white">
                   <div className="font-medium ">
