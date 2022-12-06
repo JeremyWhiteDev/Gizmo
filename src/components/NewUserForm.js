@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { createNewUser } from "../api/dataAccess";
 import { photoStorage } from "./helpers/photoStorage";
 
@@ -16,6 +17,8 @@ export const NewUserForm = () => {
 
   const [image, setImage] = useState(null);
   const [imageUrl, setImageUrl] = useState(null);
+
+  const navigate = useNavigate();
 
   // Handles selecting an image
   const handleChange = (event) => {
@@ -38,6 +41,7 @@ export const NewUserForm = () => {
         formCopy.profileImg = photoObject.downloadURL;
         const respone = createNewUser(formCopy);
       });
+      navigate("/");
     }
   };
 

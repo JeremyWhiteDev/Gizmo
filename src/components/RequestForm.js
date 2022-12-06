@@ -42,7 +42,7 @@ export const RequestForm = ({
       const currentUserDb = await getSingleUserInfo(currentUser.uid);
 
       //redirects if user somehow gets to this address and is not the corresponding gizmo user
-      if (currentUserDb.id !== currentGizmo.userId) {
+      if (currentUserDb.id === currentGizmo.userId) {
         navigate("/garage");
       }
 
@@ -72,7 +72,7 @@ export const RequestForm = ({
     formCopy.requestStatus = "pending";
 
     const respone = await createGizmoRequest(formCopy);
-    navigate("/garage");
+    navigate("/requests");
   };
 
   const handleUpdate = async (e) => {

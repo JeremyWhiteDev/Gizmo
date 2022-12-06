@@ -15,7 +15,7 @@ export const Register = () => {
   // Register with email and password
   const handleRegister = async (e) => {
     e.preventDefault();
-    emailAuth.register(user, navigate);
+    emailAuth.register(user, navigate("/profile-create"));
   };
 
   const updateUser = (evt) => {
@@ -26,11 +26,11 @@ export const Register = () => {
 
   // Register with google (same as sign in)
   const onSubmitLogin = async () => {
-    googleAuth.signInRegister(navigate);
+    googleAuth.signInRegister(user, navigate("/profile-create"));
   };
 
   return (
-    <main style={{ textAlign: "center" }}>
+    <main className="container--login" style={{ textAlign: "center" }}>
       <form className="form--login" onSubmit={handleRegister}>
         <h1 className="h3 mb-3 font-weight-normal">Please Register</h1>
         <fieldset>

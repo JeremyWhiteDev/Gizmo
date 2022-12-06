@@ -45,6 +45,9 @@ fieldset {
 
 .container--login {
   text-align: center;
+  width: 80%;
+  margin: auto;
+  background-color: hsla(0, 0%, 100%, 0.4);
 }
 
 .form--login {
@@ -52,7 +55,6 @@ fieldset {
   z-index: 1;
   min-height: 25rem;
   min-width: 45rem;
-  background-color: hsla(0, 0%, 100%, 0.4);
   background-blend-mode: overlay;
   background-repeat: no-repeat;
 }

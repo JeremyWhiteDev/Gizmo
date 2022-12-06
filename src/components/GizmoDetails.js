@@ -59,7 +59,7 @@ export const GizmoDetails = () => {
             <>
               <ul>
                 <li className="mb-3 font-normal text-gray-700 dark:text-gray-400">
-                  Gizmo Category: {gizmo.gizmoCategory?.categoryName}
+                  Gizmo Category: {gizmo.gizmoCategory?.name}
                 </li>
                 <li className="mb-3 font-normal text-gray-700 dark:text-gray-400">
                   Gizmo Model Number: {gizmo.model}
@@ -101,7 +101,12 @@ export const GizmoDetails = () => {
                   Gizmo Location: {gizmo.user?.zipcode}
                 </li>
               </ul>
-              <button className="mt-6 bg-purple-800 py-3 rounded-lg text-white dark:text-white hover:bg-purple-900">
+              <button
+                onClick={() => {
+                  navigate(`/gizmo/request/${gizmo.id}`);
+                }}
+                className="mt-6 bg-purple-800 py-3 rounded-lg text-white dark:text-white hover:bg-purple-900"
+              >
                 Request this Tool
               </button>
             </>

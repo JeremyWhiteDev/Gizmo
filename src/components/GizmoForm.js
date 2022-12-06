@@ -100,8 +100,8 @@ export const GizmoForm = ({ variant }) => {
         const editResponse = await updateGizmo(gizmoId, formCopy);
         navigate(`/gizmo-details/${gizmoId}`);
       } else {
-        const respone = await createNewGizmo(formCopy);
-        navigate("/garage");
+        const response = await createNewGizmo(formCopy);
+        navigate(`/gizmo-details/${response.id}`);
       }
     } else {
       form.reportValidity();
@@ -126,7 +126,14 @@ export const GizmoForm = ({ variant }) => {
         (category) => category.id === gizmoForm.gizmoCategoryId
       );
       return foundCategory?.name;
-    } else {
+    }
+    // if (gizmoForm.gizmoCategoryId !== 0) {
+    //   const foundCategory = categories.find(
+    //     (cat) => cat.id === gizmoForm.gizmoCategoryId
+    //   );
+    //   return foundCategory?.name;
+    // }
+    else {
       return "Choose The Category";
     }
   };
@@ -231,14 +238,14 @@ export const GizmoForm = ({ variant }) => {
             value={gizmoForm.gizmoCategoryId}
             onChange={(e) => {
               const formCopy = { ...gizmoForm };
-              formCopy.gizmoCategoryId = e.target.value;
+              formCopy.gizmoCategoryId = parseInt(e.target.value);
               updateForm(formCopy);
             }}
             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
             placeholder="1 = Power Tools"
             required
           >
-            <option id="categoryId--default" value={gizmoForm.gizmoCategoryId}>
+            <option id="categoryId--default">
               {displayCurrentGizmoCategory()}
             </option>
             {filteredCategories.map((category) => {
@@ -367,7 +374,7 @@ export const GizmoForm = ({ variant }) => {
               className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
               htmlFor="file_input"
             >
-              Upload Profile Picture
+              Upload Gizmo Picture
             </label>
             <input
               className="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer  bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
