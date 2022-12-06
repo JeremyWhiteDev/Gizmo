@@ -127,12 +127,13 @@ export const GizmoForm = ({ variant }) => {
       );
       return foundCategory?.name;
     }
-    if (gizmoForm.gizmoCategoryId !== 0) {
-      const foundCategory = categories.find(
-        (cat) => cat.id === gizmoForm.gizmoCategoryId
-      );
-      return foundCategory?.name;
-    } else {
+    // if (gizmoForm.gizmoCategoryId !== 0) {
+    //   const foundCategory = categories.find(
+    //     (cat) => cat.id === gizmoForm.gizmoCategoryId
+    //   );
+    //   return foundCategory?.name;
+    // }
+    else {
       return "Choose The Category";
     }
   };
@@ -237,14 +238,14 @@ export const GizmoForm = ({ variant }) => {
             value={gizmoForm.gizmoCategoryId}
             onChange={(e) => {
               const formCopy = { ...gizmoForm };
-              formCopy.gizmoCategoryId = e.target.valueAsNumber;
+              formCopy.gizmoCategoryId = parseInt(e.target.value);
               updateForm(formCopy);
             }}
             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
             placeholder="1 = Power Tools"
             required
           >
-            <option id="categoryId--default" value={gizmoForm.gizmoCategoryId}>
+            <option id="categoryId--default">
               {displayCurrentGizmoCategory()}
             </option>
             {filteredCategories.map((category) => {
