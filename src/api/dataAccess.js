@@ -336,7 +336,7 @@ export const getRequestsForSingleUsersGizmos = async () => {
   const currentUserObj = await getCurrentUserFromDb();
 
   const allRequestsResponse = await fetch(
-    `${dbUrl}/gizmoRequests?_expand=gizmo&_expand=user`
+    `${dbUrl}/gizmoRequests?requestStatus=pending&_expand=gizmo&_expand=user`
   );
   const allRequestArr = await allRequestsResponse.json();
 

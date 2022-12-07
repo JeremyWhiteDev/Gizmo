@@ -211,7 +211,7 @@ export const NavBar = () => {
                 id="dropdownAvatarName"
                 className={`${
                   userDropdown ? "" : "hidden"
-                } z-10 w-44 bg-white rounded absolute  divide-y divide-gray-100 shadow dark:bg-gray-700 dark:divide-gray-600`}
+                } z-10 w-44 bg-white rounded absolute top-16  divide-y divide-gray-100 shadow dark:bg-gray-700 dark:divide-gray-600`}
               >
                 <div className="py-3 px-4 text-sm text-gray-900 dark:text-white">
                   <div className="font-medium ">
