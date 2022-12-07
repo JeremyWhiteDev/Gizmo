@@ -368,7 +368,10 @@ export const getUpcomingRentals = async () => {
     const today = Date.now();
     const todayDate = new Date(today);
     const startDate = new Date(rental.startDate);
-    if (rental.gizmo.userId === currentUserObj.id && startDate > todayDate) {
+    if (
+      (rental.gizmo.userId === currentUserObj.id && startDate > todayDate) ||
+      (rental.userId === currentUserObj.id && startDate > todayDate)
+    ) {
       return rental;
     }
   });
@@ -387,7 +390,10 @@ export const getOngoingRentals = async () => {
     const today = Date.now();
     const todayDate = new Date(today);
     const startDate = new Date(rental.startDate);
-    if (rental.gizmo.userId === currentUserObj.id && startDate < todayDate) {
+    if (
+      (rental.gizmo.userId === currentUserObj.id && startDate < todayDate) ||
+      (rental.userId === currentUserObj.id && startDate < todayDate)
+    ) {
       return rental;
     }
   });

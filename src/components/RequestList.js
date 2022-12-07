@@ -1,10 +1,12 @@
 import { useEffect, useState } from "react";
 import {
+  getCurrentUserFromDb,
   getOngoingRentals,
   getPendingUserGizmoRequests,
   getRequestsForSingleUsersGizmos,
   getUpcomingRentals,
 } from "../api/dataAccess";
+import { LoanCard } from "./LoanCard";
 import { RequestCard } from "./RequestCard";
 
 export const RequestList = () => {
@@ -15,6 +17,7 @@ export const RequestList = () => {
 
   const [upcomingLoans, setUpcomingLoans] = useState([]);
   const [ongoingLoans, setOngoingLoans] = useState([]);
+  const [localUser, setLocalUser] = useState({});
 
   useEffect(() => {
     const fetchData = async () => {
@@ -28,6 +31,9 @@ export const RequestList = () => {
       setUpcomingLoans(upcoming);
       const onGoing = await getOngoingRentals();
       setOngoingLoans(onGoing);
+
+      const userData = await getCurrentUserFromDb();
+      setLocalUser(userData);
     };
     fetchData();
   }, []);
@@ -52,7 +58,7 @@ export const RequestList = () => {
                 img={request.gizmo?.img}
                 requestGizmoId={request.gizmo?.id}
                 gizmo={request.gizmo?.nickName}
-                user={request.user?.firstName}
+                user={`${request.user?.firstName}'s`}
                 startDate={request.startDate}
                 endDate={request.endDate}
                 requestMsg={request.requestMsg}
@@ -74,7 +80,7 @@ export const RequestList = () => {
                 img={request.gizmo?.img}
                 requestGizmoId={request.gizmo?.id}
                 gizmo={request.gizmo?.nickName}
-                user={request.user?.firstName}
+                user={`Your`}
                 startDate={request.startDate}
                 endDate={request.endDate}
                 requestMsg={request.requestMsg}
@@ -87,19 +93,32 @@ export const RequestList = () => {
             Upcoming Gizmo Loans
           </h2>
           <div className="flex flex-col items-center justify-evenly gap-7 ">
-            {requestedGizmos.map((request) => (
-              <RequestCard
-                key={`incomingRequest--${request.id}`}
-                requestObj={request}
-                variant="incomingRequest"
-                requestId={request.id}
-                img={request.gizmo?.img}
-                requestGizmoId={request.gizmo?.id}
-                gizmo={request.gizmo?.nickName}
-                user={request.user?.firstName}
-                startDate={request.startDate}
-                endDate={request.endDate}
-                requestMsg={request.requestMsg}
+            {upcomingLoans.map((rental) => (
+              <LoanCard
+                key={`incomingrental--${rental.id}`}
+                rentalObj={rental}
+                variant="upcomingLoan"
+                rentalId={rental.id}
+                img={rental.gizmo?.img}
+                rentalGizmoId={rental.gizmo?.id}
+                gizmo={rental.gizmo?.nickName}
+                user={`${
+                  rental.userId === localUser.id
+                    ? "Your"
+                    : `${rental.user?.firstName}'s`
+                }`}
+                startDate={rental.startDate}
+                endDate={rental.endDate}
+                renter={`${
+                  rental.userId === localUser.id
+                    ? "You"
+                    : `${rental.user?.firstName}`
+                }`}
+                provider={`${
+                  rental.userId !== localUser.id
+                    ? "your"
+                    : `${rental.user?.firstName}'s`
+                }`}
               />
             ))}
           </div>
@@ -109,19 +128,34 @@ export const RequestList = () => {
             Ongoing Gizmo Loans
           </h2>
           <div className="flex flex-col items-center justify-evenly gap-7 ">
-            {requestedGizmos.map((request) => (
-              <RequestCard
-                key={`incomingRequest--${request.id}`}
-                requestObj={request}
-                variant="incomingRequest"
-                requestId={request.id}
-                img={request.gizmo?.img}
-                requestGizmoId={request.gizmo?.id}
-                gizmo={request.gizmo?.nickName}
-                user={request.user?.firstName}
-                startDate={request.startDate}
-                endDate={request.endDate}
-                requestMsg={request.requestMsg}
+            {ongoingLoans.map((rental) => (
+              <LoanCard
+                key={`incomingrental--${rental.id}`}
+                rentalObj={rental}
+                variant={`${
+                  rental.userId !== localUser.id ? "ongoing-provider" : ""
+                }`}
+                rentalId={rental.id}
+                img={rental.gizmo?.img}
+                rentalGizmoId={rental.gizmo?.id}
+                gizmo={rental.gizmo?.nickName}
+                user={`${
+                  rental.userId === localUser.id
+                    ? "Your"
+                    : `${rental.user?.firstName}'s`
+                }`}
+                startDate={rental.startDate}
+                endDate={rental.endDate}
+                renter={`${
+                  rental.userId === localUser.id
+                    ? "You"
+                    : `${rental.user?.firstName}`
+                }`}
+                provider={`${
+                  rental.userId !== localUser.id
+                    ? "your"
+                    : `${rental.user?.firstName}'s`
+                }`}
               />
             ))}
           </div>
