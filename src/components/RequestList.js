@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import {
   getPendingUserGizmoRequests,
   getRequestsForSingleUsersGizmos,
+  getUpcomingRentals,
 } from "../api/dataAccess";
 import { RequestCard } from "./RequestCard";
 
@@ -11,6 +12,9 @@ export const RequestList = () => {
   const [requestedGizmos, setRequestGizmos] = useState([]);
   const [modalIsActive, setModalIsActive] = useState(false);
 
+  const [upcomingLoans, setUpcomingLoans] = useState([]);
+  const [ongoingLoans, setOngoingLoans] = useState([]);
+
   useEffect(() => {
     const fetchData = async () => {
       const pending = await getPendingUserGizmoRequests();
@@ -18,6 +22,9 @@ export const RequestList = () => {
 
       const requested = await getRequestsForSingleUsersGizmos();
       setRequestGizmos(requested);
+
+      const upcoming = await getUpcomingRentals();
+      setUpcomingLoans(upcoming);
     };
     fetchData();
   }, []);
