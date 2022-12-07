@@ -375,3 +375,22 @@ export const getUpcomingRentals = async () => {
 
   return filteredRentals;
 };
+
+export const getOngoingRentals = async () => {
+  const currentUserObj = await getCurrentUserFromDb();
+
+  const gizmoResponse = await fetch(
+    `${dbUrl}/gizmoRentals?isComplete=false&_expand=gizmo&_expand=user`
+  );
+  const rentalData = await gizmoResponse.json();
+  const filteredRentals = rentalData.filter((rental) => {
+    const today = Date.now();
+    const todayDate = new Date(today);
+    const startDate = new Date(rental.startDate);
+    if (rental.gizmo.userId === currentUserObj.id && startDate < todayDate) {
+      return rental;
+    }
+  });
+
+  return filteredRentals;
+};

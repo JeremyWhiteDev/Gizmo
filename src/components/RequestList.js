@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import {
+  getOngoingRentals,
   getPendingUserGizmoRequests,
   getRequestsForSingleUsersGizmos,
   getUpcomingRentals,
@@ -25,6 +26,8 @@ export const RequestList = () => {
 
       const upcoming = await getUpcomingRentals();
       setUpcomingLoans(upcoming);
+      const onGoing = await getOngoingRentals();
+      setOngoingLoans(onGoing);
     };
     fetchData();
   }, []);
