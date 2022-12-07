@@ -30,52 +30,73 @@ export const Register = () => {
   };
 
   return (
-    <main className="container--login" style={{ textAlign: "center" }}>
-      <form className="form--login" onSubmit={handleRegister}>
-        <h1 className="h3 mb-3 font-weight-normal">Please Register</h1>
-        <fieldset>
-          <label htmlFor="fullName"> Full Name </label>
-          <input
-            onChange={updateUser}
-            type="text"
-            id="fullName"
-            className="form-control"
-            placeholder="Enter your name"
-            required
-            autoFocus
-          />
-        </fieldset>
-        <fieldset>
-          <label htmlFor="email"> Email address </label>
-          <input
-            onChange={updateUser}
-            type="email"
-            id="email"
-            className="form-control"
-            placeholder="Email address"
-            required
-          />
-        </fieldset>
-        <fieldset>
-          <label htmlFor="password"> Password </label>
-          <input
-            onChange={updateUser}
-            type="text"
-            id="password"
-            className="form-control"
-            placeholder="Must Be 6 Characters"
-            required
-            autoFocus
-          />
-        </fieldset>
-        <fieldset>
-          <button type="submit"> Register </button>
-        </fieldset>
-      </form>
-      <h2>Register With Google?</h2>
-      <button type="submit" onClick={onSubmitLogin}>
-        Let's Do It!
-      </button>
+    <main className="">
+      <section className="md:max-w-3xl mx-auto">
+        <h1 className="dark:text-white mb-4">Register</h1>
+        <form onSubmit={handleRegister}>
+          <div className="mb-6">
+            <label
+              htmlFor="fullName"
+              className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+            >
+              Full Name
+            </label>
+            <input
+              id="email"
+              onChange={(e) => updateUser(e)}
+              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+              placeholder="Your Full Name"
+              required
+            />
+          </div>
+          <div className="mb-6">
+            <label
+              htmlFor="email"
+              className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+            >
+              Email Address
+            </label>
+            <input
+              id="email"
+              onChange={(e) => updateUser(e)}
+              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+              placeholder="name@gizmmo.com"
+              required
+            />
+          </div>
+          <div className="mb-6">
+            <label
+              htmlFor="password"
+              className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+            >
+              Password
+            </label>
+            <input
+              type="password"
+              id="password"
+              onChange={(e) => updateUser(e)}
+              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+              required
+              placeholder="Must Be 6 Characters"
+            />
+          </div>
+          <button
+            type="submit"
+            className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+          >
+            Submit
+          </button>
+        </form>
+
+        <h2 className="mt-8 dark:text-white">Or</h2>
+        <button
+          type="submit"
+          onClick={onSubmitLogin}
+          className="mt-4 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+        >
+          Login with Gogle
+        </button>
+      </section>
     </main>
   );
 };
