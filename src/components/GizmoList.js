@@ -1,6 +1,9 @@
 import { data } from "autoprefixer";
 import { useEffect, useState } from "react";
-import { getPaginatedGizmosAndLocations } from "../api/dataAccess";
+import {
+  getCurrentUserFromDb,
+  getPaginatedGizmosAndLocations,
+} from "../api/dataAccess";
 import { GizmoCard } from "./GizmoCard";
 
 export const GizmoList = () => {
@@ -13,6 +16,8 @@ export const GizmoList = () => {
     gizmoRangeStart: 1,
     gizmoRangeEnd: 0,
   });
+
+  const [currentUser, setCurrentUser] = useState({});
 
   useEffect(() => {
     const fetchData = async () => {
@@ -35,6 +40,8 @@ export const GizmoList = () => {
         gizmoRangeStart: 1,
         gizmoRangeEnd: gizmoRangeEnd,
       });
+      const currentUser = await getCurrentUserFromDb();
+      setCurrentUser(currentUser);
     };
     fetchData();
   }, []);
@@ -100,24 +107,38 @@ export const GizmoList = () => {
     fetchData();
   };
 
+  const checkFavorite = (gizmoObj) => {
+    const userFavorite = gizmoObj.gizmoFavorites?.filter((fav) => {
+      return fav.userId === currentUser.id;
+    });
+    if (userFavorite?.length > 0) {
+      return true;
+    } else {
+      return false;
+    }
+  };
+
   return (
     <>
       <h1 className="pl-4 dark:text-white mx-auto max-w-xl md:max-w-screen-xl mb-6">
         Browse Public Gizmos
       </h1>
       <div className="flex  justify-center gap-y-5 flex-wrap p-2 gap-x-6 mx-auto max-w-xl md: md:max-w-screen-xl  ">
-        {gizmos.map((gizmo) => (
-          <GizmoCard
-            key={`gizmo--${gizmo.id}`}
-            variant="publicCard"
-            id={gizmo.id}
-            img={gizmo.img}
-            name={gizmo.nickName}
-            model={gizmo.model}
-            location={gizmo.user?.zipcode}
-            userImg={gizmo.user?.profileImg}
-          />
-        ))}
+        {gizmos.map((gizmo) => {
+          return (
+            <GizmoCard
+              key={`gizmo--${gizmo.id}`}
+              variant="publicCard"
+              id={gizmo.id}
+              img={gizmo.img}
+              name={gizmo.nickName}
+              model={gizmo.model}
+              location={gizmo.user?.zipcode}
+              userImg={gizmo.user?.profileImg}
+              isFavorite={checkFavorite(gizmo)}
+            />
+          );
+        })}
       </div>
 
       <div className="mt-8 flex flex-col items-center">

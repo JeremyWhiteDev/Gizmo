@@ -8,23 +8,30 @@ export const GizmoCard = ({
   userImg,
   id,
   variant,
+  isFavorite,
 }) => {
   const navigate = useNavigate();
   return (
     <>
       <div className=" w-44 group md:w-72 transition duration-300 border-gray-300 md:hover:scale-105 border-1 shadow-s shadow-gray-400 dark:bg-gray-800 dark:border-gray-700 bg-white text-left rounded-lg">
         {variant === "publicCard" ? (
-          <img
-            onClick={() => navigate(`/gizmo-details/${id}`)}
-            className="md:h-96 w-full transition duration-300 md:opacity-60 cursor:pointer group-hover:opacity-100  h-52 object-cover rounded-t-lg"
-            src={img}
-          />
+          <>
+            <img
+              onClick={() => navigate(`/gizmo-details/${id}`)}
+              className="md:h-96 w-full transition duration-300 md:opacity-60 cursor:pointer group-hover:opacity-100  h-52 object-cover rounded-t-lg"
+              src={img}
+            />
+            <div>This is {isFavorite.toString()}</div>
+          </>
         ) : (
-          <img
-            onClick={() => navigate(`/gizmo-details/${id}`)}
-            className="md:h-60 w-full transition duration-300 md:opacity-60 cursor:pointer group-hover:opacity-100 h-52 object-cover rounded-t-lg"
-            src={img}
-          />
+          <>
+            <img
+              onClick={() => navigate(`/gizmo-details/${id}`)}
+              className="md:h-60 w-full transition duration-300 md:opacity-60 cursor:pointer group-hover:opacity-100 h-52 object-cover rounded-t-lg"
+              src={img}
+            />
+            <div>{isFavorite}</div>
+          </>
         )}
         <div
           onClick={() => navigate(`/gizmo-details/${id}`)}

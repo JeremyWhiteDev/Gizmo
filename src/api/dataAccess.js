@@ -12,7 +12,7 @@ export const getPaginatedGizmosAndLocations = async (
   limit
 ) => {
   const gizmoResponse = await fetch(
-    `${dbUrl}/gizmos?isPublic=true&_expand=gizmoCategory&_expand=user&_page=${[
+    `${dbUrl}/gizmos?isPublic=true&_expand=gizmoCategory&_expand=user&_embed=gizmoFavorites&_page=${[
       pageNumber,
     ]}&_limit=${limit}&_sort=${sortby}&_order=asc`
   );
@@ -27,7 +27,7 @@ export const getPaginatedGizmosAndLocations = async (
 
 export const getSingleGizmo = async (gizmoId) => {
   const gizmoResponse = await fetch(
-    `${dbUrl}/gizmos/${gizmoId}?_expand=gizmoCategory&_expand=user`
+    `${dbUrl}/gizmos/${gizmoId}?_expand=gizmoCategory&_expand=user&_embed=gizmoFavorites`
   );
   const gizmoData = await gizmoResponse.json();
   return gizmoData;
@@ -48,7 +48,7 @@ export const getPaginatedUserGizmos = async (pageNumber, sortby, limit) => {
   const gizmoResponse = await fetch(
     `${dbUrl}/gizmos?userId=${
       currentUserObj.id
-    }&_expand=gizmoCategory&_embed=gizmoRentals&_page=${[
+    }&_expand=gizmoCategory&_embed=gizmoRentals&_embed=gizmoFavorites&_page=${[
       pageNumber,
     ]}&_limit=${limit}&_sort=${sortby}&_order=asc`
   );
@@ -84,7 +84,7 @@ export const getPaginatedBorrowedGizmos = async (pageNumber, sortby, limit) => {
   const gizmoResponse = await fetch(
     `${dbUrl}/gizmoRentals?userId=${
       currentUserObj.id
-    }&isComplete=false&_expand=gizmo&_page=${[
+    }&isComplete=false&_expand=gizmo&_embed=gizmoFavorites&_page=${[
       pageNumber,
     ]}&_limit=${limit}&_sort=${sortby}&_order=asc`
   );
