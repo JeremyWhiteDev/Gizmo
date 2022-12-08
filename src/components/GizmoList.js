@@ -107,12 +107,12 @@ export const GizmoList = () => {
     fetchData();
   };
 
-  const checkFavorite = (gizmoObj) => {
+  const checkFavoriteAndGetId = (gizmoObj) => {
     const userFavorite = gizmoObj.gizmoFavorites?.filter((fav) => {
       return fav.userId === currentUser.id;
     });
     if (userFavorite?.length > 0) {
-      return true;
+      return { isFavorite: true, favoriteId: userFavorite[0].id };
     } else {
       return false;
     }
@@ -124,21 +124,26 @@ export const GizmoList = () => {
         Browse Public Gizmos
       </h1>
       <div className="flex  justify-center gap-y-5 flex-wrap p-2 gap-x-6 mx-auto max-w-xl md: md:max-w-screen-xl  ">
-        {gizmos.map((gizmo) => {
-          return (
-            <GizmoCard
-              key={`gizmo--${gizmo.id}`}
-              variant="publicCard"
-              id={gizmo.id}
-              img={gizmo.img}
-              name={gizmo.nickName}
-              model={gizmo.model}
-              location={gizmo.user?.zipcode}
-              userImg={gizmo.user?.profileImg}
-              isFavorite={checkFavorite(gizmo)}
-            />
-          );
-        })}
+        {gizmos.length > 0 &&
+          currentUser.id &&
+          gizmos.map((gizmo) => {
+            const { isFavorite, favoriteId } = checkFavoriteAndGetId(gizmo);
+            return (
+              <GizmoCard
+                key={`gizmo--${gizmo.id}`}
+                variant="publicCard"
+                id={gizmo.id}
+                img={gizmo.img}
+                name={gizmo.nickName}
+                model={gizmo.model}
+                location={gizmo.user?.zipcode}
+                userImg={gizmo.user?.profileImg}
+                isFavorite={isFavorite}
+                favoriteId={favoriteId}
+                currentUserId={currentUser.id}
+              />
+            );
+          })}
       </div>
 
       <div className="mt-8 flex flex-col items-center">

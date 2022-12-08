@@ -400,3 +400,24 @@ export const getOngoingRentals = async () => {
 
   return filteredRentals;
 };
+
+export const createGizmoFavorite = async (gizmoFavorite) => {
+  const favoriteResponse = await fetch(`${dbUrl}/gizmoFavorites`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(gizmoFavorite),
+  });
+};
+
+export const deleteGizmoFavorite = async (gizmoFavoriteId) => {
+  const favoriteResponse = await fetch(
+    `${dbUrl}/gizmoFavorites/${gizmoFavoriteId}`,
+    {
+      method: "DELETE",
+    }
+  );
+
+  return favoriteResponse;
+};
