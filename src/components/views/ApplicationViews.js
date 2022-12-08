@@ -27,7 +27,6 @@ export const ApplicationViews = () => {
 
   const checkProfile = async () => {
     const result = await checkForUserInfo();
-    console.log(result);
     userProfile.current = result;
     setLoading(false);
   };

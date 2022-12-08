@@ -39,16 +39,14 @@ export const getGizmoQty = async () => {
   return gizmoLength;
 };
 
-export const getPaginatedUserGizmos = async (pageNumber, sortby, limit) => {
-  const localUser = localStorage.getItem("capstone_user");
-  const projectUserObject = JSON.parse(localUser);
-  //uid aka firebase uid
-  const uid = projectUserObject.uid;
-  const currentUserObj = await getSingleUserInfo(uid);
+export const getPaginatedUserGizmos = async (
+  pageNumber,
+  sortby,
+  limit,
+  currentUserId
+) => {
   const gizmoResponse = await fetch(
-    `${dbUrl}/gizmos?userId=${
-      currentUserObj.id
-    }&_expand=gizmoCategory&_embed=gizmoRentals&_embed=gizmoFavorites&_page=${[
+    `${dbUrl}/gizmos?userId=${currentUserId}&_expand=gizmoCategory&_embed=gizmoRentals&_embed=gizmoFavorites&_page=${[
       pageNumber,
     ]}&_limit=${limit}&_sort=${sortby}&_order=asc`
   );
@@ -75,16 +73,14 @@ export const getPaginatedUserGizmos = async (pageNumber, sortby, limit) => {
 
   return { data: gizmoArr, totalCount: gizmoLength };
 };
-export const getPaginatedBorrowedGizmos = async (pageNumber, sortby, limit) => {
-  const localUser = localStorage.getItem("capstone_user");
-  const projectUserObject = JSON.parse(localUser);
-  //uid aka firebase uid
-  const uid = projectUserObject.uid;
-  const currentUserObj = await getSingleUserInfo(uid);
+export const getPaginatedBorrowedGizmos = async (
+  pageNumber,
+  sortby,
+  limit,
+  currentUserId
+) => {
   const gizmoResponse = await fetch(
-    `${dbUrl}/gizmoRentals?userId=${
-      currentUserObj.id
-    }&isComplete=false&_expand=gizmo&_embed=gizmoFavorites&_page=${[
+    `${dbUrl}/gizmoRentals?userId=${currentUserId}&isComplete=false&_expand=gizmo&_embed=gizmoFavorites&_page=${[
       pageNumber,
     ]}&_limit=${limit}&_sort=${sortby}&_order=asc`
   );
@@ -112,15 +108,11 @@ export const getPaginatedBorrowedGizmos = async (pageNumber, sortby, limit) => {
 export const getPaginatedFavoritedGizmos = async (
   pageNumber,
   sortby,
-  limit
+  limit,
+  currentUserId
 ) => {
-  const localUser = localStorage.getItem("capstone_user");
-  const projectUserObject = JSON.parse(localUser);
-  //uid aka firebase uid
-  const uid = projectUserObject.uid;
-  const currentUserObj = await getSingleUserInfo(uid);
   const gizmoResponse = await fetch(
-    `${dbUrl}/gizmoFavorites?userId=${currentUserObj.id}&_expand=gizmo&_page=${[
+    `${dbUrl}/gizmoFavorites?userId=${currentUserId}&_expand=gizmo&_page=${[
       pageNumber,
     ]}&_limit=${limit}&_sort=${sortby}&_order=asc`
   );
@@ -172,20 +164,11 @@ export const getPaginatedFavoritedGizmos = async (
 //   return { data: gizmoArr, totalCount: gizmoLength };
 // };
 
-export const createNewGizmo = async (newGizmoObj) => {
-  //get local uid
-  const localUser = localStorage.getItem("capstone_user");
-  const projectUserObject = JSON.parse(localUser);
-  const uid = projectUserObject.uid;
-
-  //use local uid to fetch userId from database table
-  const userProfile = await getSingleUserInfo(uid);
-  const userId = userProfile.id;
-
+export const createNewGizmo = async (newGizmoObj, currentUserId) => {
   //copy the gizmoObj param
   const copyGizmoObj = { ...newGizmoObj };
   //assign the gizmoObj the current userId
-  copyGizmoObj.userId = userId;
+  copyGizmoObj.userId = currentUserId;
 
   //send gizmoObj to db
   const gizmoResponse = await fetch(`${dbUrl}/gizmos/`, {
@@ -222,19 +205,17 @@ export const getAllGizmoCategories = async () => {
   return gizmoData;
 };
 
-export const createGizmoRequest = async (requestObj) => {
+export const createGizmoRequest = async (requestObj, currentUserId) => {
   const localUser = localStorage.getItem("capstone_user");
   const projectUserObject = JSON.parse(localUser);
   const uid = projectUserObject.uid;
 
   //use local uid to fetch userId from database table
-  const userProfile = await getSingleUserInfo(uid);
-  const userId = userProfile.id;
 
   //copy the gizmoObj param
   const copyRequestObj = { ...requestObj };
   //assign the gizmoObj the current userId
-  copyRequestObj.userId = userId;
+  copyRequestObj.userId = currentUserId;
 
   const gizmoResponse = await fetch(`${dbUrl}/gizmoRequests/`, {
     method: "POST",
@@ -245,12 +226,9 @@ export const createGizmoRequest = async (requestObj) => {
   });
 };
 
-export const getPendingUserGizmoRequests = async () => {
-  const localUser = localStorage.getItem("capstone_user");
-  const localUserObj = JSON.parse(localUser);
-  const currentUserObj = await getSingleUserInfo(localUserObj.uid);
+export const getPendingUserGizmoRequests = async (currentUserId) => {
   const gizmoResponse = await fetch(
-    `${dbUrl}/gizmoRequests?userId=${currentUserObj.id}&requestStatus=pending&_expand=gizmo&_expand=user`
+    `${dbUrl}/gizmoRequests?userId=${currentUserId}&requestStatus=pending&_expand=gizmo&_expand=user`
   );
   const gizmoData = await gizmoResponse.json();
   return gizmoData;
@@ -336,9 +314,7 @@ export const getCurrentUserFromDb = async () => {
   return currentUserJson[0];
 };
 
-export const getRequestsForSingleUsersGizmos = async () => {
-  const currentUserObj = await getCurrentUserFromDb();
-
+export const getRequestsForSingleUsersGizmos = async (currentUserObj) => {
   const allRequestsResponse = await fetch(
     `${dbUrl}/gizmoRequests?requestStatus=pending&_expand=gizmo&_expand=user`
   );
@@ -361,9 +337,7 @@ export const createGizmoRental = async (rentalObj) => {
   });
 };
 
-export const getUpcomingRentals = async () => {
-  const currentUserObj = await getCurrentUserFromDb();
-
+export const getUpcomingRentals = async (currentUserObj) => {
   const gizmoResponse = await fetch(
     `${dbUrl}/gizmoRentals?isComplete=false&_expand=gizmo&_expand=user`
   );
@@ -383,9 +357,7 @@ export const getUpcomingRentals = async () => {
   return filteredRentals;
 };
 
-export const getOngoingRentals = async () => {
-  const currentUserObj = await getCurrentUserFromDb();
-
+export const getOngoingRentals = async (currentUserObj) => {
   const gizmoResponse = await fetch(
     `${dbUrl}/gizmoRentals?isComplete=false&_expand=gizmo&_expand=user`
   );

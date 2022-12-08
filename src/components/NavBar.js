@@ -1,25 +1,28 @@
 import { useEffect, useState } from "react";
+import { useQuery, useQueryClient } from "react-query";
 import { Navigate, NavLink, useNavigate } from "react-router-dom";
 import { getCurrentUserFromDb } from "../api/dataAccess";
 import { logout } from "./helpers/logout";
 
 export const NavBar = () => {
   const [drawerOpen, setDrawerOpen] = useState();
-  const [currentUser, setCurrentUser] = useState({});
+
   const [userDropdown, setUserDropdown] = useState(false);
   const navigate = useNavigate();
+
+  const queryClient = useQueryClient();
+
+  const currentUser = useQuery("currentUser", getCurrentUserFromDb, {
+    refetchInterval: false,
+    refetchIntervalInBackground: false,
+    refetchOnWindowFocus: false,
+    refetchOnMount: false,
+  });
 
   const checkAuth = () => {
     if (localStorage.getItem("capstone_user")) return true;
   };
 
-  useEffect(() => {
-    const fetchData = async () => {
-      const currentUser = await getCurrentUserFromDb();
-      setCurrentUser(currentUser);
-    };
-    fetchData();
-  }, []);
   return (
     <>
       <nav className="bg-white px-2 sm:px-4 py-2.5 dark:bg-purple-900 dark:bg-opacity-60 backdrop-blur-md fixed w-full z-20 top-0 left-0 border-b border-gray-200 dark:border-gray-600">
@@ -117,7 +120,7 @@ export const NavBar = () => {
                   </NavLink>
                 </li>
 
-                {currentUser?.id !== undefined ? (
+                {currentUser.data?.id !== undefined ? (
                   <>
                     <li>
                       <NavLink
@@ -176,7 +179,7 @@ export const NavBar = () => {
               <div className="md:hidden">User Profile Section</div>
             </div>
           </div>
-          {currentUser?.id !== undefined ? (
+          {currentUser.data?.id !== undefined ? (
             <div className=" hidden md:block md:order-3">
               <button
                 onClick={() => {
@@ -188,10 +191,10 @@ export const NavBar = () => {
                 <span className="sr-only">Open user menu</span>
                 <img
                   className="mr-2 w-8 h-8 rounded-full"
-                  src={currentUser.profileImg}
+                  src={currentUser.data?.profileImg}
                   alt="user photo"
                 />
-                {currentUser.firstName}
+                {currentUser.data?.firstName}
                 <svg
                   className="w-4 h-4 mx-1.5"
                   aria-hidden="true"
@@ -215,9 +218,9 @@ export const NavBar = () => {
               >
                 <div className="py-3 px-4 text-sm text-gray-900 dark:text-white">
                   <div className="font-medium ">
-                    {currentUser.firstName} {currentUser.lastName}
+                    {currentUser.data?.firstName} {currentUser.data?.lastName}
                   </div>
-                  <div className="truncate">{currentUser.email}</div>
+                  <div className="truncate">{currentUser.data?.email}</div>
                 </div>
                 <ul
                   className="py-1 text-sm text-gray-700 dark:text-gray-200"

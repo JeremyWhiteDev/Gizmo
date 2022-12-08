@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useQuery, useQueryClient } from "react-query";
 import {
   getCurrentUserFromDb,
   getOngoingRentals,
@@ -17,23 +18,28 @@ export const RequestList = () => {
 
   const [upcomingLoans, setUpcomingLoans] = useState([]);
   const [ongoingLoans, setOngoingLoans] = useState([]);
-  const [localUser, setLocalUser] = useState({});
+
+  const queryClient = useQueryClient();
+
+  const currentUser = useQuery("currentUser", getCurrentUserFromDb, {
+    refetchInterval: false,
+    refetchIntervalInBackground: false,
+    refetchOnWindowFocus: false,
+    refetchOnMount: false,
+  });
 
   useEffect(() => {
     const fetchData = async () => {
-      const pending = await getPendingUserGizmoRequests();
+      const pending = await getPendingUserGizmoRequests(currentUser.data.id);
       setUserRequests(pending);
 
-      const requested = await getRequestsForSingleUsersGizmos();
+      const requested = await getRequestsForSingleUsersGizmos(currentUser.data);
       setRequestGizmos(requested);
 
-      const upcoming = await getUpcomingRentals();
+      const upcoming = await getUpcomingRentals(currentUser.data);
       setUpcomingLoans(upcoming);
-      const onGoing = await getOngoingRentals();
+      const onGoing = await getOngoingRentals(currentUser.data);
       setOngoingLoans(onGoing);
-
-      const userData = await getCurrentUserFromDb();
-      setLocalUser(userData);
     };
     fetchData();
   }, []);
@@ -103,19 +109,19 @@ export const RequestList = () => {
                 rentalGizmoId={rental.gizmo?.id}
                 gizmo={rental.gizmo?.nickName}
                 user={`${
-                  rental.userId === localUser.id
+                  rental.userId === currentUser.id
                     ? "Your"
                     : `${rental.user?.firstName}'s`
                 }`}
                 startDate={rental.startDate}
                 endDate={rental.endDate}
                 renter={`${
-                  rental.userId === localUser.id
+                  rental.userId === currentUser.id
                     ? "You"
                     : `${rental.user?.firstName}`
                 }`}
                 provider={`${
-                  rental.userId !== localUser.id
+                  rental.userId !== currentUser.id
                     ? "your"
                     : `${rental.user?.firstName}'s`
                 }`}
@@ -133,26 +139,26 @@ export const RequestList = () => {
                 key={`incomingrental--${rental.id}`}
                 rentalObj={rental}
                 variant={`${
-                  rental.userId !== localUser.id ? "ongoing-provider" : ""
+                  rental.userId !== currentUser.id ? "ongoing-provider" : ""
                 }`}
                 rentalId={rental.id}
                 img={rental.gizmo?.img}
                 rentalGizmoId={rental.gizmo?.id}
                 gizmo={rental.gizmo?.nickName}
                 user={`${
-                  rental.userId === localUser.id
+                  rental.userId === currentUser.id
                     ? "Your"
                     : `${rental.user?.firstName}'s`
                 }`}
                 startDate={rental.startDate}
                 endDate={rental.endDate}
                 renter={`${
-                  rental.userId === localUser.id
+                  rental.userId === currentUser.id
                     ? "You"
                     : `${rental.user?.firstName}`
                 }`}
                 provider={`${
-                  rental.userId !== localUser.id
+                  rental.userId !== currentUser.id
                     ? "your"
                     : `${rental.user?.firstName}'s`
                 }`}

@@ -1,4 +1,5 @@
 import {
+  getCurrentUserFromDb,
   getPaginatedBorrowedGizmos,
   getPaginatedFavoritedGizmos,
   getPaginatedUserGizmos,
@@ -7,6 +8,7 @@ import { useEffect, useState } from "react";
 import { getPaginatedGizmosAndLocations } from "../api/dataAccess";
 import { GizmoCard } from "./GizmoCard";
 import { useNavigate } from "react-router-dom";
+import { useQuery, useQueryClient } from "react-query";
 
 export const GizmoInventory = () => {
   const [gizmos, setGizmos] = useState([]);
@@ -20,6 +22,15 @@ export const GizmoInventory = () => {
     gizmoRangeEnd: 0,
   });
 
+  const queryClient = useQueryClient();
+
+  const currentUser = useQuery("currentUser", getCurrentUserFromDb, {
+    refetchInterval: false,
+    refetchIntervalInBackground: false,
+    refetchOnWindowFocus: false,
+    refetchOnMount: false,
+  });
+
   const navigate = useNavigate();
   //do I want to paginate data? Yesm probably. Otherwise the fetch call will return too much info.
   //Option 1: paginate data
@@ -28,7 +39,12 @@ export const GizmoInventory = () => {
   //Option 4: click on a filter or selection and only see the returned values. the page is blank to begin with and you have to populate it with the data you want.
   //Option 5: infitine scroll.
   const fetchUserGizmos = async (page, onMount) => {
-    const { data, totalCount } = await getPaginatedUserGizmos(page, "id", 20);
+    const { data, totalCount } = await getPaginatedUserGizmos(
+      page,
+      "id",
+      20,
+      currentUser.data.id
+    );
     const totalPages = Math.ceil(totalCount / 20);
     let gizmoRangeEnd;
     if (totalCount < 20) {
@@ -51,7 +67,8 @@ export const GizmoInventory = () => {
     const { data, totalCount } = await getPaginatedBorrowedGizmos(
       page,
       "id",
-      20
+      20,
+      currentUser.data.id
     );
     const totalPages = Math.ceil(totalCount / 20);
     let gizmoRangeEnd;
@@ -75,7 +92,8 @@ export const GizmoInventory = () => {
     const { data, totalCount } = await getPaginatedFavoritedGizmos(
       page,
       "id",
-      20
+      20,
+      currentUser.data.id
     );
     const totalPages = Math.ceil(totalCount / 20);
     let gizmoRangeEnd;
