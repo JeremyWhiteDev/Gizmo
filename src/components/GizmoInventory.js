@@ -1,6 +1,6 @@
 import {
   getPaginatedBorrowedGizmos,
-  getPaginatedSavedGizmos,
+  getPaginatedFavoritedGizmos,
   getPaginatedUserGizmos,
 } from "../api/dataAccess";
 import { useEffect, useState } from "react";
@@ -71,8 +71,12 @@ export const GizmoInventory = () => {
     }
   };
 
-  const fetchSavedGizmos = async (page, onMount) => {
-    const { data, totalCount } = await getPaginatedSavedGizmos(page, "id", 20);
+  const fetchFavoritedGizmos = async (page, onMount) => {
+    const { data, totalCount } = await getPaginatedFavoritedGizmos(
+      page,
+      "id",
+      20
+    );
     const totalPages = Math.ceil(totalCount / 20);
     let gizmoRangeEnd;
     if (totalCount < 20) {
@@ -103,7 +107,7 @@ export const GizmoInventory = () => {
         fetchBorrowedGizmos(1, true);
         break;
       case "savedGizmos":
-        fetchSavedGizmos(1, true);
+        fetchFavoritedGizmos(1, true);
         break;
     }
   }, [view]);
@@ -134,7 +138,7 @@ export const GizmoInventory = () => {
         fetchBorrowedGizmos(pageDataCopy.currentPageNumber);
         break;
       case "savedGizmos":
-        fetchSavedGizmos(pageDataCopy.currentPageNumber);
+        fetchFavoritedGizmos(pageDataCopy.currentPageNumber);
         break;
     }
     setPageData(pageDataCopy);
@@ -167,7 +171,7 @@ export const GizmoInventory = () => {
         fetchBorrowedGizmos(pageDataCopy.currentPageNumber);
         break;
       case "savedGizmos":
-        fetchSavedGizmos(pageDataCopy.currentPageNumber);
+        fetchFavoritedGizmos(pageDataCopy.currentPageNumber);
         break;
     }
     setPageData(pageDataCopy);

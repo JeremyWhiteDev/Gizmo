@@ -109,7 +109,11 @@ export const getPaginatedBorrowedGizmos = async (pageNumber, sortby, limit) => {
   return { data: gizmoArr, totalCount: gizmoLength };
 };
 
-export const getPaginatedSavedGizmos = async (pageNumber, sortby, limit) => {
+export const getPaginatedFavoritedGizmos = async (
+  pageNumber,
+  sortby,
+  limit
+) => {
   const localUser = localStorage.getItem("capstone_user");
   const projectUserObject = JSON.parse(localUser);
   //uid aka firebase uid
