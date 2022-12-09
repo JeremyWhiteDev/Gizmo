@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useQueryClient } from "react-query";
 import { useNavigate } from "react-router-dom";
 import { createNewUser } from "../api/dataAccess";
 import { photoStorage } from "./helpers/photoStorage";
@@ -19,6 +20,8 @@ export const NewUserForm = () => {
   const [imageUrl, setImageUrl] = useState(null);
 
   const navigate = useNavigate();
+
+  const queryClient = useQueryClient();
 
   // Handles selecting an image
   const handleChange = (event) => {
@@ -41,6 +44,14 @@ export const NewUserForm = () => {
         formCopy.profileImg = photoObject.downloadURL;
         const respone = createNewUser(formCopy);
       });
+      queryClient.invalidateQueries("currentUser");
+      navigate("/");
+    } else {
+      const formCopy = { ...userForm };
+      formCopy.profileImg =
+        "https://firebasestorage.googleapis.com/v0/b/gizmo-fe-capstone.appspot.com/o/images%2FPlaceholder-image.jpeg?alt=media&token=ad34116f-8973-48b7-b036-28ed7f60dfe5";
+      const respone = createNewUser(formCopy);
+      queryClient.invalidateQueries("currentUser");
       navigate("/");
     }
   };
