@@ -1,4 +1,5 @@
-import { useEffect, useState } from "react";
+import { getAuth, signOut } from "firebase/auth";
+import { useEffect, useRef, useState } from "react";
 import { useQuery, useQueryClient } from "react-query";
 import { Navigate, NavLink, useNavigate } from "react-router-dom";
 import { getCurrentUserFromDb } from "../api/dataAccess";
@@ -11,7 +12,6 @@ export const NavBar = () => {
   const navigate = useNavigate();
 
   const queryClient = useQueryClient();
-
   const currentUser = useQuery("currentUser", getCurrentUserFromDb, {
     refetchInterval: false,
     refetchIntervalInBackground: false,
@@ -38,7 +38,7 @@ export const NavBar = () => {
             </span>
           </a>
           <div className="flex md:order-2">
-            {checkAuth() ? (
+            {currentUser.data ? (
               ""
             ) : (
               <>
@@ -237,8 +237,8 @@ export const NavBar = () => {
                 </ul>
                 <div className="py-1">
                   <a
-                    onClick={() => {
-                      logout.logout();
+                    onClick={async () => {
+                      logout.logout(navigate, queryClient);
                       setUserDropdown(false);
                       navigate("/");
                     }}

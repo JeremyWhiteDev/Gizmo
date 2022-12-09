@@ -1,6 +1,9 @@
+import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import React, { useState } from "react";
+import { QueryClient, useQueryClient } from "react-query";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
+import { getCurrentUserFromDb } from "../../api/dataAccess";
 import { emailAuth } from "../helpers/emailAuth";
 import { googleAuth } from "../helpers/googleAuth";
 import "./Login.css";
@@ -12,6 +15,8 @@ export const Login = () => {
   });
   const navigate = useNavigate();
 
+  const queryClient = useQueryClient();
+
   const updateLogin = (evt) => {
     const copy = { ...login };
     copy[evt.target.id] = evt.target.value;
@@ -21,12 +26,13 @@ export const Login = () => {
   // Login With Email & Password
   const onSubmitLoginEmail = async (e) => {
     e.preventDefault();
-    emailAuth.signIn(login, navigate);
+
+    emailAuth.signIn(login, navigate, queryClient);
   };
 
   // Login with Google
   const onSubmitLoginGoogle = async () => {
-    googleAuth.signInRegister(navigate);
+    googleAuth.signInRegister(navigate, queryClient);
   };
 
   return (

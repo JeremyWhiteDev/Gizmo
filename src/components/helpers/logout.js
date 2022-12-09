@@ -5,12 +5,12 @@ import { emailAuth } from "./emailAuth";
 // other methods may work for both.
 
 export const logout = {
-  logout: function(navigate) {
+  logout: async function (navigate, queryClient) {
     const userRecord = JSON.parse(localStorage.getItem("capstone_user"));
     if (userRecord.type === "google") {
-      googleAuth.signOut(navigate);
+      return googleAuth.signOut(navigate, queryClient);
     } else if (userRecord.type === "email") {
-      emailAuth.signOut(navigate);
+      return await emailAuth.signOut(navigate, queryClient);
     }
   },
 };

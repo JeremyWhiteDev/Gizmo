@@ -15,7 +15,7 @@ import {
 
 export const emailAuth = {
   // Register New User
-  register: function(userObj, navigate) {
+  register: function (userObj, navigate, queryClient) {
     const auth = getAuth();
     createUserWithEmailAndPassword(auth, userObj.email, userObj.password)
       .then((userCredential) => {
@@ -23,7 +23,7 @@ export const emailAuth = {
         updateProfile(auth.currentUser, {
           displayName: userObj.fullName,
         }).then(
-          function() {
+          function () {
             const userAuth = {
               email: userCredential.user.email,
               displayName: userObj.fullName,
@@ -32,10 +32,11 @@ export const emailAuth = {
             };
             // Saves the user to localstorage
             localStorage.setItem("capstone_user", JSON.stringify(userAuth));
+            queryClient.invalidateQueries("currentUser");
             // Navigate us back to home
-            navigate("/");
+            navigate("/profile-create");
           },
-          function(error) {
+          function (error) {
             console.log("Email Register Name Error");
             console.log("error code", error.code);
             console.log("error message", error.message);
@@ -49,7 +50,7 @@ export const emailAuth = {
       });
   },
   // Sign in existing user
-  signIn: function(userObj, navigate) {
+  signIn: function (userObj, navigate, queryClient) {
     return new Promise((res) => {
       const auth = getAuth();
       signInWithEmailAndPassword(auth, userObj.email, userObj.password)
@@ -63,6 +64,7 @@ export const emailAuth = {
           // Saves the user to localstorage
           localStorage.setItem("capstone_user", JSON.stringify(userAuth));
           // Navigate us back to home
+          queryClient.invalidateQueries("currentUser");
           navigate("/");
         })
         .catch((error) => {
@@ -73,7 +75,7 @@ export const emailAuth = {
     });
   },
   // Sign out
-  signOut: function(navigate) {
+  signOut: async function (navigate, queryClient) {
     const auth = getAuth();
     signOut(auth)
       .then(() => {
@@ -81,7 +83,9 @@ export const emailAuth = {
         localStorage.removeItem("capstone_user");
         // Navigate us back to home
         navigate("/");
+        queryClient.invalidateQueries("currentUser");
         console.log("Sign Out Success!");
+        return "signedOut";
       })
       .catch((error) => {
         console.log("signOut Error");

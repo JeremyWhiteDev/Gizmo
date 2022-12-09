@@ -6,6 +6,7 @@ import {
   getPaginatedGizmosAndLocations,
 } from "../api/dataAccess";
 import { GizmoCard } from "./GizmoCard";
+import { GizmoCardGuest } from "./GizmoCardGuest";
 
 export const GizmoList = () => {
   const [gizmos, setGizmos] = useState([]);
@@ -129,7 +130,7 @@ export const GizmoList = () => {
       </h1>
       <div className="flex  justify-center gap-y-5 flex-wrap p-2 gap-x-6 mx-auto max-w-xl md: md:max-w-screen-xl  ">
         {gizmos.length > 0 &&
-          currentUser.data.id &&
+          currentUser.data?.id &&
           gizmos.map((gizmo) => {
             const { isFavorite, favoriteId } = checkFavoriteAndGetId(gizmo);
             return (
@@ -144,7 +145,22 @@ export const GizmoList = () => {
                 userImg={gizmo.user?.profileImg}
                 isFavorite={isFavorite}
                 favoriteId={favoriteId}
-                currentUserId={currentUser.data.id}
+                currentUserId={currentUser.data?.id}
+              />
+            );
+          })}
+        {!currentUser.data?.id &&
+          gizmos.map((gizmo) => {
+            return (
+              <GizmoCardGuest
+                key={`gizmo--${gizmo.id}`}
+                variant="publicCard"
+                id={gizmo.id}
+                img={gizmo.img}
+                name={gizmo.nickName}
+                model={gizmo.model}
+                location={gizmo.user?.zipcode}
+                userImg={gizmo.user?.profileImg}
               />
             );
           })}
