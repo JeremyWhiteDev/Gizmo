@@ -13,11 +13,11 @@ import { RequestCard } from "./RequestCard";
 export const RequestList = () => {
   //   const [pendingRequests, setUserRequests] = useState([]);
 
-  const [requestedGizmos, setRequestGizmos] = useState([]);
+  //   const [requestedGizmos, setRequestGizmos] = useState([]);
   const [modalIsActive, setModalIsActive] = useState(false);
 
-  const [upcomingLoans, setUpcomingLoans] = useState([]);
-  const [ongoingLoans, setOngoingLoans] = useState([]);
+  //   const [upcomingLoans, setUpcomingLoans] = useState([]);
+  //   const [ongoingLoans, setOngoingLoans] = useState([]);
 
   const queryClient = useQueryClient();
 
@@ -32,24 +32,33 @@ export const RequestList = () => {
     ["pendingUserGizmoRequests"],
     async () => await getPendingUserGizmoRequests(currentUser.data.id)
   );
+  const requestedGizmos = useQuery(
+    ["pendingGizmoUserRequests"],
+    async () => await getRequestsForSingleUsersGizmos(currentUser.data.id)
+  );
+  const upcomingLoans = useQuery(
+    ["approvedUpcomingUserLoans"],
+    async () => await getUpcomingRentals(currentUser.data.id)
+  );
+  const ongoingLoans = useQuery(
+    ["approvedOngoingUserLoans"],
+    async () => await getOngoingRentals(currentUser.data.id)
+  );
 
   useEffect(() => {
     const fetchData = async () => {
       //   const pending = await getPendingUserGizmoRequests(currentUser.data.id);
       //   setUserRequests(pending);
-
-      const requested = await getRequestsForSingleUsersGizmos(currentUser.data);
-      setRequestGizmos(requested);
-
-      const upcoming = await getUpcomingRentals(currentUser.data);
-      setUpcomingLoans(upcoming);
-      const onGoing = await getOngoingRentals(currentUser.data);
-      setOngoingLoans(onGoing);
+      //   const requested = await getRequestsForSingleUsersGizmos(currentUser.data);
+      //   setRequestGizmos(requested);
+      //   const upcoming = await getUpcomingRentals(currentUser.data);
+      //   setUpcomingLoans(upcoming);
+      //   const onGoing = await getOngoingRentals(currentUser.data);
+      //   setOngoingLoans(onGoing);
     };
     fetchData();
   }, []);
 
-  console.log(pendingRequests.data);
   return (
     <>
       <div className="md:max-w-5xl mx-auto">
@@ -63,7 +72,7 @@ export const RequestList = () => {
           <div className="flex flex-col items-center justify-evenly gap-7">
             {!pendingRequests.isLoading &&
               //   pendingRequests.data &&
-              pendingRequests.data.map((request) => (
+              pendingRequests.data?.map((request) => (
                 <RequestCard
                   key={`outgoingRequest--${request.id}`}
                   requestObj={request}
@@ -85,21 +94,22 @@ export const RequestList = () => {
             Reqests for Your Gizmos
           </h2>
           <div className="flex flex-col items-center justify-evenly gap-7 ">
-            {requestedGizmos.map((request) => (
-              <RequestCard
-                key={`incomingRequest--${request.id}`}
-                requestObj={request}
-                variant="incomingRequest"
-                requestId={request.id}
-                img={request.gizmo?.img}
-                requestGizmoId={request.gizmo?.id}
-                gizmo={request.gizmo?.nickName}
-                user={`Your`}
-                startDate={request.startDate}
-                endDate={request.endDate}
-                requestMsg={request.requestMsg}
-              />
-            ))}
+            {!pendingRequests.isLoading &&
+              requestedGizmos.data?.map((request) => (
+                <RequestCard
+                  key={`incomingRequest--${request.id}`}
+                  requestObj={request}
+                  variant="incomingRequest"
+                  requestId={request.id}
+                  img={request.gizmo?.img}
+                  requestGizmoId={request.gizmo?.id}
+                  gizmo={request.gizmo?.nickName}
+                  user={`Your`}
+                  startDate={request.startDate}
+                  endDate={request.endDate}
+                  requestMsg={request.requestMsg}
+                />
+              ))}
           </div>
         </section>
         <section className=" border-2 border-gray-700 rounded-lg px-4 p-4 mt-5">
@@ -107,34 +117,35 @@ export const RequestList = () => {
             Upcoming Gizmo Loans
           </h2>
           <div className="flex flex-col items-center justify-evenly gap-7 ">
-            {upcomingLoans.map((rental) => (
-              <LoanCard
-                key={`incomingrental--${rental.id}`}
-                rentalObj={rental}
-                variant="upcomingLoan"
-                rentalId={rental.id}
-                img={rental.gizmo?.img}
-                rentalGizmoId={rental.gizmo?.id}
-                gizmo={rental.gizmo?.nickName}
-                user={`${
-                  rental.userId === currentUser.id
-                    ? "Your"
-                    : `${rental.user?.firstName}'s`
-                }`}
-                startDate={rental.startDate}
-                endDate={rental.endDate}
-                renter={`${
-                  rental.userId === currentUser.id
-                    ? "You"
-                    : `${rental.user?.firstName}`
-                }`}
-                provider={`${
-                  rental.userId !== currentUser.id
-                    ? "your"
-                    : `${rental.user?.firstName}'s`
-                }`}
-              />
-            ))}
+            {!upcomingLoans.isLoading &&
+              upcomingLoans.data?.map((rental) => (
+                <LoanCard
+                  key={`incomingrental--${rental.id}`}
+                  rentalObj={rental}
+                  variant="upcomingLoan"
+                  rentalId={rental.id}
+                  img={rental.gizmo?.img}
+                  rentalGizmoId={rental.gizmo?.id}
+                  gizmo={rental.gizmo?.nickName}
+                  user={`${
+                    rental.userId === currentUser.id
+                      ? "Your"
+                      : `${rental.user?.firstName}'s`
+                  }`}
+                  startDate={rental.startDate}
+                  endDate={rental.endDate}
+                  renter={`${
+                    rental.userId === currentUser.id
+                      ? "You"
+                      : `${rental.user?.firstName}`
+                  }`}
+                  provider={`${
+                    rental.userId !== currentUser.id
+                      ? "your"
+                      : `${rental.user?.firstName}'s`
+                  }`}
+                />
+              ))}
           </div>
         </section>
         <section className=" border-2 border-gray-700 rounded-lg px-4 p-4 mt-5">
@@ -142,36 +153,37 @@ export const RequestList = () => {
             Ongoing Gizmo Loans
           </h2>
           <div className="flex flex-col items-center justify-evenly gap-7 ">
-            {ongoingLoans.map((rental) => (
-              <LoanCard
-                key={`incomingrental--${rental.id}`}
-                rentalObj={rental}
-                variant={`${
-                  rental.userId !== currentUser.id ? "ongoing-provider" : ""
-                }`}
-                rentalId={rental.id}
-                img={rental.gizmo?.img}
-                rentalGizmoId={rental.gizmo?.id}
-                gizmo={rental.gizmo?.nickName}
-                user={`${
-                  rental.userId === currentUser.id
-                    ? "Your"
-                    : `${rental.user?.firstName}'s`
-                }`}
-                startDate={rental.startDate}
-                endDate={rental.endDate}
-                renter={`${
-                  rental.userId === currentUser.id
-                    ? "You"
-                    : `${rental.user?.firstName}`
-                }`}
-                provider={`${
-                  rental.userId !== currentUser.id
-                    ? "your"
-                    : `${rental.user?.firstName}'s`
-                }`}
-              />
-            ))}
+            {!ongoingLoans.isLoading &&
+              ongoingLoans.data?.map((rental) => (
+                <LoanCard
+                  key={`incomingrental--${rental.id}`}
+                  rentalObj={rental}
+                  variant={`${
+                    rental.userId !== currentUser.id ? "ongoing-provider" : ""
+                  }`}
+                  rentalId={rental.id}
+                  img={rental.gizmo?.img}
+                  rentalGizmoId={rental.gizmo?.id}
+                  gizmo={rental.gizmo?.nickName}
+                  user={`${
+                    rental.userId === currentUser.id
+                      ? "Your"
+                      : `${rental.user?.firstName}'s`
+                  }`}
+                  startDate={rental.startDate}
+                  endDate={rental.endDate}
+                  renter={`${
+                    rental.userId === currentUser.id
+                      ? "You"
+                      : `${rental.user?.firstName}`
+                  }`}
+                  provider={`${
+                    rental.userId !== currentUser.id
+                      ? "your"
+                      : `${rental.user?.firstName}'s`
+                  }`}
+                />
+              ))}
           </div>
         </section>
       </div>

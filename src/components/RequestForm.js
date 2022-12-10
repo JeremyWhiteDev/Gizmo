@@ -76,8 +76,8 @@ export const RequestForm = ({
     e.preventDefault();
     const formCopy = { ...requestForm };
 
-    formCopy.userId = currentUser.id;
-    formCopy.gizmoId = gizmoId;
+    formCopy.userId = currentUser.data.id;
+    formCopy.gizmoId = parseInt(gizmoId);
     formCopy.requestStatus = "pending";
 
     const respone = await createGizmoRequest(formCopy, currentUser.data.id);

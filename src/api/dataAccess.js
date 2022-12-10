@@ -327,14 +327,14 @@ export const getCurrentUserFromDb = async () => {
   return currentUserJson[0];
 };
 
-export const getRequestsForSingleUsersGizmos = async (currentUserObj) => {
+export const getRequestsForSingleUsersGizmos = async (currentUserId) => {
   const allRequestsResponse = await fetch(
     `${dbUrl}/gizmoRequests?requestStatus=pending&_expand=gizmo&_expand=user`
   );
   const allRequestArr = await allRequestsResponse.json();
 
   const filteredRequests = allRequestArr.filter(
-    (request) => request.gizmo.userId === currentUserObj.id
+    (request) => request.gizmo.userId === currentUserId
   );
 
   return filteredRequests;
@@ -350,7 +350,7 @@ export const createGizmoRental = async (rentalObj) => {
   });
 };
 
-export const getUpcomingRentals = async (currentUserObj) => {
+export const getUpcomingRentals = async (currentUserId) => {
   const gizmoResponse = await fetch(
     `${dbUrl}/gizmoRentals?isComplete=false&_expand=gizmo&_expand=user`
   );
@@ -360,8 +360,8 @@ export const getUpcomingRentals = async (currentUserObj) => {
     const todayDate = new Date(today);
     const startDate = new Date(rental.startDate);
     if (
-      (rental.gizmo.userId === currentUserObj.id && startDate > todayDate) ||
-      (rental.userId === currentUserObj.id && startDate > todayDate)
+      (rental.gizmo.userId === currentUserId && startDate > todayDate) ||
+      (rental.userId === currentUserId && startDate > todayDate)
     ) {
       return rental;
     }
@@ -388,6 +388,12 @@ export const getOngoingRentals = async (currentUserObj) => {
   });
 
   return filteredRentals;
+};
+
+export const deleteGizmoRental = async (rentalId) => {
+  const gismoResponse = await fetch(`${dbUrl}/gizmoRentals/${rentalId}`, {
+    method: "DELETE",
+  });
 };
 
 export const createGizmoFavorite = async (gizmoFavorite) => {

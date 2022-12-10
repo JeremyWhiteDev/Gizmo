@@ -30,7 +30,7 @@ export const GizmoDetails = () => {
       setGizmo(data);
 
       {
-        currentUser.id === data.userId
+        currentUser.data?.id === data.userId
           ? setUserGizmo(true)
           : setUserGizmo(false);
       }
@@ -98,7 +98,7 @@ export const GizmoDetails = () => {
                 Edit this Tool
               </button>
             </>
-          ) : (
+          ) : !isUsersGizmo && currentUser.data?.id ? (
             <>
               <ul>
                 <li className="mb-3 font-normal text-gray-700 dark:text-gray-400">
@@ -118,6 +118,28 @@ export const GizmoDetails = () => {
                 className="mt-6 bg-purple-800 py-3 rounded-lg text-white dark:text-white hover:bg-purple-900"
               >
                 Request this Tool
+              </button>
+            </>
+          ) : (
+            <>
+              <ul>
+                <li className="mb-3 font-normal text-gray-700 dark:text-gray-400">
+                  Gizmo Category: {gizmo.gizmoCategory?.name}
+                </li>
+                <li className="mb-3 font-normal text-gray-700 dark:text-gray-400">
+                  Gizmo Model Number: {gizmo.model}
+                </li>
+                <li className="mb-3 font-normal text-gray-700 dark:text-gray-400">
+                  Gizmo Location: {gizmo.user?.zipcode}
+                </li>
+              </ul>
+              <button
+                onClick={() => {
+                  navigate(`/login`);
+                }}
+                className="mt-6 bg-purple-800 py-3 rounded-lg text-white dark:text-white hover:bg-purple-900"
+              >
+                Login to Request this Tool
               </button>
             </>
           )}

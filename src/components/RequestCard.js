@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useQueryClient } from "react-query";
 import {
   createGizmoRental,
   deleteGizmoRequest,
@@ -20,6 +21,8 @@ export const RequestCard = ({
 }) => {
   const [modalIsActive, setModalIsActive] = useState(false);
 
+  const queryClient = useQueryClient();
+
   const handleEdit = (e) => {
     e.preventDefault();
     setModalIsActive(true);
@@ -28,6 +31,8 @@ export const RequestCard = ({
   const handleDelete = async (e) => {
     e.preventDefault();
     const deleteResponse = await deleteGizmoRequest(requestId);
+    queryClient.invalidateQueries(["pendingUserGizmoRequests"]);
+    queryClient.invalidateQueries(["pendingGizmoUserRequests"]);
   };
   const handleApprove = async (e) => {
     e.preventDefault();
@@ -36,7 +41,7 @@ export const RequestCard = ({
     delete copyRequest.user;
     delete copyRequest.gizmo;
 
-    const updateResponse = updateGizmoRequest(requestId, copyRequest);
+    const updateResponse = await updateGizmoRequest(requestId, copyRequest);
 
     const rentalObj = { ...requestObj };
     delete rentalObj.user;
@@ -46,14 +51,22 @@ export const RequestCard = ({
     delete rentalObj.id;
     rentalObj.isComplete = false;
 
-    const rentalResponse = createGizmoRental(rentalObj);
+    const rentalResponse = await createGizmoRental(rentalObj);
+    queryClient.invalidateQueries(["pendingUserGizmoRequests"]);
+    queryClient.invalidateQueries(["pendingGizmoUserRequests"]);
+    queryClient.invalidateQueries(["approvedUpcomingUserLoans"]);
+    queryClient.invalidateQueries(["approvedOngoingUserLoans"]);
   };
   const handleDecline = async () => {
     const copyRequest = { ...requestObj };
     copyRequest.requestStatus = "declined";
     delete copyRequest.user;
     delete copyRequest.gizmo;
-    const updateResponse = updateGizmoRequest(requestId, copyRequest);
+    const updateResponse = await updateGizmoRequest(requestId, copyRequest);
+    queryClient.invalidateQueries(["pendingUserGizmoRequests"]);
+    queryClient.invalidateQueries(["pendingGizmoUserRequests"]);
+    queryClient.invalidateQueries(["approvedUpcomingUserLoans"]);
+    queryClient.invalidateQueries(["approvedOngoingUserLoans"]);
   };
 
   return (
