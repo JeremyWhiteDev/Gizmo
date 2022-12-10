@@ -102,7 +102,7 @@ export const GizmoDetails = () => {
             <>
               <ul>
                 <li className="mb-3 font-normal text-gray-700 dark:text-gray-400">
-                  Gizmo Category: {gizmo.gizmoCategory?.categoryName}
+                  Gizmo Category: {gizmo.gizmoCategory?.name}
                 </li>
                 <li className="mb-3 font-normal text-gray-700 dark:text-gray-400">
                   Gizmo Model Number: {gizmo.model}
