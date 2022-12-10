@@ -75,12 +75,13 @@ export const RequestForm = ({
   const handleSubmit = async (e) => {
     e.preventDefault();
     const formCopy = { ...requestForm };
-    const userInfo = await getSingleUserInfo(localUser.uid);
-    formCopy.userId = userInfo.id;
+
+    formCopy.userId = currentUser.id;
     formCopy.gizmoId = gizmoId;
     formCopy.requestStatus = "pending";
 
     const respone = await createGizmoRequest(formCopy, currentUser.data.id);
+    queryClient.invalidateQueries(["pendingUserGizmoRequests"]);
     navigate("/requests");
   };
 
@@ -89,6 +90,7 @@ export const RequestForm = ({
     const formCopy = { ...requestForm };
     formCopy.requestStatus = "pending";
     const updateResponse = await updateGizmoRequest(requestId, formCopy);
+    queryClient.invalidateQueries(["pendingUserGizmoRequests"]);
     setModalIsActive(false);
   };
 

@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
+import { useQuery, useQueryClient } from "react-query";
 import { useNavigate, useParams } from "react-router-dom";
 import {
+  getCurrentUserFromDb,
   getCurrentUserFromLocal,
   getSingleGizmo,
   getSingleUserInfo,
@@ -13,14 +15,22 @@ export const GizmoDetails = () => {
   const navigate = useNavigate();
   //img
 
+  const queryClient = useQueryClient();
+
+  const currentUser = useQuery("currentUser", getCurrentUserFromDb, {
+    refetchInterval: false,
+    refetchIntervalInBackground: false,
+    refetchOnWindowFocus: false,
+    refetchOnMount: false,
+  });
+
   useEffect(() => {
     const fetchData = async () => {
       const data = await getSingleGizmo(gizmoId);
       setGizmo(data);
-      const currentUser = getCurrentUserFromLocal();
-      const currentUserDb = await getSingleUserInfo(currentUser.uid);
+
       {
-        currentUserDb.id === data.userId
+        currentUser.id === data.userId
           ? setUserGizmo(true)
           : setUserGizmo(false);
       }

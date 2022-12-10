@@ -11,7 +11,7 @@ import { LoanCard } from "./LoanCard";
 import { RequestCard } from "./RequestCard";
 
 export const RequestList = () => {
-  const [userRequests, setUserRequests] = useState([]);
+  //   const [pendingRequests, setUserRequests] = useState([]);
 
   const [requestedGizmos, setRequestGizmos] = useState([]);
   const [modalIsActive, setModalIsActive] = useState(false);
@@ -28,10 +28,15 @@ export const RequestList = () => {
     refetchOnMount: false,
   });
 
+  const pendingRequests = useQuery(
+    ["pendingUserGizmoRequests"],
+    async () => await getPendingUserGizmoRequests(currentUser.data.id)
+  );
+
   useEffect(() => {
     const fetchData = async () => {
-      const pending = await getPendingUserGizmoRequests(currentUser.data.id);
-      setUserRequests(pending);
+      //   const pending = await getPendingUserGizmoRequests(currentUser.data.id);
+      //   setUserRequests(pending);
 
       const requested = await getRequestsForSingleUsersGizmos(currentUser.data);
       setRequestGizmos(requested);
@@ -44,6 +49,7 @@ export const RequestList = () => {
     fetchData();
   }, []);
 
+  console.log(pendingRequests.data);
   return (
     <>
       <div className="md:max-w-5xl mx-auto">
@@ -55,21 +61,23 @@ export const RequestList = () => {
             My Pending Requests
           </h2>
           <div className="flex flex-col items-center justify-evenly gap-7">
-            {userRequests.map((request) => (
-              <RequestCard
-                key={`outgoingRequest--${request.id}`}
-                requestObj={request}
-                variant="outgoingRequest"
-                requestId={request.id}
-                img={request.gizmo?.img}
-                requestGizmoId={request.gizmo?.id}
-                gizmo={request.gizmo?.nickName}
-                user={`${request.user?.firstName}'s`}
-                startDate={request.startDate}
-                endDate={request.endDate}
-                requestMsg={request.requestMsg}
-              />
-            ))}
+            {!pendingRequests.isLoading &&
+              //   pendingRequests.data &&
+              pendingRequests.data.map((request) => (
+                <RequestCard
+                  key={`outgoingRequest--${request.id}`}
+                  requestObj={request}
+                  variant="outgoingRequest"
+                  requestId={request.id}
+                  img={request.gizmo?.img}
+                  requestGizmoId={request.gizmo?.id}
+                  gizmo={request.gizmo?.nickName}
+                  user={`${request.ownerUser?.firstName}'s`}
+                  startDate={request.startDate}
+                  endDate={request.endDate}
+                  requestMsg={request.requestMsg}
+                />
+              ))}
           </div>
         </section>
         <section className=" border-2 border-gray-700 rounded-lg px-4 p-4 mt-5">

@@ -230,8 +230,21 @@ export const getPendingUserGizmoRequests = async (currentUserId) => {
   const gizmoResponse = await fetch(
     `${dbUrl}/gizmoRequests?userId=${currentUserId}&requestStatus=pending&_expand=gizmo&_expand=user`
   );
-  const gizmoData = await gizmoResponse.json();
-  return gizmoData;
+  const requestData = await gizmoResponse.json();
+
+  const gizmoArr = await Promise.all(
+    requestData.map(async (request) => {
+      const requestObj = { ...request };
+
+      const userResponse = await fetch(
+        `${dbUrl}/users/${requestObj.gizmo.userId}`
+      );
+      requestObj.ownerUser = await userResponse.json();
+      return requestObj;
+    })
+  );
+
+  return gizmoArr;
 };
 
 export const getSingleGizmoRequest = async (id) => {
@@ -260,8 +273,8 @@ export const deleteGizmoRequest = async (requestId) => {
 
 // ----------------------------- user db fetch -------------------------------
 
-export const getSingleUserInfo = async (uid) => {
-  const gizmoResponse = await fetch(`${dbUrl}/users?uid=${uid}`);
+export const getSingleUserInfo = async (id) => {
+  const gizmoResponse = await fetch(`${dbUrl}/users/${id}`);
   const gizmoData = await gizmoResponse.json();
   return gizmoData[0];
 };
