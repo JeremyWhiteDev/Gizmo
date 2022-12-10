@@ -1,23 +1,30 @@
 import { data } from "autoprefixer";
 import { useEffect, useState } from "react";
+import { useQuery, useQueryClient } from "react-query";
 import {
   getCurrentUserFromDb,
   getPaginatedGizmosAndLocations,
 } from "../api/dataAccess";
 import { GizmoCard } from "./GizmoCard";
+import { GizmoCardGuest } from "./GizmoCardGuest";
 
 export const GizmoList = () => {
   const [gizmos, setGizmos] = useState([]);
   const [filteredGizmos, setFilter] = useState([]);
-  const [cuurrentPage, setCurrentPage] = useState();
   const [pageData, setPageData] = useState({
     currentPageNumber: 1,
     totalGizmos: 0,
     gizmoRangeStart: 1,
     gizmoRangeEnd: 0,
   });
+  const queryClient = useQueryClient();
 
-  const [currentUser, setCurrentUser] = useState({});
+  const currentUser = useQuery("currentUser", getCurrentUserFromDb, {
+    refetchInterval: false,
+    refetchIntervalInBackground: false,
+    refetchOnWindowFocus: false,
+    refetchOnMount: false,
+  });
 
   useEffect(() => {
     const fetchData = async () => {
@@ -40,8 +47,6 @@ export const GizmoList = () => {
         gizmoRangeStart: 1,
         gizmoRangeEnd: gizmoRangeEnd,
       });
-      const currentUser = await getCurrentUserFromDb();
-      setCurrentUser(currentUser);
     };
     fetchData();
   }, []);
@@ -109,7 +114,7 @@ export const GizmoList = () => {
 
   const checkFavoriteAndGetId = (gizmoObj) => {
     const userFavorite = gizmoObj.gizmoFavorites?.filter((fav) => {
-      return fav.userId === currentUser.id;
+      return fav.userId === currentUser.data.id;
     });
     if (userFavorite?.length > 0) {
       return { isFavorite: true, favoriteId: userFavorite[0].id };
@@ -125,7 +130,7 @@ export const GizmoList = () => {
       </h1>
       <div className="flex  justify-center gap-y-5 flex-wrap p-2 gap-x-6 mx-auto max-w-xl md: md:max-w-screen-xl  ">
         {gizmos.length > 0 &&
-          currentUser.id &&
+          currentUser.data?.id &&
           gizmos.map((gizmo) => {
             const { isFavorite, favoriteId } = checkFavoriteAndGetId(gizmo);
             return (
@@ -140,7 +145,22 @@ export const GizmoList = () => {
                 userImg={gizmo.user?.profileImg}
                 isFavorite={isFavorite}
                 favoriteId={favoriteId}
-                currentUserId={currentUser.id}
+                currentUserId={currentUser.data?.id}
+              />
+            );
+          })}
+        {!currentUser.data?.id &&
+          gizmos.map((gizmo) => {
+            return (
+              <GizmoCardGuest
+                key={`gizmo--${gizmo.id}`}
+                variant="publicCard"
+                id={gizmo.id}
+                img={gizmo.img}
+                name={gizmo.nickName}
+                model={gizmo.model}
+                location={gizmo.user?.zipcode}
+                userImg={gizmo.user?.profileImg}
               />
             );
           })}

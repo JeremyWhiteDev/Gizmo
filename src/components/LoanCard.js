@@ -1,6 +1,8 @@
 import { useState } from "react";
+import { useQueryClient } from "react-query";
 import {
   createGizmoRental,
+  deleteGizmoRental,
   deleteGizmoRequest,
   updateGizmoRequest,
 } from "../api/dataAccess";
@@ -22,8 +24,16 @@ export const LoanCard = ({
 }) => {
   const [modalIsActive, setModalIsActive] = useState(false);
 
-  const handleEdit = (e) => {
+  const queryClient = useQueryClient();
+
+  const handleCancelLoan = async (e) => {
     e.preventDefault();
+
+    const deleteResponse = await deleteGizmoRental(rentalId);
+    queryClient.invalidateQueries(["pendingUserGizmoRequests"]);
+    queryClient.invalidateQueries(["pendingGizmoUserRequests"]);
+    queryClient.invalidateQueries(["approvedUpcomingUserLoans"]);
+    queryClient.invalidateQueries(["approvedOngoingUserLoans"]);
     setModalIsActive(true);
   };
 
@@ -53,7 +63,7 @@ export const LoanCard = ({
                 <button
                   type="submit"
                   onClick={(click) => {
-                    // handleEdit(click);
+                    handleCancelLoan(click);
                   }}
                   className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full md:w-40 px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
                 >

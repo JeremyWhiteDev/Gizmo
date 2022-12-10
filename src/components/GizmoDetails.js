@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
+import { useQuery, useQueryClient } from "react-query";
 import { useNavigate, useParams } from "react-router-dom";
 import {
+  getCurrentUserFromDb,
   getCurrentUserFromLocal,
   getSingleGizmo,
   getSingleUserInfo,
@@ -13,14 +15,22 @@ export const GizmoDetails = () => {
   const navigate = useNavigate();
   //img
 
+  const queryClient = useQueryClient();
+
+  const currentUser = useQuery("currentUser", getCurrentUserFromDb, {
+    refetchInterval: false,
+    refetchIntervalInBackground: false,
+    refetchOnWindowFocus: false,
+    refetchOnMount: false,
+  });
+
   useEffect(() => {
     const fetchData = async () => {
       const data = await getSingleGizmo(gizmoId);
       setGizmo(data);
-      const currentUser = getCurrentUserFromLocal();
-      const currentUserDb = await getSingleUserInfo(currentUser.uid);
+
       {
-        currentUserDb.id === data.userId
+        currentUser.data?.id === data.userId
           ? setUserGizmo(true)
           : setUserGizmo(false);
       }
@@ -88,11 +98,11 @@ export const GizmoDetails = () => {
                 Edit this Tool
               </button>
             </>
-          ) : (
+          ) : !isUsersGizmo && currentUser.data?.id ? (
             <>
               <ul>
                 <li className="mb-3 font-normal text-gray-700 dark:text-gray-400">
-                  Gizmo Category: {gizmo.gizmoCategory?.categoryName}
+                  Gizmo Category: {gizmo.gizmoCategory?.name}
                 </li>
                 <li className="mb-3 font-normal text-gray-700 dark:text-gray-400">
                   Gizmo Model Number: {gizmo.model}
@@ -108,6 +118,28 @@ export const GizmoDetails = () => {
                 className="mt-6 bg-purple-800 py-3 rounded-lg text-white dark:text-white hover:bg-purple-900"
               >
                 Request this Tool
+              </button>
+            </>
+          ) : (
+            <>
+              <ul>
+                <li className="mb-3 font-normal text-gray-700 dark:text-gray-400">
+                  Gizmo Category: {gizmo.gizmoCategory?.name}
+                </li>
+                <li className="mb-3 font-normal text-gray-700 dark:text-gray-400">
+                  Gizmo Model Number: {gizmo.model}
+                </li>
+                <li className="mb-3 font-normal text-gray-700 dark:text-gray-400">
+                  Gizmo Location: {gizmo.user?.zipcode}
+                </li>
+              </ul>
+              <button
+                onClick={() => {
+                  navigate(`/login`);
+                }}
+                className="mt-6 bg-purple-800 py-3 rounded-lg text-white dark:text-white hover:bg-purple-900"
+              >
+                Login to Request this Tool
               </button>
             </>
           )}

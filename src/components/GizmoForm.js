@@ -1,10 +1,12 @@
 import { useEffect, useRef, useState } from "react";
+import { useQuery, useQueryClient } from "react-query";
 import { Navigate, useNavigate, useParams } from "react-router-dom";
 import {
   createNewGizmo,
   createNewUser,
   deleteGizmo,
   getAllGizmoCategories,
+  getCurrentUserFromDb,
   getCurrentUserFromLocal,
   getSingleGizmo,
   updateGizmo,
@@ -38,6 +40,15 @@ export const GizmoForm = ({ variant }) => {
   const [imageUrl, setImageUrl] = useState(null);
 
   const { gizmoId } = useParams();
+
+  const queryClient = useQueryClient();
+
+  const currentUser = useQuery("currentUser", getCurrentUserFromDb, {
+    refetchInterval: false,
+    refetchIntervalInBackground: false,
+    refetchOnWindowFocus: false,
+    refetchOnMount: false,
+  });
 
   useEffect(() => {
     if (variant === "editForm") {
@@ -100,7 +111,7 @@ export const GizmoForm = ({ variant }) => {
         const editResponse = await updateGizmo(gizmoId, formCopy);
         navigate(`/gizmo-details/${gizmoId}`);
       } else {
-        const response = await createNewGizmo(formCopy);
+        const response = await createNewGizmo(formCopy, currentUser.data.id);
         navigate(`/gizmo-details/${response.id}`);
       }
     } else {

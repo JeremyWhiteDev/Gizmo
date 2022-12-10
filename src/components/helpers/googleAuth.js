@@ -10,7 +10,7 @@ import {
 
 export const googleAuth = {
   // Works to sign in AND register a user
-  signInRegister: function(navigate) {
+  signInRegister: function (navigate, queryClient) {
     return new Promise((res) => {
       const provider = new GoogleAuthProvider();
       const auth = getAuth();
@@ -24,8 +24,10 @@ export const googleAuth = {
           };
           // Add user object to localStorage
           localStorage.setItem("capstone_user", JSON.stringify(userAuth));
+
+          queryClient.invalidateQueries("currentUser");
           // Navigate us back home
-          navigate("/");
+          navigate("/profile-create");
           console.log("you did it");
         })
         .catch((error) => {
@@ -37,13 +39,14 @@ export const googleAuth = {
     });
   },
   // Sign out a user
-  signOut: function(navigate) {
+  signOut: function (navigate, queryClient) {
     const auth = getAuth();
     signOut(auth)
       .then(() => {
         // Remove user from localStorage
         localStorage.removeItem("capstone_user");
         // Navigate us back home
+        queryClient.invalidateQueries("currentUser");
         navigate("/");
         console.log("Sign Out Success!");
       })

@@ -27,7 +27,6 @@ export const ApplicationViews = () => {
 
   const checkProfile = async () => {
     const result = await checkForUserInfo();
-    console.log(result);
     userProfile.current = result;
     setLoading(false);
   };
@@ -83,6 +82,7 @@ export const ApplicationViews = () => {
     return (
       <Routes>
         <Route path="/gizmos" element={<GizmoList />} />
+        <Route path="/gizmo-details/:gizmoId" element={<GizmoDetails />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route

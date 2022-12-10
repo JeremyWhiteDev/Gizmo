@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useQuery, useQueryClient } from "react-query";
 import { useNavigate, useParams } from "react-router-dom";
 import {
   createGizmoRequest,
@@ -7,6 +8,7 @@ import {
   getSingleGizmoRequest,
   getSingleUserInfo,
   updateGizmoRequest,
+  getCurrentUserFromDb,
 } from "../api/dataAccess";
 
 export const RequestForm = ({
@@ -20,6 +22,15 @@ export const RequestForm = ({
     userId: 0,
     requestMsg: "",
     requestStatus: "",
+  });
+
+  const queryClient = useQueryClient();
+
+  const currentUser = useQuery("currentUser", getCurrentUserFromDb, {
+    refetchInterval: false,
+    refetchIntervalInBackground: false,
+    refetchOnWindowFocus: false,
+    refetchOnMount: false,
   });
 
   const [gizmo, setGizmo] = useState([]);
@@ -38,11 +49,9 @@ export const RequestForm = ({
       } else {
         currentGizmo = await getSingleGizmo(gizmoId);
       }
-      const currentUser = getCurrentUserFromLocal();
-      const currentUserDb = await getSingleUserInfo(currentUser.uid);
 
       //redirects if user somehow gets to this address and is not the corresponding gizmo user
-      if (currentUserDb.id === currentGizmo.userId) {
+      if (currentUser.data.id === currentGizmo.userId) {
         navigate("/garage");
       }
 
@@ -66,12 +75,13 @@ export const RequestForm = ({
   const handleSubmit = async (e) => {
     e.preventDefault();
     const formCopy = { ...requestForm };
-    const userInfo = await getSingleUserInfo(localUser.uid);
-    formCopy.userId = userInfo.id;
-    formCopy.gizmoId = gizmoId;
+
+    formCopy.userId = currentUser.data.id;
+    formCopy.gizmoId = parseInt(gizmoId);
     formCopy.requestStatus = "pending";
 
-    const respone = await createGizmoRequest(formCopy);
+    const respone = await createGizmoRequest(formCopy, currentUser.data.id);
+    queryClient.invalidateQueries(["pendingUserGizmoRequests"]);
     navigate("/requests");
   };
 
@@ -80,6 +90,7 @@ export const RequestForm = ({
     const formCopy = { ...requestForm };
     formCopy.requestStatus = "pending";
     const updateResponse = await updateGizmoRequest(requestId, formCopy);
+    queryClient.invalidateQueries(["pendingUserGizmoRequests"]);
     setModalIsActive(false);
   };
 
