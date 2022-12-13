@@ -2,6 +2,7 @@ import { data } from "autoprefixer";
 import { useEffect, useState } from "react";
 import { useQuery, useQueryClient } from "react-query";
 import {
+  getAllGizmoCategories,
   getCurrentUserFromDb,
   getPaginatedGizmosAndLocations,
 } from "../api/dataAccess";
@@ -10,6 +11,8 @@ import { GizmoCardGuest } from "./GizmoCardGuest";
 
 export const GizmoList = () => {
   const [gizmos, setGizmos] = useState([]);
+  const [checkedFilters, setCheckedFilters] = useState([]);
+  const [categories, setCategories] = useState([]);
   const [filteredGizmos, setFilter] = useState([]);
   const [pageData, setPageData] = useState({
     currentPageNumber: 1,
@@ -31,7 +34,50 @@ export const GizmoList = () => {
       const { data, totalCount } = await getPaginatedGizmosAndLocations(
         1,
         "id",
-        20
+        20,
+        ""
+      );
+      const totalPages = Math.ceil(totalCount / 20);
+      let gizmoRangeEnd;
+      if (totalCount < 20) {
+        gizmoRangeEnd = totalCount;
+      } else {
+        gizmoRangeEnd = 20;
+      }
+      setGizmos(data);
+      setPageData({
+        currentPageNumber: 1,
+        totalGizmos: totalCount,
+        gizmoRangeStart: 1,
+        gizmoRangeEnd: gizmoRangeEnd,
+      });
+
+      const categoryData = await getAllGizmoCategories();
+      setCategories(categoryData);
+    };
+    fetchData();
+  }, []);
+
+  //array of numvers, the length constitutes how many filters are applied.
+  //im doing filters server side. That means for the next/previous buttons to work, they need to simply call the same use effect every time
+  //that useEffect watches for page numbers to change.
+
+  //update page number
+
+  const getQueryString = () => {
+    const filteredChecklist = checkedFilters.filter((x) => x !== false);
+    const queryArr = filteredChecklist.map((x) => `&gizmoCategoryId=${x}`);
+    const queryString = queryArr.join("");
+    return queryString;
+  };
+  useEffect(() => {
+    const fetchData = async () => {
+      const queryString = getQueryString();
+      const { data, totalCount } = await getPaginatedGizmosAndLocations(
+        1,
+        "id",
+        20,
+        queryString
       );
       const totalPages = Math.ceil(totalCount / 20);
       let gizmoRangeEnd;
@@ -49,7 +95,7 @@ export const GizmoList = () => {
       });
     };
     fetchData();
-  }, []);
+  }, [checkedFilters]);
 
   const incrementPage = (e) => {
     e.preventDefault();
@@ -112,6 +158,10 @@ export const GizmoList = () => {
     fetchData();
   };
 
+  useEffect(() => {
+    setCheckedFilters(new Array(categories.length).fill(false));
+  }, [categories]);
+
   const checkFavoriteAndGetId = (gizmoObj) => {
     const userFavorite = gizmoObj.gizmoFavorites?.filter((fav) => {
       return fav.userId === currentUser.data.id;
@@ -128,6 +178,36 @@ export const GizmoList = () => {
       <h1 className="pl-4 dark:text-white mx-auto max-w-xl md:max-w-screen-xl mb-6">
         Browse Public Gizmos
       </h1>
+
+      {categories.map((category, index) => {
+        return (
+          <>
+            <input
+              id="isPublic"
+              type="checkbox"
+              value={category.id}
+              onChange={(e) => {
+                const checkedCopy = [...checkedFilters];
+                const isChecked = e.target.checked;
+                {
+                  isChecked
+                    ? (checkedCopy[index] = parseInt(e.target.value))
+                    : (checkedCopy[index] = false);
+                }
+
+                setCheckedFilters(checkedCopy);
+              }}
+              className="w-4 h-4 bg-gray-50 rounded border border-gray-300 focus:ring-3 focus:ring-blue-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-blue-600 dark:ring-offset-gray-800"
+            />
+            <label
+              htmlFor="isPublic"
+              className="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+            >
+              {category.name}
+            </label>
+          </>
+        );
+      })}
       <div className="flex  justify-center gap-y-5 flex-wrap p-2 gap-x-6 mx-auto max-w-xl md: md:max-w-screen-xl  ">
         {gizmos.length > 0 &&
           currentUser.data?.id &&
