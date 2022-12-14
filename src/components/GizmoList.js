@@ -69,8 +69,7 @@ export const GizmoList = () => {
   //update page number
 
   const getQueryString = () => {
-    const filteredChecklist = checkedFilters.filter((x) => x !== false);
-    const queryArr = filteredChecklist.map((x) => `&gizmoCategoryId=${x}`);
+    const queryArr = checkedFilters.map((x) => `&gizmoCategoryId=${x.id}`);
     let queryString = queryArr.join("");
     if (searchTerm) {
       queryString += `&q=${searchTerm}`;
@@ -176,10 +175,6 @@ export const GizmoList = () => {
     fetchData();
   };
 
-  useEffect(() => {
-    setCheckedFilters(new Array(categories.length).fill(false));
-  }, [categories]);
-
   const checkFavoriteAndGetId = (gizmoObj) => {
     const userFavorite = gizmoObj.gizmoFavorites?.filter((fav) => {
       return fav.userId === currentUser.data.id;
@@ -245,53 +240,59 @@ export const GizmoList = () => {
           })}
         </div>
         {categories.length > 0 && (
-          <Combobox
-            value={checkedFilters}
-            onChange={setCheckedFilters}
-            multiple
-          >
-            {checkedFilters.length > 0 && (
-              <ul className="">
-                {checkedFilters.map((filter) => (
-                  <li
-                    onClick={() => {
-                      const selectedFiltersCopy = [...checkedFilters];
-                      const newArr = selectedFiltersCopy.filter(
-                        (cat) => cat !== filter
-                      );
-                      setCheckedFilters(newArr);
-                    }}
-                    key={filter}
-                  >
-                    {filter}
-                  </li>
-                ))}
-              </ul>
-            )}
-            <Combobox.Input
-              onChange={(event) => setQuery(event.target.value)}
-              // displayValue={(category) => category.name}
-            />
-            <Combobox.Options>
-              {categories.length > 0 && (
-                <Combobox.Option value={{ id: null, name: query }}>
-                  Create "{query}"
-                </Combobox.Option>
+          <div className=" z-10 w-96 bg-white rounded divide-y divide-gray-100 shadow dark:bg-gray-700 dark:divide-gray-600">
+            <Combobox
+              value={checkedFilters}
+              onChange={setCheckedFilters}
+              multiple
+            >
+              {checkedFilters.length > 0 && (
+                <ul className="py-1">
+                  {checkedFilters.map((filter) => (
+                    <li
+                      onClick={() => {
+                        const selectedFiltersCopy = [...checkedFilters];
+                        const newArr = selectedFiltersCopy.filter(
+                          (cat) => cat.id !== filter.id
+                        );
+                        setCheckedFilters(newArr);
+                      }}
+                      key={filter.id}
+                    >
+                      {filter.name}
+                    </li>
+                  ))}
+                </ul>
               )}
-              {filteredCategories.map((category) => {
-                console.log(filteredCategories);
-                return (
+              <Combobox.Input
+                onChange={(event) => setQuery(event.target.value)}
+                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                // displayValue={(category) => category.name}
+              />
+              <Combobox.Options className="py-1 text-sm text-gray-700 dark:text-gray-200">
+                {categories.length > 0 && (
                   <Combobox.Option
-                    key={category.id}
-                    value={category.id}
-                    className="text-white"
+                    value={{ id: null, name: query }}
+                    className="block py-2 px-4 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
                   >
-                    {category.name}
+                    Create "{query}"
                   </Combobox.Option>
-                );
-              })}
-            </Combobox.Options>
-          </Combobox>
+                )}
+                {filteredCategories.map((category) => {
+                  console.log(filteredCategories);
+                  return (
+                    <Combobox.Option
+                      key={category.id}
+                      value={category}
+                      className="block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+                    >
+                      {category.name}
+                    </Combobox.Option>
+                  );
+                })}
+              </Combobox.Options>
+            </Combobox>
+          </div>
         )}
       </div>
       <div className="flex  justify-center gap-y-5 flex-wrap p-2 gap-x-6 mx-auto max-w-xl md: md:max-w-screen-xl  ">
