@@ -14,6 +14,7 @@ export const GizmoList = () => {
   const [checkedFilters, setCheckedFilters] = useState([]);
   const [categories, setCategories] = useState([]);
   const [filteredGizmos, setFilter] = useState([]);
+  const [searchTerm, setSearchTerm] = useState("");
   const [pageData, setPageData] = useState({
     currentPageNumber: 1,
     totalGizmos: 0,
@@ -67,7 +68,10 @@ export const GizmoList = () => {
   const getQueryString = () => {
     const filteredChecklist = checkedFilters.filter((x) => x !== false);
     const queryArr = filteredChecklist.map((x) => `&gizmoCategoryId=${x}`);
-    const queryString = queryArr.join("");
+    let queryString = queryArr.join("");
+    if (searchTerm) {
+      queryString += `&q=${searchTerm}`;
+    }
     return queryString;
   };
   useEffect(() => {
@@ -95,7 +99,7 @@ export const GizmoList = () => {
       });
     };
     fetchData();
-  }, [checkedFilters]);
+  }, [checkedFilters, searchTerm]);
 
   const incrementPage = (e) => {
     e.preventDefault();
@@ -116,10 +120,12 @@ export const GizmoList = () => {
     //fetch data based on new current page values
 
     const fetchData = async () => {
+      const queryString = getQueryString();
       const { data, totalCount } = await getPaginatedGizmosAndLocations(
         pageDataCopy.currentPageNumber,
         "id",
-        20
+        20,
+        queryString
       );
       setGizmos(data);
       setPageData(pageDataCopy);
@@ -147,10 +153,12 @@ export const GizmoList = () => {
     //fetch data based on new current page values
 
     const fetchData = async () => {
+      const queryString = getQueryString();
       const { data, totalCount } = await getPaginatedGizmosAndLocations(
         pageDataCopy.currentPageNumber,
         "id",
-        20
+        20,
+        queryString
       );
       setGizmos(data);
       setPageData(pageDataCopy);
@@ -178,36 +186,54 @@ export const GizmoList = () => {
       <h1 className="pl-4 dark:text-white mx-auto max-w-xl md:max-w-screen-xl mb-6">
         Browse Public Gizmos
       </h1>
+      <div>
+        <input
+          id={`searchField`}
+          type="text"
+          value={searchTerm}
+          onChange={(e) => {
+            setSearchTerm(e.target.value);
+          }}
+          className="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer  bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
+        />
+        <label
+          htmlFor={`searchField`}
+          className="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+        >
+          Search
+        </label>
+        <div className="flex flex-col gap-2">
+          {categories.map((category, index) => {
+            return (
+              <div className="">
+                <input
+                  id={`category--${category.id}`}
+                  type="checkbox"
+                  value={category.id}
+                  onChange={(e) => {
+                    const checkedCopy = [...checkedFilters];
+                    const isChecked = e.target.checked;
+                    {
+                      isChecked
+                        ? (checkedCopy[index] = parseInt(e.target.value))
+                        : (checkedCopy[index] = false);
+                    }
 
-      {categories.map((category, index) => {
-        return (
-          <>
-            <input
-              id={`category--${category.id}`}
-              type="checkbox"
-              value={category.id}
-              onChange={(e) => {
-                const checkedCopy = [...checkedFilters];
-                const isChecked = e.target.checked;
-                {
-                  isChecked
-                    ? (checkedCopy[index] = parseInt(e.target.value))
-                    : (checkedCopy[index] = false);
-                }
-
-                setCheckedFilters(checkedCopy);
-              }}
-              className="w-4 h-4 bg-gray-50 rounded border border-gray-300 focus:ring-3 focus:ring-blue-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-blue-600 dark:ring-offset-gray-800"
-            />
-            <label
-              htmlFor={`category--${category.id}`}
-              className="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
-            >
-              {category.name}
-            </label>
-          </>
-        );
-      })}
+                    setCheckedFilters(checkedCopy);
+                  }}
+                  className="ml-6  w-4 h-4 bg-gray-50 rounded border border-gray-300 focus:ring-3 focus:ring-blue-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-blue-600 dark:ring-offset-gray-800 "
+                />
+                <label
+                  htmlFor={`category--${category.id}`}
+                  className="ml-2 text-sm font-medium text-gray-900 dark:text-white"
+                >
+                  {category.name}
+                </label>
+              </div>
+            );
+          })}
+        </div>
+      </div>
       <div className="flex  justify-center gap-y-5 flex-wrap p-2 gap-x-6 mx-auto max-w-xl md: md:max-w-screen-xl  ">
         {gizmos.length > 0 &&
           currentUser.data?.id &&
