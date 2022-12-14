@@ -1,3 +1,4 @@
+import { Combobox } from "@headlessui/react";
 import { data } from "autoprefixer";
 import { useEffect, useState } from "react";
 import { useQuery, useQueryClient } from "react-query";
@@ -15,6 +16,8 @@ export const GizmoList = () => {
   const [categories, setCategories] = useState([]);
   const [filteredGizmos, setFilter] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
+  const [filteredCategories, setFilteredCategories] = useState([]);
+  const [query, setQuery] = useState("");
   const [pageData, setPageData] = useState({
     currentPageNumber: 1,
     totalGizmos: 0,
@@ -97,9 +100,16 @@ export const GizmoList = () => {
         gizmoRangeStart: 1,
         gizmoRangeEnd: gizmoRangeEnd,
       });
+      const filteredCats =
+        query === ""
+          ? categories
+          : categories.filter((category) => {
+              return category.name.toLowerCase().includes(query.toLowerCase());
+            });
+      setFilteredCategories(filteredCats);
     };
     fetchData();
-  }, [checkedFilters, searchTerm]);
+  }, [checkedFilters, searchTerm, query]);
 
   const incrementPage = (e) => {
     e.preventDefault();
@@ -234,6 +244,55 @@ export const GizmoList = () => {
             );
           })}
         </div>
+        {categories.length > 0 && (
+          <Combobox
+            value={checkedFilters}
+            onChange={setCheckedFilters}
+            multiple
+          >
+            {checkedFilters.length > 0 && (
+              <ul className="">
+                {checkedFilters.map((filter) => (
+                  <li
+                    onClick={() => {
+                      const selectedFiltersCopy = [...checkedFilters];
+                      const newArr = selectedFiltersCopy.filter(
+                        (cat) => cat !== filter
+                      );
+                      setCheckedFilters(newArr);
+                    }}
+                    key={filter}
+                  >
+                    {filter}
+                  </li>
+                ))}
+              </ul>
+            )}
+            <Combobox.Input
+              onChange={(event) => setQuery(event.target.value)}
+              // displayValue={(category) => category.name}
+            />
+            <Combobox.Options>
+              {categories.length > 0 && (
+                <Combobox.Option value={{ id: null, name: query }}>
+                  Create "{query}"
+                </Combobox.Option>
+              )}
+              {filteredCategories.map((category) => {
+                console.log(filteredCategories);
+                return (
+                  <Combobox.Option
+                    key={category.id}
+                    value={category.id}
+                    className="text-white"
+                  >
+                    {category.name}
+                  </Combobox.Option>
+                );
+              })}
+            </Combobox.Options>
+          </Combobox>
+        )}
       </div>
       <div className="flex  justify-center gap-y-5 flex-wrap p-2 gap-x-6 mx-auto max-w-xl md: md:max-w-screen-xl  ">
         {gizmos.length > 0 &&
