@@ -12,10 +12,8 @@ import { GizmoCardGuest } from "./GizmoCardGuest";
 
 export const GizmoList = () => {
   const [gizmos, setGizmos] = useState([]);
-  const [checkedFilters, setCheckedFilters] = useState([]);
+  const [filterTerms, setfilterTerms] = useState([]);
   const [categories, setCategories] = useState([]);
-  const [filteredGizmos, setFilter] = useState([]);
-  const [searchTerm, setSearchTerm] = useState("");
   const [filteredCategories, setFilteredCategories] = useState([]);
   const [query, setQuery] = useState("");
   const [pageData, setPageData] = useState({
@@ -69,7 +67,7 @@ export const GizmoList = () => {
   //update page number
 
   const getQueryString = () => {
-    const queryArr = checkedFilters.map((x) => {
+    const queryArr = filterTerms.map((x) => {
       if (!x.isSearchTerm) {
         return `&gizmoCategoryId=${x.id}`;
       } else {
@@ -112,7 +110,7 @@ export const GizmoList = () => {
       setFilteredCategories(filteredCats);
     };
     fetchData();
-  }, [categories, checkedFilters]);
+  }, [categories, filterTerms]);
 
   useEffect(() => {
     const filteredCats =
@@ -205,17 +203,13 @@ export const GizmoList = () => {
       <h1 className="pl-4 dark:text-white mx-auto max-w-xl md:max-w-screen-xl mb-6">
         Browse Public Gizmos
       </h1>
-      <div className="mx-auto max-w-xl md: md:max-w-screen-xl mb-4">
+      <div className="mx-auto max-w-xl md: md:max-w-screen-xl mb-4 pl-4">
         <h3 className="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">
           Search and Filter
         </h3>
         {categories.length > 0 && (
           <div className=" z-10 w-96 bg-white rounded divide-y-reverse divide-gray-100 shadow dark:bg-gray-700 dark:divide-gray-600">
-            <Combobox
-              value={checkedFilters}
-              onChange={setCheckedFilters}
-              multiple
-            >
+            <Combobox value={filterTerms} onChange={setfilterTerms} multiple>
               <div className="flex relative">
                 <Combobox.Input
                   onChange={(event) => setQuery(event.target.value)}
@@ -261,16 +255,16 @@ export const GizmoList = () => {
         )}
         <div>
           <ul className="py-1 flex gap-4 h-16 items-center">
-            {checkedFilters.length > 0 &&
-              checkedFilters.map((filter) => (
+            {filterTerms.length > 0 &&
+              filterTerms.map((filter) => (
                 <li
                   className="dark:text-white rounded-lg border-solid w-fit border-gray-600 px-3 border-2 cursor-pointer hover:bg-gray-800"
                   onClick={() => {
-                    const selectedFiltersCopy = [...checkedFilters];
+                    const selectedFiltersCopy = [...filterTerms];
                     const newArr = selectedFiltersCopy.filter(
                       (cat) => cat.id !== filter.id
                     );
-                    setCheckedFilters(newArr);
+                    setfilterTerms(newArr);
                   }}
                   key={filter.id}
                 >
@@ -278,10 +272,10 @@ export const GizmoList = () => {
                   {filter.name} <span className="ml-2">x</span>
                 </li>
               ))}
-            {checkedFilters.length > 0 && (
+            {filterTerms.length > 0 && (
               <button
                 className="dark:text-gray-300 underline underline-offset-4"
-                onClick={() => setCheckedFilters([])}
+                onClick={() => setfilterTerms([])}
               >
                 Clear All
               </button>
