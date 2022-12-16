@@ -9,10 +9,11 @@ const dbUrl = "http://localhost:8088";
 export const getPaginatedGizmosAndLocations = async (
   pageNumber,
   sortby,
-  limit
+  limit,
+  filterOne
 ) => {
   const gizmoResponse = await fetch(
-    `${dbUrl}/gizmos?isPublic=true&_expand=gizmoCategory&_expand=user&_embed=gizmoFavorites&_page=${[
+    `${dbUrl}/gizmos?isPublic=true${filterOne}&_expand=gizmoCategory&_expand=user&_embed=gizmoFavorites&_page=${[
       pageNumber,
     ]}&_limit=${limit}&_sort=${sortby}&_order=asc`
   );
