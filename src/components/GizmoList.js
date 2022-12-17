@@ -203,6 +203,7 @@ export const GizmoList = () => {
       return false;
     }
   };
+  // console.log(currentUser);
 
   return (
     <>
@@ -243,7 +244,6 @@ export const GizmoList = () => {
                 )}
                 <div>
                   {filteredCategories.map((category) => {
-                    console.log(filteredCategories);
                     return (
                       <Combobox.Option
                         key={category.id}
@@ -290,7 +290,11 @@ export const GizmoList = () => {
         </div>
       </div>
       <div className="flex  justify-center gap-y-5 flex-wrap p-2 gap-x-6 mx-auto max-w-xl md: md:max-w-screen-xl  ">
-        {!isLoaded ? <div>loading</div> : <GimzoMap />}
+        {isLoaded && !currentUser.isLoading && gizmos.length > 0 ? (
+          <GimzoMap gizmos={gizmos} userGeocode={currentUser.data.geocode} />
+        ) : (
+          <div>loading</div>
+        )}
 
         {gizmos.length > 0 &&
           currentUser.data?.id &&
