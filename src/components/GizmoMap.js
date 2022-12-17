@@ -17,7 +17,7 @@ export const GimzoMap = ({ gizmos, userGeocode }) => {
   };
 
   const randomizeGeoCode = (geocode) => {
-    const randomDecimal = Math.random() * 0.02;
+    const randomDecimal = Math.random() * 0.006;
     const randomOperator = Math.floor(Math.random() * 2);
     if (randomOperator === 1) {
       return geocode - randomDecimal;
