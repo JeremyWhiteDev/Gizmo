@@ -4,6 +4,12 @@ import React, { useMemo, useState } from "react";
 export const GimzoMap = ({ gizmos, userGeocode }) => {
   const mapCenter = useMemo(() => userGeocode, []);
 
+  const options = useMemo(() => ({
+    mapId: "38d218433fbfe87c",
+    disableDefaultUI: true,
+    clickableIcons: false,
+  }));
+
   const [markerOpenId, setMarkerOpenId] = useState("");
 
   const handleMarkerOpen = (key) => {
@@ -39,15 +45,15 @@ export const GimzoMap = ({ gizmos, userGeocode }) => {
     <GoogleMap
       zoom={12}
       center={mapCenter}
-      mapContainerClassName="w-screen h-screen rounded-lg"
+      mapContainerClassName="w-screen rounded-lg md:h-[40rem] "
+      options={options}
     >
       {gizmosWithLocations.length > 0 &&
-        gizmosWithLocations.map((gizmo, key = gizmo.id) => {
+        gizmosWithLocations.map((gizmo) => {
           return (
             <React.Fragment key={gizmo.id}>
               <Marker
                 position={{ lat: gizmo.randomLat, lng: gizmo.randomLng }}
-                animation={"DROP"}
                 onClick={() => handleMarkerOpen(gizmo.id)}
               >
                 {markerOpenId === gizmo.id && (
