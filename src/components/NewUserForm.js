@@ -1,4 +1,8 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import GooglePlacesAutocomplete, {
+  geocodeByAddress,
+  getLatLng,
+} from "react-google-places-autocomplete";
 import { useQueryClient } from "react-query";
 import { useNavigate } from "react-router-dom";
 import { createNewUser } from "../api/dataAccess";
@@ -14,7 +18,10 @@ export const NewUserForm = () => {
     zipcode: "",
     profileImg: "",
     userCaption: "",
+    geocode: {},
   });
+
+  const [location, setLocation] = useState(null);
 
   const [image, setImage] = useState(null);
   const [imageUrl, setImageUrl] = useState(null);
@@ -56,12 +63,41 @@ export const NewUserForm = () => {
     }
   };
 
+  useEffect(() => {
+    if (location?.label) {
+      const getAddressData = async () => {
+        const geodata = await geocodeByAddress(location.label);
+        const { lat, lng } = await getLatLng(geodata[0]);
+        const formCopy = { ...userForm };
+        formCopy.geocode = { lat: lat, lng: lng };
+        const foundZipObj = geodata[0].address_components.find((x) =>
+          x.types[0].startsWith("postal")
+        );
+        {
+          foundZipObj?.long_name
+            ? (formCopy.zipcode = parseInt(foundZipObj.long_name))
+            : (formCopy.zipcode = 0);
+        }
+
+        updateForm(formCopy);
+      };
+      getAddressData();
+    } else {
+      const formCopy = { ...userForm };
+      formCopy.geocode = {};
+      formCopy.zipcode = 0;
+    }
+  }, [location]);
+
+  // get user address via autocomplete?
+
   return (
     <>
       <form className=" max-w-md px-5 md:max-w-3xl pt-54 mx-auto">
         <h3 className="dark:text-white text-2xl mb-11">
           Create a User Profile to Continue
         </h3>
+
         <div className="mb-6">
           <label
             htmlFor="firstName"
@@ -149,26 +185,19 @@ export const NewUserForm = () => {
           />
         </div>
         <div className="mb-6">
-          <label
-            htmlFor="zipcode"
-            className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-          >
-            5-Digit Zipcode
+          <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+            Address
           </label>
-          <input
-            type="number"
-            id="zipcode"
-            maxLength="5"
-            value={userForm.zipcode}
-            onChange={(e) => {
-              const formCopy = { ...userForm };
-              formCopy.zipcode = e.target.valueAsNumber;
-              updateForm(formCopy);
+          <GooglePlacesAutocomplete
+            apiKey={process.env.REACT_APP_GOOGLEMAPS_API_KEY}
+            selectProps={{
+              location,
+              isClearable: true,
+              onChange: setLocation,
             }}
-            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-            placeholder="eg. 37210"
           />
         </div>
+
         <div className="mb-6">
           <label
             className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
