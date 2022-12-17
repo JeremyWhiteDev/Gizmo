@@ -1,4 +1,5 @@
 import { Combobox } from "@headlessui/react";
+import { useLoadScript } from "@react-google-maps/api";
 import { data } from "autoprefixer";
 import { useEffect, useState } from "react";
 import { useQuery, useQueryClient } from "react-query";
@@ -9,6 +10,7 @@ import {
 } from "../api/dataAccess";
 import { GizmoCard } from "./GizmoCard";
 import { GizmoCardGuest } from "./GizmoCardGuest";
+import { GimzoMap } from "./GizmoMap";
 
 export const GizmoList = () => {
   const [gizmos, setGizmos] = useState([]);
@@ -23,6 +25,10 @@ export const GizmoList = () => {
     gizmoRangeEnd: 0,
   });
   const queryClient = useQueryClient();
+
+  const { isLoaded } = useLoadScript({
+    googleMapsApiKey: process.env.REACT_APP_GOOGLEMAPS_API_KEY,
+  });
 
   const currentUser = useQuery("currentUser", getCurrentUserFromDb, {
     refetchInterval: false,
@@ -284,6 +290,8 @@ export const GizmoList = () => {
         </div>
       </div>
       <div className="flex  justify-center gap-y-5 flex-wrap p-2 gap-x-6 mx-auto max-w-xl md: md:max-w-screen-xl  ">
+        {!isLoaded ? <div>loading</div> : <GimzoMap />}
+
         {gizmos.length > 0 &&
           currentUser.data?.id &&
           gizmos.map((gizmo) => {
