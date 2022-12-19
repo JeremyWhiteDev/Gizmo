@@ -1,4 +1,5 @@
 import { Combobox } from "@headlessui/react";
+import { useLoadScript } from "@react-google-maps/api";
 import { data } from "autoprefixer";
 import { useEffect, useState } from "react";
 import { useQuery, useQueryClient } from "react-query";
@@ -9,6 +10,7 @@ import {
 } from "../api/dataAccess";
 import { GizmoCard } from "./GizmoCard";
 import { GizmoCardGuest } from "./GizmoCardGuest";
+import { GimzoMap } from "./GizmoMap";
 
 export const GizmoList = () => {
   const [gizmos, setGizmos] = useState([]);
@@ -22,7 +24,13 @@ export const GizmoList = () => {
     gizmoRangeStart: 1,
     gizmoRangeEnd: 0,
   });
+
+  const [viewStyle, setViewStyle] = useState("gridView");
   const queryClient = useQueryClient();
+
+  const { isLoaded } = useLoadScript({
+    googleMapsApiKey: process.env.REACT_APP_GOOGLEMAPS_API_KEY,
+  });
 
   const currentUser = useQuery("currentUser", getCurrentUserFromDb, {
     refetchInterval: false,
@@ -197,6 +205,7 @@ export const GizmoList = () => {
       return false;
     }
   };
+  // console.log(currentUser);
 
   return (
     <>
@@ -237,7 +246,6 @@ export const GizmoList = () => {
                 )}
                 <div>
                   {filteredCategories.map((category) => {
-                    console.log(filteredCategories);
                     return (
                       <Combobox.Option
                         key={category.id}
@@ -282,10 +290,44 @@ export const GizmoList = () => {
             )}
           </ul>
         </div>
+        <button
+          onClick={(click) => {
+            click.preventDefault();
+            if (viewStyle !== "gridView") {
+              setViewStyle("gridView");
+            }
+          }}
+          className={`text-white ${
+            viewStyle === "gridView"
+              ? "dark:bg-blue-600 bg-blue-600 hover:bg-blue-800 dark:hover:bg-blue-700 "
+              : "dark:bg-gray-400 bg-gray-400 hover:bg-gray-500 dark:hover:bg-gray-500"
+          }  focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center   dark:focus:ring-blue-800`}
+        >
+          Grid View
+        </button>
+        <button
+          onClick={(click) => {
+            click.preventDefault();
+            if (viewStyle !== "mapView") {
+              setViewStyle("mapView");
+            }
+          }}
+          className={`text-white ${
+            viewStyle === "mapView"
+              ? "dark:bg-blue-600 bg-blue-600 hover:bg-blue-800 dark:hover:bg-blue-700 "
+              : "dark:bg-gray-400 bg-gray-400 hover:bg-gray-500 dark:hover:bg-gray-500"
+          }  focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 ml-4 text-center   dark:focus:ring-blue-800`}
+        >
+          Map View
+        </button>
       </div>
       <div className="flex  justify-center gap-y-5 flex-wrap p-2 gap-x-6 mx-auto max-w-xl md: md:max-w-screen-xl  ">
-        {gizmos.length > 0 &&
-          currentUser.data?.id &&
+        {isLoaded &&
+        !currentUser.isLoading &&
+        gizmos.length > 0 &&
+        viewStyle == "mapView" ? (
+          <GimzoMap gizmos={gizmos} userGeocode={currentUser.data.geocode} />
+        ) : gizmos.length > 0 && currentUser.data?.id ? (
           gizmos.map((gizmo) => {
             const { isFavorite, favoriteId } = checkFavoriteAndGetId(gizmo);
             return (
@@ -303,8 +345,9 @@ export const GizmoList = () => {
                 currentUserId={currentUser.data?.id}
               />
             );
-          })}
-        {!currentUser.data?.id &&
+          })
+        ) : (
+          !currentUser.data?.id &&
           gizmos.map((gizmo) => {
             return (
               <GizmoCardGuest
@@ -318,7 +361,8 @@ export const GizmoList = () => {
                 userImg={gizmo.user?.profileImg}
               />
             );
-          })}
+          })
+        )}
       </div>
 
       <div className="mt-8 flex flex-col items-center">
