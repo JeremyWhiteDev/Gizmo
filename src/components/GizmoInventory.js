@@ -6,7 +6,7 @@ import {
 } from "../api/dataAccess";
 import { useEffect, useState } from "react";
 import { getPaginatedGizmosAndLocations } from "../api/dataAccess";
-import { GizmoCard } from "./GizmoCard";
+import { GizmoCard } from "./cards/GizmoCard";
 import { useNavigate } from "react-router-dom";
 import { useQuery, useQueryClient } from "react-query";
 

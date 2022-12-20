@@ -1,4 +1,4 @@
-import { RequestForm } from "../RequestForm";
+import { RequestForm } from "../forms/RequestForm";
 import "./Modal.css";
 
 export const EditRequestModal = ({

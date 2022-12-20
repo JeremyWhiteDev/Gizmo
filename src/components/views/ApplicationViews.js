@@ -7,12 +7,12 @@ import { useEffect, useState, useRef } from "react";
 import { NavigateToNewUserForm } from "./NavigateToNewUserForm";
 import { Login } from "../auth/Login";
 import { Register } from "../auth/Register";
-import { NewUserForm } from "../NewUserForm";
-import { GizmoForm } from "../GizmoForm";
+import { NewUserForm } from "../forms/NewUserForm";
+import { GizmoForm } from "../forms/GizmoForm";
 import { GizmoGarage, GizmoList } from "../GizmoList";
 import { GizmoInventory } from "../GizmoInventory";
 import { GizmoDetails } from "../GizmoDetails";
-import { RequestForm } from "../RequestForm";
+import { RequestForm } from "../forms/RequestForm";
 import { ReqeustList, RequestList } from "../RequestList";
 
 export const ApplicationViews = () => {
