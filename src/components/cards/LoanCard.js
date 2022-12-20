@@ -37,6 +37,15 @@ export const LoanCard = ({
     setModalIsActive(true);
   };
 
+  const getDateString = (date) => {
+    const initialDate = new Date(date);
+    const updatedDate = new Date(
+      initialDate.setDate(initialDate.getDate() + 1)
+    );
+    const dateString = updatedDate.toLocaleDateString("en-US");
+    return dateString;
+  };
+
   return (
     <>
       <div className="flex flex-col  border border-gray-200 rounded-lg shadow-md md:flex-row md:w-full dark:border-gray-700 dark:bg-gray-800">
@@ -51,7 +60,8 @@ export const LoanCard = ({
               {user} {gizmo}
             </h5>
             <p className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-gray-400">
-              Rental Period: {startDate} Thru {endDate}
+              Rental Period: {getDateString(startDate)} -{" "}
+              {getDateString(endDate)}
             </p>
           </div>
           <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">
