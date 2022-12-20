@@ -9,7 +9,7 @@ import {
   getSingleUserInfo,
   updateGizmoRequest,
   getCurrentUserFromDb,
-} from "../api/dataAccess";
+} from "../../api/dataAccess";
 
 export const RequestForm = ({
   requestId,

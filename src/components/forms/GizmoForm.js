@@ -10,8 +10,8 @@ import {
   getCurrentUserFromLocal,
   getSingleGizmo,
   updateGizmo,
-} from "../api/dataAccess";
-import { photoStorage } from "./helpers/photoStorage";
+} from "../../api/dataAccess";
+import { photoStorage } from "../helpers/photoStorage";
 
 export const GizmoForm = ({ variant }) => {
   const [gizmoForm, updateForm] = useState({

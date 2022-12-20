@@ -2,8 +2,8 @@ import { getAuth, signOut } from "firebase/auth";
 import { useEffect, useRef, useState } from "react";
 import { useQuery, useQueryClient } from "react-query";
 import { Navigate, NavLink, useNavigate } from "react-router-dom";
-import { getCurrentUserFromDb } from "../api/dataAccess";
-import { logout } from "./helpers/logout";
+import { getCurrentUserFromDb } from "../../api/dataAccess";
+import { logout } from "../helpers/logout";
 
 export const NavBar = () => {
   const [drawerOpen, setDrawerOpen] = useState();
@@ -29,7 +29,7 @@ export const NavBar = () => {
         <div className="container flex flex-wrap items-center justify-between mx-auto">
           <a href="/" className="flex items-center">
             <img
-              src={require("../images/box-logo.png")}
+              src={require("../../images/box-logo.png")}
               className="h-6 mr-3 sm:h-9"
               alt="Gizmo Logo"
             />

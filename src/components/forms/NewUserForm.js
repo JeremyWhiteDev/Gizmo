@@ -5,8 +5,8 @@ import GooglePlacesAutocomplete, {
 } from "react-google-places-autocomplete";
 import { useQueryClient } from "react-query";
 import { useNavigate } from "react-router-dom";
-import { createNewUser } from "../api/dataAccess";
-import { photoStorage } from "./helpers/photoStorage";
+import { createNewUser } from "../../api/dataAccess";
+import { photoStorage } from "../helpers/photoStorage";
 
 export const NewUserForm = () => {
   const [userForm, updateForm] = useState({

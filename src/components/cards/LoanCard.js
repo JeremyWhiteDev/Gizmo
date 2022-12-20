@@ -5,8 +5,8 @@ import {
   deleteGizmoRental,
   deleteGizmoRequest,
   updateGizmoRequest,
-} from "../api/dataAccess";
-import { EditRequestModal } from "./modals/EditRequestModal";
+} from "../../api/dataAccess";
+import { EditRequestModal } from "../modals/EditRequestModal";
 
 export const LoanCard = ({
   rentalId,

@@ -4,8 +4,8 @@ import {
   createGizmoRental,
   deleteGizmoRequest,
   updateGizmoRequest,
-} from "../api/dataAccess";
-import { EditRequestModal } from "./modals/EditRequestModal";
+} from "../../api/dataAccess";
+import { EditRequestModal } from "../modals/EditRequestModal";
 
 export const RequestCard = ({
   requestId,

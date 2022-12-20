@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { createGizmoFavorite, deleteGizmoFavorite } from "../api/dataAccess";
+import { createGizmoFavorite, deleteGizmoFavorite } from "../../api/dataAccess";
 
 export const GizmoCardGuest = ({
   img,

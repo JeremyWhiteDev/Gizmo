@@ -7,8 +7,8 @@ import {
   getRequestsForSingleUsersGizmos,
   getUpcomingRentals,
 } from "../api/dataAccess";
-import { LoanCard } from "./LoanCard";
-import { RequestCard } from "./RequestCard";
+import { LoanCard } from "./cards/LoanCard";
+import { RequestCard } from "./cards/RequestCard";
 
 export const RequestList = () => {
   //   const [pendingRequests, setUserRequests] = useState([]);

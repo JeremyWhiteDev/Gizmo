@@ -8,8 +8,8 @@ import {
   getCurrentUserFromDb,
   getPaginatedGizmosAndLocations,
 } from "../api/dataAccess";
-import { GizmoCard } from "./GizmoCard";
-import { GizmoCardGuest } from "./GizmoCardGuest";
+import { GizmoCard } from "./cards/GizmoCard";
+import { GizmoCardGuest } from "./cards/GizmoCardGuest";
 import { GimzoMap } from "./GizmoMap";
 
 export const GizmoList = () => {
