@@ -206,6 +206,7 @@ export const GizmoList = () => {
     }
   };
   // console.log(currentUser);
+  console.log(currentUser);
 
   return (
     <>
@@ -326,7 +327,17 @@ export const GizmoList = () => {
         !currentUser.isLoading &&
         gizmos.length > 0 &&
         viewStyle == "mapView" ? (
-          <GimzoMap gizmos={gizmos} userGeocode={currentUser.data.geocode} />
+          <GimzoMap
+            gizmos={gizmos}
+            userGeocode={
+              currentUser.data?.geocode
+                ? currentUser.data.geocode
+                : {
+                    lat: 36.17377,
+                    lng: -86.6743,
+                  }
+            }
+          />
         ) : gizmos.length > 0 && currentUser.data?.id ? (
           gizmos.map((gizmo) => {
             const { isFavorite, favoriteId } = checkFavoriteAndGetId(gizmo);
