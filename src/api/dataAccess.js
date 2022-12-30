@@ -368,10 +368,22 @@ export const getUpcomingRentals = async (currentUserId) => {
     }
   });
 
-  return filteredRentals;
+  const rentalArray = await Promise.all(
+    filteredRentals.map(async (request) => {
+      const requestObj = { ...request };
+
+      const userResponse = await fetch(
+        `${dbUrl}/users/${requestObj.gizmo.userId}`
+      );
+      requestObj.ownerUser = await userResponse.json();
+      return requestObj;
+    })
+  );
+
+  return rentalArray;
 };
 
-export const getOngoingRentals = async (currentUserObj) => {
+export const getOngoingRentals = async (currentUserId) => {
   const gizmoResponse = await fetch(
     `${dbUrl}/gizmoRentals?isComplete=false&_expand=gizmo&_expand=user`
   );
@@ -380,15 +392,30 @@ export const getOngoingRentals = async (currentUserObj) => {
     const today = Date.now();
     const todayDate = new Date(today);
     const startDate = new Date(rental.startDate);
+    console.log(rental, startDate);
     if (
-      (rental.gizmo.userId === currentUserObj.id && startDate < todayDate) ||
-      (rental.userId === currentUserObj.id && startDate < todayDate)
+      (rental.gizmo.userId === currentUserId && startDate < todayDate) ||
+      (rental.userId === currentUserId && startDate < todayDate)
     ) {
       return rental;
     }
   });
 
-  return filteredRentals;
+  console.log(filteredRentals);
+
+  const loanArray = await Promise.all(
+    filteredRentals.map(async (request) => {
+      const requestObj = { ...request };
+
+      const userResponse = await fetch(
+        `${dbUrl}/users/${requestObj.gizmo.userId}`
+      );
+      requestObj.ownerUser = await userResponse.json();
+      return requestObj;
+    })
+  );
+
+  return loanArray;
 };
 
 export const deleteGizmoRental = async (rentalId) => {
