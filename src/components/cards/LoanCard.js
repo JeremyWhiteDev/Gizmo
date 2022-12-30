@@ -65,7 +65,7 @@ export const LoanCard = ({
             </p>
           </div>
           <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">
-            {renter} agreed to borrow {provider} {gizmo}
+            {renter} agreed to share {provider} {gizmo}
           </p>
           <div className="flex gap-6 md:flex-row ">
             {variant === "upcomingLoan" ? (
