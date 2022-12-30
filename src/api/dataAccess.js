@@ -392,7 +392,6 @@ export const getOngoingRentals = async (currentUserId) => {
     const today = Date.now();
     const todayDate = new Date(today);
     const startDate = new Date(rental.startDate);
-    console.log(rental, startDate);
     if (
       (rental.gizmo.userId === currentUserId && startDate < todayDate) ||
       (rental.userId === currentUserId && startDate < todayDate)
