@@ -5,21 +5,12 @@ import {
   getOngoingRentals,
   getPendingUserGizmoRequests,
   getRequestsForSingleUsersGizmos,
-  getSingleUserInfo,
   getUpcomingRentals,
 } from "../api/dataAccess";
 import { LoanCard } from "./cards/LoanCard";
 import { RequestCard } from "./cards/RequestCard";
 
 export const RequestList = () => {
-  //   const [pendingRequests, setUserRequests] = useState([]);
-
-  //   const [requestedGizmos, setRequestGizmos] = useState([]);
-  const [modalIsActive, setModalIsActive] = useState(false);
-
-  //   const [upcomingLoans, setUpcomingLoans] = useState([]);
-  //   const [ongoingLoans, setOngoingLoans] = useState([]);
-
   const queryClient = useQueryClient();
 
   const currentUser = useQuery("currentUser", getCurrentUserFromDb, {
@@ -46,25 +37,6 @@ export const RequestList = () => {
     async () => await getOngoingRentals(currentUser.data.id)
   );
 
-  useEffect(() => {
-    const fetchData = async () => {
-      //   const pending = await getPendingUserGizmoRequests(currentUser.data.id);
-      //   setUserRequests(pending);
-      //   const requested = await getRequestsForSingleUsersGizmos(currentUser.data);
-      //   setRequestGizmos(requested);
-      //   const upcoming = await getUpcomingRentals(currentUser.data);
-      //   setUpcomingLoans(upcoming);
-      //   const onGoing = await getOngoingRentals(currentUser.data);
-      //   setOngoingLoans(onGoing);
-    };
-    fetchData();
-  }, []);
-
-  // const getOwnerUserName = async (id) => {
-  //   const ownerObj = await getSingleUserInfo(id);
-  //   return ownerObj.firstName;
-  // };
-
   return (
     <>
       <div className="md:max-w-5xl mx-auto">
@@ -77,7 +49,6 @@ export const RequestList = () => {
           </h2>
           <div className="flex flex-col items-center justify-evenly gap-7">
             {!pendingRequests.isLoading &&
-              //   pendingRequests.data &&
               pendingRequests.data?.map((request) => (
                 <RequestCard
                   key={`outgoingRequest--${request.id}`}
