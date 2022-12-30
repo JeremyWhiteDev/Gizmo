@@ -5,6 +5,7 @@ import {
   getOngoingRentals,
   getPendingUserGizmoRequests,
   getRequestsForSingleUsersGizmos,
+  getSingleUserInfo,
   getUpcomingRentals,
 } from "../api/dataAccess";
 import { LoanCard } from "./cards/LoanCard";
@@ -58,6 +59,11 @@ export const RequestList = () => {
     };
     fetchData();
   }, []);
+
+  // const getOwnerUserName = async (id) => {
+  //   const ownerObj = await getSingleUserInfo(id);
+  //   return ownerObj.firstName;
+  // };
 
   return (
     <>
@@ -128,21 +134,19 @@ export const RequestList = () => {
                   rentalGizmoId={rental.gizmo?.id}
                   gizmo={rental.gizmo?.nickName}
                   user={`${
-                    rental.userId === currentUser.id
+                    rental.userId !== currentUser.data?.id
                       ? "Your"
-                      : `${rental.user?.firstName}'s`
+                      : `${rental.ownerUser?.firstName}'s`
                   }`}
                   startDate={rental.startDate}
                   endDate={rental.endDate}
                   renter={`${
-                    rental.userId === currentUser.id
-                      ? "You"
+                    rental.userId === currentUser.data?.id
+                      ? `${rental.ownerUser?.firstName}`
                       : `${rental.user?.firstName}`
                   }`}
                   provider={`${
-                    rental.userId !== currentUser.id
-                      ? "your"
-                      : `${rental.user?.firstName}'s`
+                    rental.userId !== currentUser.data?.id ? "your" : `their`
                   }`}
                 />
               ))}
@@ -159,28 +163,28 @@ export const RequestList = () => {
                   key={`incomingrental--${rental.id}`}
                   rentalObj={rental}
                   variant={`${
-                    rental.userId !== currentUser.id ? "ongoing-provider" : ""
+                    rental.userId !== currentUser.data?.id
+                      ? "ongoing-provider"
+                      : ""
                   }`}
                   rentalId={rental.id}
                   img={rental.gizmo?.img}
                   rentalGizmoId={rental.gizmo?.id}
                   gizmo={rental.gizmo?.nickName}
                   user={`${
-                    rental.userId === currentUser.id
+                    rental.userId !== currentUser.data?.id
                       ? "Your"
-                      : `${rental.user?.firstName}'s`
+                      : `${rental.ownerUser?.firstName}'s`
                   }`}
                   startDate={rental.startDate}
                   endDate={rental.endDate}
                   renter={`${
-                    rental.userId === currentUser.id
-                      ? "You"
-                      : `${rental.user?.firstName}`
+                    rental.userId === currentUser.data?.id
+                      ? `${rental.ownerUser?.firstName}`
+                      : `You`
                   }`}
                   provider={`${
-                    rental.userId !== currentUser.id
-                      ? "your"
-                      : `${rental.user?.firstName}'s`
+                    rental.userId !== currentUser.data?.id ? "your" : `their`
                   }`}
                 />
               ))}
