@@ -401,8 +401,6 @@ export const getOngoingRentals = async (currentUserId) => {
     }
   });
 
-  console.log(filteredRentals);
-
   const loanArray = await Promise.all(
     filteredRentals.map(async (request) => {
       const requestObj = { ...request };
