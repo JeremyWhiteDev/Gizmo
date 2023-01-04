@@ -98,7 +98,7 @@ export const NewUserForm = () => {
           Create a User Profile to Continue
         </h3>
 
-        <div className="mb-6">
+        <fieldset className="mb-6">
           <label
             htmlFor="firstName"
             className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
@@ -119,8 +119,8 @@ export const NewUserForm = () => {
             placeholder="Your First Name"
             required
           />
-        </div>
-        <div className="mb-6">
+        </fieldset>
+        <fieldset className="mb-6">
           <label
             htmlFor="lastName"
             className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
@@ -141,8 +141,8 @@ export const NewUserForm = () => {
             placeholder="Your Last Name"
             required
           />
-        </div>
-        <div className="mb-6">
+        </fieldset>
+        <fieldset className="mb-6">
           <label
             htmlFor="userCaption"
             className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
@@ -162,8 +162,8 @@ export const NewUserForm = () => {
             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
             placeholder="eg. Tool Collector and WoodWorker"
           />
-        </div>
-        <div className="mb-6">
+        </fieldset>
+        <fieldset className="mb-6">
           <label
             htmlFor="pronouns"
             className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
@@ -183,8 +183,8 @@ export const NewUserForm = () => {
             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
             placeholder="eg. She/They or He/Him"
           />
-        </div>
-        <div className="mb-6">
+        </fieldset>
+        <fieldset className="mb-6">
           <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
             Address
           </label>
@@ -196,9 +196,9 @@ export const NewUserForm = () => {
               onChange: setLocation,
             }}
           />
-        </div>
+        </fieldset>
 
-        <div className="mb-6">
+        <fieldset className="mb-6">
           <label
             className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
             htmlFor="file_input"
@@ -218,7 +218,7 @@ export const NewUserForm = () => {
           >
             SVG, PNG, JPG or GIF (MAX. 800x400px).
           </p>
-        </div>
+        </fieldset>
 
         <button
           type="submit"
