@@ -116,7 +116,7 @@ export const RequestList = () => {
                       ? `${rental.ownerUser?.firstName}`
                       : `${rental.user?.firstName}`
                   }`}
-                  provider={`${
+                  owner={`${
                     rental.userId !== currentUser.data?.id ? "your" : `their`
                   }`}
                 />
@@ -154,7 +154,7 @@ export const RequestList = () => {
                       ? `${rental.ownerUser?.firstName}`
                       : `You`
                   }`}
-                  provider={`${
+                  owner={`${
                     rental.userId !== currentUser.data?.id ? "your" : `their`
                   }`}
                 />
