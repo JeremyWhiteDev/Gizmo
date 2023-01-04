@@ -1,11 +1,6 @@
 import { useState } from "react";
 import { useQueryClient } from "react-query";
-import {
-  createGizmoRental,
-  deleteGizmoRental,
-  deleteGizmoRequest,
-  updateGizmoRequest,
-} from "../../api/dataAccess";
+import { deleteGizmoRental } from "../../api/dataAccess";
 import { EditRequestModal } from "../modals/EditRequestModal";
 
 export const LoanCard = ({
@@ -20,7 +15,7 @@ export const LoanCard = ({
   rentalGizmoId,
   rentalObj,
   renter,
-  provider,
+  owner,
 }) => {
   const [modalIsActive, setModalIsActive] = useState(false);
 
@@ -65,7 +60,7 @@ export const LoanCard = ({
             </p>
           </div>
           <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">
-            {renter} agreed to borrow {provider} {gizmo}
+            {renter} agreed to share {owner} {gizmo}
           </p>
           <div className="flex gap-6 md:flex-row ">
             {variant === "upcomingLoan" ? (

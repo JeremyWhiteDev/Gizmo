@@ -187,7 +187,7 @@ export const GizmoForm = ({ variant }) => {
               updateForm(formCopy);
             }}
             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-            placeholder="Table Saw"
+            placeholder="Name of Item"
             required
           />
         </fieldset>
@@ -209,7 +209,7 @@ export const GizmoForm = ({ variant }) => {
               updateForm(formCopy);
             }}
             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-            placeholder="DCB7958"
+            placeholder="Model # or other description"
             required
           />
         </fieldset>
@@ -231,7 +231,7 @@ export const GizmoForm = ({ variant }) => {
               updateForm(formCopy);
             }}
             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-            placeholder="eg. Tool Collector and WoodWorker"
+            placeholder="Name of Manufacturer"
             required
           />
         </fieldset>
@@ -277,7 +277,7 @@ export const GizmoForm = ({ variant }) => {
           </label>
           <input
             type="date"
-            id="zipcode"
+            id="purchaseDate"
             maxLength="15"
             value={gizmoForm.purchaseDate}
             onChange={(e) => {

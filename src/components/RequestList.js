@@ -11,14 +11,6 @@ import { LoanCard } from "./cards/LoanCard";
 import { RequestCard } from "./cards/RequestCard";
 
 export const RequestList = () => {
-  //   const [pendingRequests, setUserRequests] = useState([]);
-
-  //   const [requestedGizmos, setRequestGizmos] = useState([]);
-  const [modalIsActive, setModalIsActive] = useState(false);
-
-  //   const [upcomingLoans, setUpcomingLoans] = useState([]);
-  //   const [ongoingLoans, setOngoingLoans] = useState([]);
-
   const queryClient = useQueryClient();
 
   const currentUser = useQuery("currentUser", getCurrentUserFromDb, {
@@ -45,20 +37,6 @@ export const RequestList = () => {
     async () => await getOngoingRentals(currentUser.data.id)
   );
 
-  useEffect(() => {
-    const fetchData = async () => {
-      //   const pending = await getPendingUserGizmoRequests(currentUser.data.id);
-      //   setUserRequests(pending);
-      //   const requested = await getRequestsForSingleUsersGizmos(currentUser.data);
-      //   setRequestGizmos(requested);
-      //   const upcoming = await getUpcomingRentals(currentUser.data);
-      //   setUpcomingLoans(upcoming);
-      //   const onGoing = await getOngoingRentals(currentUser.data);
-      //   setOngoingLoans(onGoing);
-    };
-    fetchData();
-  }, []);
-
   return (
     <>
       <div className="md:max-w-5xl mx-auto">
@@ -71,7 +49,6 @@ export const RequestList = () => {
           </h2>
           <div className="flex flex-col items-center justify-evenly gap-7">
             {!pendingRequests.isLoading &&
-              //   pendingRequests.data &&
               pendingRequests.data?.map((request) => (
                 <RequestCard
                   key={`outgoingRequest--${request.id}`}
@@ -128,21 +105,19 @@ export const RequestList = () => {
                   rentalGizmoId={rental.gizmo?.id}
                   gizmo={rental.gizmo?.nickName}
                   user={`${
-                    rental.userId === currentUser.id
+                    rental.userId !== currentUser.data?.id
                       ? "Your"
-                      : `${rental.user?.firstName}'s`
+                      : `${rental.ownerUser?.firstName}'s`
                   }`}
                   startDate={rental.startDate}
                   endDate={rental.endDate}
                   renter={`${
-                    rental.userId === currentUser.id
-                      ? "You"
+                    rental.userId === currentUser.data?.id
+                      ? `${rental.ownerUser?.firstName}`
                       : `${rental.user?.firstName}`
                   }`}
-                  provider={`${
-                    rental.userId !== currentUser.id
-                      ? "your"
-                      : `${rental.user?.firstName}'s`
+                  owner={`${
+                    rental.userId !== currentUser.data?.id ? "your" : `their`
                   }`}
                 />
               ))}
@@ -159,28 +134,28 @@ export const RequestList = () => {
                   key={`incomingrental--${rental.id}`}
                   rentalObj={rental}
                   variant={`${
-                    rental.userId !== currentUser.id ? "ongoing-provider" : ""
+                    rental.userId !== currentUser.data?.id
+                      ? "ongoing-provider"
+                      : ""
                   }`}
                   rentalId={rental.id}
                   img={rental.gizmo?.img}
                   rentalGizmoId={rental.gizmo?.id}
                   gizmo={rental.gizmo?.nickName}
                   user={`${
-                    rental.userId === currentUser.id
+                    rental.userId !== currentUser.data?.id
                       ? "Your"
-                      : `${rental.user?.firstName}'s`
+                      : `${rental.ownerUser?.firstName}'s`
                   }`}
                   startDate={rental.startDate}
                   endDate={rental.endDate}
                   renter={`${
-                    rental.userId === currentUser.id
-                      ? "You"
-                      : `${rental.user?.firstName}`
+                    rental.userId === currentUser.data?.id
+                      ? `${rental.ownerUser?.firstName}`
+                      : `You`
                   }`}
-                  provider={`${
-                    rental.userId !== currentUser.id
-                      ? "your"
-                      : `${rental.user?.firstName}'s`
+                  owner={`${
+                    rental.userId !== currentUser.data?.id ? "your" : `their`
                   }`}
                 />
               ))}
