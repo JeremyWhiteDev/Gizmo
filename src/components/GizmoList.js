@@ -205,8 +205,6 @@ export const GizmoList = () => {
       return false;
     }
   };
-  // console.log(currentUser);
-  console.log(currentUser);
 
   return (
     <>
