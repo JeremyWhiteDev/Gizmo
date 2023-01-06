@@ -20,12 +20,12 @@ Gizmo solves this problem by allowing users to browse search and browse gizmos i
 <a href="https://maps.google.com/" title="Google Maps"><img src="https://github.com/get-icon/geticon/blob/master/icons/google-maps.svg" alt="Google Maps" width="50px" height="50px"></a>
 <a href="https://www.npmjs.com/" title="npm"><img src="https://github.com/get-icon/geticon/raw/master/icons/npm.svg" alt="npm" width="50px" height="50px"></a>
 <a href="https://www.firebase.com/" title="Firebase"><img src="https://github.com/get-icon/geticon/raw/master/icons/firebase.svg" alt="Firebase" width="50px" height="50px"></a>
-<a href="https://react-query-v3.tanstack.com/" title="React Query"><img src="https://react-query-v3.tanstack.com/" alt="React Query" width="50px" height="50px"></a>
+<a href="hhttps://react-query-v3.tanstack.com/_next/static/images/emblem-light-628080660fddb35787ff6c77e97ca43e.svg" title="React Query"><img src="https://react-query-v3.tanstack.com/" alt="React Query" width="50px" height="50px"></a>
 
 Techologies I used in this project that I had used in previous projects:
 
 Javascript ES6 and ReactJS with React Router to create a single page application.
-<a href="https://github.com/typicode/json-server" title="JSON Server">JSON Server API</a>to interface with a local JSON database.
+<a href="https://github.com/typicode/json-server" title="JSON Server">JSON Server API</a> to interface with a local JSON database.
 
 Technologies I hadn't used until this project:
 
