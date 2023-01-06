@@ -8,6 +8,12 @@ This project was created as a Front End Capstone project while attending Nashvil
 
 - [Project Description](#project-description)
 - [Technologies Used](#technologies-used)
+- [Challenges Faced](#challenges-faced)
+- [Current Features](#current-features)
+- [Possible Future Features](#possible-future-features)
+- [How To Install/Run](#how-to-install-and-run)
+- [Credits](#credits)
+- [Links](#links)
 
 ## Project Description
 
@@ -64,7 +70,7 @@ Before starting this application, a stretch goal I had was to deploy this applic
 
 I researched using AWS API Gateway and AWS Lambda functions with Node.js to create an API, but that would've required much learning in technologies I'd never used before and would've undoutbedly put me outside of my 4 week timeframe to create this application.
 
-## Current Noteworthy Features.
+## Current Features
 
 ### For Un-Authorized users:
 
@@ -86,17 +92,19 @@ Users can see requests they have submittedfor gizmos as well as requests that ot
 Users can edit, accept, or decline requests.
 Accepted requests can be tracked and users can mark gizmos that have been borrowed as returned when they recevie the gizmo back.
 
-## Features I would Like to Implement in the Future
+## Possible Future Features
 
 Making Gizmo a full stack, deployed application.
 Integrating charts and graphs for a user's gizmos to see how their inventory has grown over time, how many times certain gizmos have been shared, and an ROI on frequently used gizmos.
 Creating an Activites feed where users can create an actitity, tag specific tools they own or tools they have borrowed, and share that activity so others can like and comment on it.
 
-## How to Install
+## How to Install and Run
 
 1.
 
 ## Credits
+
+## Links
 
 ### Step 1: Clone This Template
 
