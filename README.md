@@ -29,12 +29,14 @@ Javascript ES6 and ReactJS with React Router to create a single page application
 
 ### Technologies I hadn't used until this project:
 
-TailwindCSS and Flowbite Components for styling.
-Google Maps API to display geocode data on a map, and Google Places API to generate geocode data based on user input.
-Headless UI, Google Places Autocomplete npm packages.
-Firebase for email/password and Google authentication.
-Firebase for image file upload.
-React Query for asynchronous State Management.
+<ul>
+<li>TailwindCSS and Flowbite Components for styling.</li>
+<li>Google Maps API to display geocode data on a map, and Google Places API to generate geocode data based on user input.</li>
+<li>Headless UI, Google Places Autocomplete npm packages.</li>
+<li>Firebase for email/password and Google authentication.</li>
+<li>Firebase for image file upload.</li>
+<li>React Query for asynchronous State Management.</li>
+</ul>
 
 ### Why I chose these technologies
 
