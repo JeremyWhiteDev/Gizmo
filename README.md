@@ -35,21 +35,17 @@ Gizmo solves this problem by allowing users to browse search and browse gizmos i
 
 ### Techologies I used in this project that I had used in previous projects:
 
-<ul>
-<li>Javascript ES6 and ReactJS with React Router to create a single page application.</li>
-<li><a href="https://github.com/typicode/json-server" title="JSON Server">JSON Server API</a> to interface with a local JSON database.</li>
-</ul>
+- Javascript ES6 and ReactJS with React Router to create a single page application.
+- <a href="https://github.com/typicode/json-server" title="JSON Server">JSON Server API</a> to interface with a local JSON database.
 
 ### Technologies I hadn't used until this project:
 
-<ul>
-<li>TailwindCSS and Flowbite Components for styling.</li>
-<li>Google Maps API to display geocode data on a map, and Google Places API to generate geocode data based on user input.</li>
-<li>Headless UI, Google Places Autocomplete npm packages.</li>
-<li>Firebase for email/password and Google authentication.</li>
-<li>Firebase for image file upload.</li>
-<li>React Query for asynchronous State Management.</li>
-</ul>
+- TailwindCSS and Flowbite Components for styling.
+- Google Maps API to display geocode data on a map, and Google Places API to generate geocode data based on user input.
+- Headless UI, Google Places Autocomplete npm packages.
+- Firebase for email/password and Google authentication.
+- Firebase for image file upload.
+- React Query for asynchronous State Management.
 
 ### Why I chose these technologies
 
@@ -74,29 +70,29 @@ I researched using AWS API Gateway and AWS Lambda functions with Node.js to crea
 
 ### For Un-Authorized users:
 
-Users can browse gizmos in a grid view or map view.
-Gizmos on the map view go through a location algorithm before being displayed on the map. The algorithm randomizes the coordinates within a small variation, allowing for security and peace of mind that the exact location of a user's personal property isn't displayed on the map.
-Users can search for gizmos by Keyword, Category, or a combination of both. Input field is a combobox that allows users to start typing and see matching categories or create their own search term. Users can select multiple categories.
-Page through 25 gizmos at a time.
-See how many total gizmos match their search query, and what range of items are currently being displayed.
+- Users can browse gizmos in a grid view or map view.
+- Gizmos on the map view go through a location algorithm before being displayed on the map. The algorithm randomizes the coordinates within a small variation, allowing for security and peace of mind that the exact location of a user's personal property isn't displayed on the map.
+- Users can search for gizmos by Keyword, Category, or a combination of both. Input field is a combobox that allows users to start typing and see matching categories or create their own search term. Users can select multiple categories.
+- Users can page through 25 gizmos at a time.
+- Users Can see how many total gizmos match their search query, and what range of items are currently being displayed on the page.
 
 ### For Authorized Users:
 
-All of the features of unauthorized users.
-Users can sign-in with Google.
-Users can create a user profile.
-Users can input a street address in a form field that will autocomplete that address as they type. That address is then converted to lat/lng coordinates which is used for locating that user's gizmo captures the latitude
-Users can request a tool for a specific timeframe and provide a message with the request.
-Users can create gizmos from their own collection that can be public or private.
-Users can see requests they have submittedfor gizmos as well as requests that other users have made for their gizmos.
-Users can edit, accept, or decline requests.
-Accepted requests can be tracked and users can mark gizmos that have been borrowed as returned when they recevie the gizmo back.
+- All of the features of unauthorized users.
+- Users can sign-in with Google.
+- Users can create a user profile.
+- Users can input a street address in a form field that will autocomplete that address as they type. That address is then converted to lat/lng coordinates which is used for locating that user's gizmo captures the latitude
+- Users can request a tool for a specific timeframe and provide a message with the request.
+- Users can create gizmos from their own collection that can be public or private.
+- Users can see requests they have submittedfor gizmos as well as requests that other users have made for their gizmos.
+- Users can edit, accept, or decline requests.
+- Accepted requests can be tracked and users can mark gizmos that have been borrowed as returned when they recevie the gizmo back.
 
 ## Possible Future Features
 
-Making Gizmo a full stack, deployed application.
-Integrating charts and graphs for a user's gizmos to see how their inventory has grown over time, how many times certain gizmos have been shared, and an ROI on frequently used gizmos.
-Creating an Activites feed where users can create an actitity, tag specific tools they own or tools they have borrowed, and share that activity so others can like and comment on it.
+- Making Gizmo a full stack, deployed application.
+- Integrating charts and graphs for a user's gizmos to see how their inventory has grown over time, how many times certain gizmos have been shared, and an ROI on frequently used gizmos.
+- Creating an Activites feed where users can create an actitity, tag specific tools they own or tools they have borrowed, and share that activity so others can like and comment on it.
 
 ## How to Install and Run
 
