@@ -24,8 +24,10 @@ Gizmo solves this problem by allowing users to browse search and browse gizmos i
 
 ### Techologies I used in this project that I had used in previous projects:
 
-Javascript ES6 and ReactJS with React Router to create a single page application.
-<a href="https://github.com/typicode/json-server" title="JSON Server">JSON Server API</a> to interface with a local JSON database.
+<ul>
+<li>Javascript ES6 and ReactJS with React Router to create a single page application.</li>
+<li><a href="https://github.com/typicode/json-server" title="JSON Server">JSON Server API</a> to interface with a local JSON database.</li>
+</ul>
 
 ### Technologies I hadn't used until this project:
 
