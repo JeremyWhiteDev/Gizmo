@@ -1,8 +1,13 @@
 # Gizmo
 
-Gizmo is an application that allows users to share their personal belongings with other users. We all have own a bunch of whatchamacallits, thingamajigs, normal household items. Let's reduce waste and create sustainable communities where we share our assets with everyone around us.
+Gizmo is an application that allows users to share their personal belongings with other users. We all own a bunch of whatchamacallits, thingamajigs, normal household items. Let's reduce waste and create sustainable communities where we share our assets with everyone around us.
 
-This project was created as a Front End Capstone project while attending Nashville Software School's Full Stack Web Development Bootcamp. It was completed with one week of planning and ~25 days of coding.
+This project was created as a Front End Capstone project while attending Nashville Software School's Full Stack Web Development Bootcamp. It was completed with one week of planning and 3.5 weeks of coding.
+
+## Table of Contents
+
+- [Project Description](#project-description)
+- [Technologies Used](#technologies-used)
 
 ## Project Description
 
