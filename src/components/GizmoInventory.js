@@ -197,7 +197,7 @@ export const GizmoInventory = () => {
 
   return (
     <>
-      <div className="flex flex-col md:flex-row md:justify-between items-center">
+      <div className="flex flex-col md:flex-row md:justify-between max-w-xl md:max-w-screen-xl mx-auto items-center">
         <h1 className="ml-4 dark:text-white max-w-xl md:max-w-screen-xl mb-6">
           Gizmo Garage
         </h1>
