@@ -176,8 +176,28 @@ export const NavBar = () => {
                   ""
                 )}
               </ul>
-
-              <div className="md:hidden">User Profile Section</div>
+              {currentUser.data?.id !== undefined ? (
+                <div className="flex items-center text-sm font-medium text-gray-900 rounded-full hover:text-blue-600 dark:hover:text-blue-500 md:mr-0 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:text-white relative">
+                  <img
+                    className="mr-2 w-8 h-8 rounded-full"
+                    src={currentUser.data?.profileImg}
+                    alt="user photo"
+                  />
+                  {currentUser.data?.firstName}
+                  <a
+                    onClick={async () => {
+                      logout.logout(navigate, queryClient);
+                      setUserDropdown(false);
+                      setDrawerOpen(false);
+                    }}
+                    className="block py-2 px-4 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-white dark:hover:text-white cursor-pointer "
+                  >
+                    Sign out
+                  </a>
+                </div>
+              ) : (
+                ""
+              )}
             </div>
           </div>
           {currentUser.data?.id !== undefined ? (
