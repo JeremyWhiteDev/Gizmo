@@ -48,7 +48,7 @@ export const ApplicationViews = () => {
           <Route path="/garage" element={<GizmoInventory />} />
           <Route path="/requests" element={<RequestList />} />
           <Route path="/gizmo/request/:gizmoId" element={<RequestForm />} />
-          <Route path="/feed" element={<h1>Feed Page</h1>} />
+          {/* <Route path="/feed" element={<h1>Feed Page</h1>} /> */}
           <Route path="/gizmos" element={<GizmoList />} />
           <Route path="/gizmo-details/:gizmoId" element={<GizmoDetails />} />
           <Route path="/add-gizmo" element={<GizmoForm />} />

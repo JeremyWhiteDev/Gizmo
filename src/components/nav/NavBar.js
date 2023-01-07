@@ -123,7 +123,7 @@ export const NavBar = () => {
 
                 {currentUser.data?.id !== undefined ? (
                   <>
-                    <li>
+                    {/* <li>
                       <NavLink
                         to="feed"
                         onClick={(click) => {
@@ -138,7 +138,7 @@ export const NavBar = () => {
                       >
                         Activity Feed
                       </NavLink>
-                    </li>
+                    </li> */}
                     <li>
                       <NavLink
                         to="garage"
@@ -227,14 +227,14 @@ export const NavBar = () => {
                   className="py-1 text-sm text-gray-700 dark:text-gray-200"
                   aria-labelledby="dropdownInformdropdownAvatarNameButtonationButton"
                 >
-                  <li>
+                  {/* <li>
                     <a
                       href="#"
                       className="block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
                     >
                       Profile
                     </a>
-                  </li>
+                  </li> */}
                 </ul>
                 <div className="py-1">
                   <a
