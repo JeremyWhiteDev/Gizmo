@@ -177,7 +177,7 @@ export const NavBar = () => {
                 )}
               </ul>
               {currentUser.data?.id !== undefined ? (
-                <div className="flex items-center text-sm font-medium text-gray-900 rounded-full hover:text-blue-600 dark:hover:text-blue-500 md:mr-0 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:text-white relative">
+                <div className="md:hidden flex items-center text-sm font-medium text-gray-900 rounded-full hover:text-blue-600 dark:hover:text-blue-500 md:mr-0 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:text-white relative">
                   <img
                     className="mr-2 w-8 h-8 rounded-full"
                     src={currentUser.data?.profileImg}
