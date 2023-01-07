@@ -19,7 +19,7 @@ This project was created as a Front End Capstone project while attending Nashvil
 
 This application finally resolves a problem we've all faced in our lives: "I need to borrow a ${insert random item here} for a few days. Anyone got one?" I know I have faced this problem before numberous times. Sometimes it's a tree limb that falls in my yard and I need a chainsaw to cut it up. Sometimes it's a folding table that I need to borrow for a special event I'm hosting. The list goes on and ON.
 
-Gizmo solves this problem by allowing users to browse search and browse gizmos in their area. If a user wants to borrow a gizmo, they must request it for a specific period of time. The owner of that gizmo can then decide to accept or reject the request.
+Gizmo solves this problem by allowing users to browse and search for gizmos in their area. If a user wants to borrow a gizmo, they must request it for a specific period of time. The owner of that gizmo can then decide to accept or reject the request.
 
 ## Technologies Used
 
@@ -53,8 +53,8 @@ Gizmo solves this problem by allowing users to browse search and browse gizmos i
 2. I found that TailwindCSS and Flowbite allowed for quick creation and editing of styles. I appreciate that Tailwind's use of utlity classes allows for a single source of truth regarding a component's styling without the need to manage .css files.
 3. I wanted to challenge myself to display data in a way other than a grid or list. The Google Maps API allowed me to do that. It also opened up more challenge on how to capture geocode from a user's input.
 4. Headless UI had powerful unstyled components that worked very well with Tailwind's styling approach.
-5. After comparing Google Firebase and Amazon Cognito, I found that Firebase provided all of the features I needed for authentication. I watched a few Youtube videos on Photo storage and had an understanding of what that would entail.
-6. I wanted to explore different options for a global state management library. I considered redux and React Query (aka TanStack Query) I thought that for the purpose of this application, React query had specific tooling to keep for caching data returned from async API calls. React Query keeps that data up to date and reduces the amount of unneccessary fetching when the user mounts/unmounts certain components.
+5. After comparing Google Firebase and Amazon Cognito, I found that Firebase provided all of the features I needed for authentication. Firebase's file upload also seemed straightforward
+6. I wanted to explore different options for a global state management library. I considered redux and React Query (aka TanStack Query) I thought that for the purpose of this application, React query had specific tooling for caching data returned from async API calls. React Query keeps that data up to date and reduces the amount of unneccessary fetching when the user mounts/unmounts certain components.
 
 ## Challenges Faced
 
