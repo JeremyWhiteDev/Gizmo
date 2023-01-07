@@ -211,12 +211,12 @@ export const GizmoList = () => {
       <h1 className="pl-4 dark:text-white mx-auto max-w-xl md:max-w-screen-xl mb-6">
         Browse Public Gizmos
       </h1>
-      <div className="mx-auto max-w-xl md: md:max-w-screen-xl mb-4 pl-4">
+      <div className="mx-auto max-w-xs md:max-w-screen-xl mb-4 pl-4">
         <h3 className="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">
           Search and Filter
         </h3>
         {categories.length > 0 && (
-          <div className=" z-10 w-96 bg-white rounded divide-y-reverse divide-gray-100 shadow dark:bg-gray-700 dark:divide-gray-600">
+          <div className=" z-10  w-72 md:w-96 bg-white rounded divide-y-reverse divide-gray-100 shadow dark:bg-gray-700 dark:divide-gray-600">
             <Combobox value={filterTerms} onChange={setfilterTerms} multiple>
               <div className="flex relative">
                 <Combobox.Input
@@ -232,7 +232,7 @@ export const GizmoList = () => {
                   v
                 </Combobox.Button>
               </div>
-              <Combobox.Options className="py-1 text-sm shadow-lg dark:shadow-sm w-96 text-gray-700 dark:text-gray-200 divide-y rounded divide-gray-100 dark:divide-gray-600 absolute dark:bg-gray-700 bg-white z-30">
+              <Combobox.Options className="py-1 text-sm shadow-lg dark:shadow-sm w-72 md:w-96 text-gray-700 dark:text-gray-200 divide-y rounded divide-gray-100 dark:divide-gray-600 absolute dark:bg-gray-700 bg-white z-30">
                 {categories.length > 0 && (
                   <div>
                     <Combobox.Option
@@ -296,11 +296,11 @@ export const GizmoList = () => {
               setViewStyle("gridView");
             }
           }}
-          className={`text-white ${
+          className={`text-white w-full md:w-48 ${
             viewStyle === "gridView"
               ? "dark:bg-blue-600 bg-blue-600 hover:bg-blue-800 dark:hover:bg-blue-700 "
               : "dark:bg-gray-400 bg-gray-400 hover:bg-gray-500 dark:hover:bg-gray-500"
-          }  focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center   dark:focus:ring-blue-800`}
+          }  focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm  px-5 py-2.5 text-center   dark:focus:ring-blue-800`}
         >
           Grid View
         </button>
@@ -311,11 +311,11 @@ export const GizmoList = () => {
               setViewStyle("mapView");
             }
           }}
-          className={`text-white ${
+          className={`text-white w-full md:w-48 ${
             viewStyle === "mapView"
               ? "dark:bg-blue-600 bg-blue-600 hover:bg-blue-800 dark:hover:bg-blue-700 "
               : "dark:bg-gray-400 bg-gray-400 hover:bg-gray-500 dark:hover:bg-gray-500"
-          }  focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 ml-4 text-center   dark:focus:ring-blue-800`}
+          }  focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mt-4 md:mt-0 md:ml-4 text-center   dark:focus:ring-blue-800`}
         >
           Map View
         </button>
