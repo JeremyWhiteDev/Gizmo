@@ -34,7 +34,7 @@ export const GizmoCard = ({
   const navigate = useNavigate();
   return (
     <>
-      <div className=" w-44 group md:w-72 transition duration-300 border-gray-300 md:hover:scale-105 border-1 shadow-s shadow-gray-400 dark:bg-gray-800 dark:border-gray-700 bg-white text-left rounded-lg relative">
+      <div className="shadow-lg w-44 group md:w-72 transition duration-300 border-gray-300 md:hover:scale-105 border-1 shadow-s shadow-gray-400 dark:bg-gray-800 dark:shadow-none dark:border-gray-700 bg-white text-left rounded-lg relative">
         {variant === "publicCard" ? (
           <>
             <img
