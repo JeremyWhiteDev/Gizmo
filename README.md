@@ -10,8 +10,8 @@ This project was created as a Front End Capstone project while attending Nashvil
   - [Table of Contents](#table-of-contents)
   - [Project Description](#project-description)
   - [Technologies Used](#technologies-used)
-    - [Techologies I used in this project that I had used in previous projects:](#techologies-i-used-in-this-project-that-i-had-used-in-previous-projects)
-    - [Technologies I hadn't used until this project:](#technologies-i-hadnt-used-until-this-project)
+    - [Technologies I had previous experience with:](#technologies-i-had-previous-experience-with)
+    - [Technologies I had no previous experience with:](#technologies-i-had-no-previous-experience-with)
     - [Why I chose these technologies](#why-i-chose-these-technologies)
   - [Challenges Faced](#challenges-faced)
   - [Current Features](#current-features)
@@ -46,12 +46,12 @@ Gizmo solves this problem by allowing users to browse and search for gizmos in t
 <a href="https://www.firebase.com/" title="Firebase"><img src="https://github.com/get-icon/geticon/raw/master/icons/firebase.svg" alt="Firebase" width="50px" height="50px"></a>
 <a href="https://react-query-v3.tanstack.com/" title="React Query"><img src="https://react-query-v3.tanstack.com/_next/static/images/emblem-light-628080660fddb35787ff6c77e97ca43e.svg" alt="React Query" width="50px" height="50px"></a>
 
-### Techologies I used in this project that I had used in previous projects:
+### Technologies I had previous experience with:
 
 - Javascript ES6 and ReactJS with React Router to create a single page application.
 - <a href="https://github.com/typicode/json-server" title="JSON Server">JSON Server API</a> to interface with a local JSON database.
 
-### Technologies I hadn't used until this project:
+### Technologies I had no previous experience with:
 
 - TailwindCSS and Flowbite Components for styling.
 - Google Maps API to display geocode data on a map, and Google Places API to generate geocode data based on user input.
