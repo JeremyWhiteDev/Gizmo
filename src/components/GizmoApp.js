@@ -25,7 +25,7 @@ export const Gizmo = () => {
           element={
             <>
               <NavBar />
-              <main className="pt-20 min-h-screen bg-slate-900 pb-16">
+              <main className="pt-20 min-h-screen bg-neutral-50 dark:bg-slate-900 pb-16">
                 <Outlet />
               </main>
               <Footer />

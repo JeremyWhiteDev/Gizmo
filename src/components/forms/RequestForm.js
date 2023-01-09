@@ -24,6 +24,10 @@ export const RequestForm = ({
     requestStatus: "",
   });
 
+  useEffect(() => {
+    document.title = "Request Gizmo";
+  }, []);
+
   const queryClient = useQueryClient();
 
   const currentUser = useQuery("currentUser", getCurrentUserFromDb, {

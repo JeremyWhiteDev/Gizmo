@@ -20,6 +20,10 @@ export const RequestList = () => {
     refetchOnMount: false,
   });
 
+  useEffect(() => {
+    document.title = "Gizmo Requests";
+  }, []);
+
   const pendingRequests = useQuery(
     ["pendingUserGizmoRequests"],
     async () => await getPendingUserGizmoRequests(currentUser.data.id)

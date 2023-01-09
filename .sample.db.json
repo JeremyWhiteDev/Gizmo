@@ -1,58 +1,112 @@
 {
   "users": [
     {
-      "id": 0,
-      "uid": 0,
-      "firstName": "Bob",
-      "lastName": "Tester",
+      "uid": "cHIPEv87gdO8zmkfEkyURPfCATq1",
+      "email": "john@test.com",
+      "firstName": "John",
+      "lastName": "Smith",
       "pronouns": "He/Him",
-      "zipcode": 37210,
-      "avatarImg": "https://i0.wp.com/www.cssscript.com/wp-content/uploads/2020/12/Customizable-SVG-Avatar-Generator-In-JavaScript-Avataaars.js.png?fit=438%2C408&ssl=1",
-      "userCaption": "Example Text"
+      "zipcode": 37217,
+      "profileImg": "https://firebasestorage.googleapis.com/v0/b/gizmo-fe-capstone.appspot.com/o/images%2FJohn%20Smith%20User.png?alt=media&token=02c5507d-7a4e-4396-96fc-b0a3f4076000",
+      "userCaption": "Woodworker/Coder",
+      "geocode": {
+        "lat": 36.1286501,
+        "lng": -86.712909
+      },
+      "id": 1
     }
   ],
   "gizmos": [
     {
-      "id": 0,
-      "userId": 0,
-      "gizmoCategoryId": 0,
-      "purchaseDate": "2022-01-01",
-      "amountPaid": 150,
-      "estimatedValue": 100,
-      "manufacturer": "Apple",
-      "model": "iPod Nano",
-      "img": "https://i.ebayimg.com/images/g/bTkAAOxyXWdQ6mwc/s-l600.jpg",
-      "isPublic": true
+      "nickName": "Post Digger",
+      "model": "Wood Handles",
+      "manufacturerId": "Husky",
+      "gizmoCategoryId": 1,
+      "purchaseDate": "2022-09-30",
+      "amountPaid": "30",
+      "estimatedValue": "15",
+      "img": "https://firebasestorage.googleapis.com/v0/b/gizmo-fe-capstone.appspot.com/o/images%2Fpost-hole-digger_800_DJ.jpeg?alt=media&token=3ad5cd77-e872-4812-a01b-e8faba378145",
+      "isPublic": true,
+      "userId": 1,
+      "id": 1
     }
   ],
   "gizmoRentals": [
     {
-      "id": 0,
-      "userId": 0,
-      "gizmoId": 0,
-      "rentalStartDate": "2022-11-5",
-      "rentalEndDate": ""
+      "startDate": "2022-12-17",
+      "endDate": "2022-12-23",
+      "userId": 1,
+      "gizmoId": 1,
+      "isComplete": false,
+      "id": 1
     }
   ],
   "gizmoCategories": [
     {
-      "id": 0,
-      "categoryName": "electronics"
+      "id": 1,
+      "name": "Electronics"
+    },
+    {
+      "id": 2,
+      "name": "Kitchen Gadgets"
+    },
+    {
+      "id": 3,
+      "name": "Power Tools"
+    },
+    {
+      "id": 4,
+      "name": "Yard Tools"
+    },
+    {
+      "id": 5,
+      "name": "Camping & Hiking"
+    },
+    {
+      "id": 6,
+      "name": "Arts, Crafts & Sewing"
+    },
+    {
+      "id": 7,
+      "name": "Event & Party Supplies"
+    },
+    {
+      "id": 8,
+      "name": "Water Sports"
+    },
+    {
+      "id": 9,
+      "name": "Travel & Luggage"
+    },
+    {
+      "id": 9,
+      "name": "Winter Sports"
+    },
+    {
+      "id": 10,
+      "name": "Board Games & Puzzles"
+    },
+    {
+      "id": 10,
+      "name": "Musical Instruments & Equipment"
     }
   ],
   "gizmoRequests": [
     {
-      "id": 0,
-      "requestorId": 0,
-      "gizmoId": 0,
-      "requestBody": "Example message for requesting item"
+      "startDate": "2023-01-07",
+      "endDate": "2023-01-14",
+      "userId": 1,
+      "requestMsg": "Pretty please",
+      "requestStatus": "approved",
+      "gizmoId": 1,
+      "id": 1
     }
   ],
   "gizmoFavorites": [
     {
-      "id": 0,
-      "userId": 0,
-      "gizmoId": 0
+      "id": 1,
+      "userId": 1,
+      "gizmoId": 1
     }
   ]
 }

@@ -51,6 +51,10 @@ export const GizmoForm = ({ variant }) => {
   });
 
   useEffect(() => {
+    document.title = "Gizmo Form";
+  }, []);
+
+  useEffect(() => {
     if (variant === "editForm") {
       const fetchGizmoToEdit = async () => {
         const currentGizmo = await getSingleGizmo(gizmoId);

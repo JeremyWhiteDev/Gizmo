@@ -45,7 +45,7 @@ export const GimzoMap = ({ gizmos, userGeocode }) => {
     <GoogleMap
       zoom={12}
       center={mapCenter}
-      mapContainerClassName="w-screen rounded-lg md:h-[40rem] "
+      mapContainerClassName="w-screen rounded-lg h-[32rem] md:h-[40rem] "
       options={options}
     >
       {gizmosWithLocations.length > 0 &&

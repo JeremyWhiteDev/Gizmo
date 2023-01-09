@@ -37,6 +37,10 @@ export const NewUserForm = () => {
     }
   };
 
+  useEffect(() => {
+    document.title = "New User";
+  }, []);
+
   // Handles calling the upload image function
   const handleSubmit = async (e) => {
     e.preventDefault();

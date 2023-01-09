@@ -64,6 +64,7 @@ export const GizmoList = () => {
 
       const categoryData = await getAllGizmoCategories();
       setCategories(categoryData);
+      document.title = "Search Gizmos";
     };
     fetchData();
   }, []);
@@ -211,12 +212,12 @@ export const GizmoList = () => {
       <h1 className="pl-4 dark:text-white mx-auto max-w-xl md:max-w-screen-xl mb-6">
         Browse Public Gizmos
       </h1>
-      <div className="mx-auto max-w-xl md: md:max-w-screen-xl mb-4 pl-4">
+      <div className="mx-auto max-w-xs md:max-w-screen-xl mb-4 pl-4">
         <h3 className="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">
           Search and Filter
         </h3>
         {categories.length > 0 && (
-          <div className=" z-10 w-96 bg-white rounded divide-y-reverse divide-gray-100 shadow dark:bg-gray-700 dark:divide-gray-600">
+          <div className=" z-10  w-72 md:w-96 bg-white rounded divide-y-reverse divide-gray-100 shadow dark:bg-gray-700 dark:divide-gray-600">
             <Combobox value={filterTerms} onChange={setfilterTerms} multiple>
               <div className="flex relative">
                 <Combobox.Input
@@ -232,7 +233,7 @@ export const GizmoList = () => {
                   v
                 </Combobox.Button>
               </div>
-              <Combobox.Options className="py-1 text-sm  w-96 text-gray-700 dark:text-gray-200 divide-y rounded divide-gray-100 dark:divide-gray-600 absolute dark:bg-gray-700 bg-white z-30">
+              <Combobox.Options className="py-1 text-sm shadow-lg dark:shadow-sm w-72 md:w-96 text-gray-700 dark:text-gray-200 divide-y rounded divide-gray-100 dark:divide-gray-600 absolute dark:bg-gray-700 bg-white z-30">
                 {categories.length > 0 && (
                   <div>
                     <Combobox.Option
@@ -265,7 +266,7 @@ export const GizmoList = () => {
             {filterTerms.length > 0 &&
               filterTerms.map((filter) => (
                 <li
-                  className="dark:text-white rounded-lg border-solid w-fit border-gray-600 px-3 border-2 cursor-pointer hover:bg-gray-800"
+                  className="dark:text-white rounded-lg border-solid w-fit border-gray-600 px-3 border-2 cursor-pointer hover:bg-gray-200 dark:hover:bg-gray-800"
                   onClick={() => {
                     const selectedFiltersCopy = [...filterTerms];
                     const newArr = selectedFiltersCopy.filter(
@@ -296,11 +297,11 @@ export const GizmoList = () => {
               setViewStyle("gridView");
             }
           }}
-          className={`text-white ${
+          className={`text-white w-full md:w-48 ${
             viewStyle === "gridView"
               ? "dark:bg-blue-600 bg-blue-600 hover:bg-blue-800 dark:hover:bg-blue-700 "
               : "dark:bg-gray-400 bg-gray-400 hover:bg-gray-500 dark:hover:bg-gray-500"
-          }  focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center   dark:focus:ring-blue-800`}
+          }  focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm  px-5 py-2.5 text-center   dark:focus:ring-blue-800`}
         >
           Grid View
         </button>
@@ -311,11 +312,11 @@ export const GizmoList = () => {
               setViewStyle("mapView");
             }
           }}
-          className={`text-white ${
+          className={`text-white w-full md:w-48 ${
             viewStyle === "mapView"
               ? "dark:bg-blue-600 bg-blue-600 hover:bg-blue-800 dark:hover:bg-blue-700 "
               : "dark:bg-gray-400 bg-gray-400 hover:bg-gray-500 dark:hover:bg-gray-500"
-          }  focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 ml-4 text-center   dark:focus:ring-blue-800`}
+          }  focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mt-4 md:mt-0 md:ml-4 text-center   dark:focus:ring-blue-800`}
         >
           Map View
         </button>
@@ -396,7 +397,7 @@ export const GizmoList = () => {
             <button
               disabled
               onClick={(click) => decrementPage(click)}
-              className="px-4 py-2 text-sm font-medium text-white bg-gray-800 rounded-l  dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 "
+              className="px-4 py-2 text-sm font-medium  bg-gray-200 rounded-l  dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 "
             >
               {" "}
               Prev
@@ -404,7 +405,7 @@ export const GizmoList = () => {
           ) : (
             <button
               onClick={(click) => decrementPage(click)}
-              className="px-4 py-2 text-sm font-medium text-white bg-gray-800 rounded-l hover:bg-gray-900 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+              className="px-4 py-2 text-sm font-medium  bg-gray-200 rounded-l hover:bg-gray-900 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
             >
               {" "}
               Prev
@@ -414,14 +415,14 @@ export const GizmoList = () => {
             <button
               disabled
               onClick={(click) => incrementPage(click)}
-              className="px-4 py-2 text-sm font-medium text-white bg-gray-800 border-0 border-l border-gray-700 rounded-r  dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 "
+              className="px-4 py-2 text-sm font-medium bg-gray-200 border-0 border-l border-gray-400 rounded-r  dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 "
             >
               Next
             </button>
           ) : (
             <button
               onClick={(click) => incrementPage(click)}
-              className="px-4 py-2 text-sm font-medium text-white bg-gray-800 border-0 border-l border-gray-700 rounded-r hover:bg-gray-900 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+              className="px-4 py-2 text-sm font-mediumf bg-gray-200 border-0 border-l border-gray-400 rounded-r hover:bg-gray-900 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
             >
               Next
             </button>
