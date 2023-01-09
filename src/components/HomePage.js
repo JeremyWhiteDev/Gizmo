@@ -1,9 +1,14 @@
+import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { getCurrentUserFromLocal } from "../api/dataAccess";
 
 export const HomePage = () => {
   const navigate = useNavigate();
   const currentUser = getCurrentUserFromLocal();
+
+  useEffect(() => {
+    document.title = "Gizmo";
+  }, []);
 
   return (
     <section className="">

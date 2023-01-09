@@ -31,6 +31,10 @@ export const GizmoInventory = () => {
     refetchOnMount: false,
   });
 
+  useEffect(() => {
+    document.title = "Gizmo Garage";
+  }, []);
+
   const navigate = useNavigate();
   //do I want to paginate data? Yesm probably. Otherwise the fetch call will return too much info.
   //Option 1: paginate data

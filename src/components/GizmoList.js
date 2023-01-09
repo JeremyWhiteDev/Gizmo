@@ -64,6 +64,7 @@ export const GizmoList = () => {
 
       const categoryData = await getAllGizmoCategories();
       setCategories(categoryData);
+      document.title = "Search Gizmos";
     };
     fetchData();
   }, []);
