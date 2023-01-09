@@ -24,6 +24,12 @@ This project was created as a Front End Capstone project while attending Nashvil
 
 ## Project Description
 
+![Gizmo-Screenshot-1](screenshots/Gizmo-Screenshot-1.png)
+
+![Gizmo-Screenshot-2](screenshots/Gizmo-Screenshot-2.png)
+
+![Gizmo-Screenshot-3](screenshots/Gizmo-Screenshot-3.png)
+
 This application finally resolves a problem we've all faced in our lives: "I need to borrow a ${insert random item here} for a few days. Anyone got one?" I know I have faced this problem before numberous times. Sometimes it's a tree limb that falls in my yard and I need a chainsaw to cut it up. Sometimes it's a folding table that I need to borrow for a special event I'm hosting. The list goes on and ON.
 
 Gizmo solves this problem by allowing users to browse and search for gizmos in their area. If a user wants to borrow a gizmo, they must request it for a specific period of time. The owner of that gizmo can then decide to accept or reject the request.
