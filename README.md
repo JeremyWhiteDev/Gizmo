@@ -1,5 +1,7 @@
 # Gizmo
 
+![Gizmo-Screenshot-1](screenshots/Gizmo-Screenshot-1.png)
+
 Gizmo is an application that allows users to share their personal belongings with other users. We all own a bunch of whatchamacallits, thingamajigs, normal household items. Let's reduce waste and create sustainable communities where we share our assets with everyone around us.
 
 This project was created as a Front End Capstone project while attending Nashville Software School's Full Stack Web Development Bootcamp. It was completed with one week of planning and 3.5 weeks of coding.
@@ -24,7 +26,7 @@ This project was created as a Front End Capstone project while attending Nashvil
 
 ## Project Description
 
-![Gizmo-Screenshot-1](screenshots/Gizmo-Screenshot-1.png)
+
 
 ![Gizmo-Screenshot-2](screenshots/Gizmo-Screenshot-2.png)
 
