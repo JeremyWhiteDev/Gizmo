@@ -6,14 +6,21 @@ This project was created as a Front End Capstone project while attending Nashvil
 
 ## Table of Contents
 
-- [Project Description](#project-description)
-- [Technologies Used](#technologies-used)
-- [Challenges Faced](#challenges-faced)
-- [Current Features](#current-features)
-- [Possible Future Features](#possible-future-features)
-- [How To Install/Run](#how-to-install-and-run)
-- [Credits](#credits)
-- [Links](#links)
+- [Gizmo](#gizmo)
+  - [Table of Contents](#table-of-contents)
+  - [Project Description](#project-description)
+  - [Technologies Used](#technologies-used)
+    - [Techologies I used in this project that I had used in previous projects:](#techologies-i-used-in-this-project-that-i-had-used-in-previous-projects)
+    - [Technologies I hadn't used until this project:](#technologies-i-hadnt-used-until-this-project)
+    - [Why I chose these technologies](#why-i-chose-these-technologies)
+  - [Challenges Faced](#challenges-faced)
+  - [Current Features](#current-features)
+    - [For Un-Authorized users:](#for-un-authorized-users)
+    - [For Authorized Users:](#for-authorized-users)
+  - [Possible Future Features](#possible-future-features)
+  - [How to Install and Run](#how-to-install-and-run)
+  - [Credits](#credits)
+  - [Links](#links)
 
 ## Project Description
 
@@ -95,7 +102,7 @@ Before starting this application, a stretch goal I had was to deploy this applic
 ## How to Install and Run
 
 1. git clone this repo to your local machine.
-2. Setup Firebase project for authentication and photo storage. Setup Google Maps and Places APIs. For step-by-step instructions for this process, check out this file <a href="">here.</a> (If Employer, contact me through LinkedIn <a href="https://www.linkedin.com/in/jeremy-white-dev/" target="_blank">Here</a>)
+2. Setup Firebase project for authentication and photo storage. Setup Google Maps and Places APIs. For step-by-step instructions for this process, check out this file <a href="/firebaseInstructions.md">here.</a> (If Employer, contact me through LinkedIn <a href="https://www.linkedin.com/in/jeremy-white-dev/" target="_blank">Here</a>)
 3. Navigate to the repo on your machine and run the following commands in the terminal:
 
 ```
@@ -120,4 +127,4 @@ I want to thank everyone in my NSS Cohort that helped me out with this project. 
 
 ## Links
 
-<a href="https://dbdiagram.io/d/637446b2c9abfc611172f52f" target="_blank">Project ERD</a> || <a href="https://dbdiagram.io/d/63bc1f9e6afaa541e5d14424" target="_blank">Wireframe</a> || <a href="https://dbdiagram.io/d/637446b2c9abfc611172f52f" target="_blank">Project ERD</a>
+<a href="https://dbdiagram.io/d/637446b2c9abfc611172f52f" target="_blank">Project ERD</a> || <a href="https://dbdiagram.io/d/63bc1f9e6afaa541e5d14424" target="_blank">Wireframe</a> || <a href="https://dbdiagram.io/d/637446b2c9abfc611172f52f" target="_blank">Project STRETCH ERD</a>
