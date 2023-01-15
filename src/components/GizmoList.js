@@ -321,7 +321,7 @@ export const GizmoList = () => {
           Map View
         </button>
       </div>
-      <div className="flex  justify-center gap-y-5 flex-wrap p-2 gap-x-6 mx-auto max-w-xl md: md:max-w-screen-xl  ">
+      <div className="flex  justify-start gap-y-5 flex-wrap p-2 gap-x-6 mx-auto max-w-xl md: md:max-w-screen-xl  ">
         {isLoaded &&
         !currentUser.isLoading &&
         gizmos.length > 0 &&

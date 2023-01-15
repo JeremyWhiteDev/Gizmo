@@ -12,6 +12,7 @@
 /build
 
 # misc
+gizmo-db.json
 ApiKeys.js
 apiKeys.js
 .DS_Store
