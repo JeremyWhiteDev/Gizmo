@@ -125,6 +125,10 @@ cp .sample.env .env.local
 
 ```
 npm i
+npm i json-server -g
+```
+7. Setup is complete! Use the following commands to run Gizmo locally.
+```
 json-server -p 8088 gizmo-db.json
 npm start run
 ```
