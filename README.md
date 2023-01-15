@@ -123,6 +123,7 @@ cp .sample.env .env.local
 5. Run the following commands in the terminal:
 
 ```
+npm i
 json-server -p 8088 gizmo-db.json
 npm start run
 ```
