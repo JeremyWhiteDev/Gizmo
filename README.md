@@ -120,7 +120,8 @@ cp .sample.env .env.local
 ```
 
 4. Update the `.env.local` file with the Firebase and Google Maps API keys created in the previous step.
-5. Run the following commands in the terminal:
+5. Make sure that Node.js and npm are installed on your machine. <a href="https://docs.npmjs.com/downloading-and-installing-node-js-and-npm">Click here for installation.</a>
+6. Run the following commands in the terminal:
 
 ```
 npm i
