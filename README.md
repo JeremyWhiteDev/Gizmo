@@ -26,11 +26,11 @@ This project was created as a Front End Capstone project while attending Nashvil
 
 ## Project Description
 
-
-
 ![Gizmo-Screenshot-2](screenshots/Gizmo-Screenshot-2.png)
 
-![Gizmo-Screenshot-3](screenshots/Gizmo-Screenshot-3.png)
+![Gizmo-Gif-2](screenshots/Gizmo-Gif-2.gif)
+
+![Gizmo-Gif-3](screenshots/Gizmo-Gif-3.gif)
 
 This application finally resolves a problem we've all faced in our lives: "I need to borrow a ${insert random item here} for a few days. Anyone got one?" I know I have faced this problem before numberous times. Sometimes it's a tree limb that falls in my yard and I need a chainsaw to cut it up. Sometimes it's a folding table that I need to borrow for a special event I'm hosting. The list goes on and ON.
 
@@ -127,7 +127,9 @@ cp .sample.env .env.local
 npm i
 npm i json-server -g
 ```
+
 7. Setup is complete! Use the following commands to run Gizmo locally. These commands may have to be run in separate terminal windows.
+
 ```
 json-server -p 8088 gizmo-db.json
 npm start run
